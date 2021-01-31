@@ -11,14 +11,7 @@ import com.finance.finance.entities.User;
 import com.finance.finance.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -26,8 +19,10 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @CrossOrigin
     @GetMapping("/users")
-    public List<User> getAllUsers() {
+    public List<User> getAllUsers(@RequestHeader("Authorization") String token) {
+        System.out.println(token);
         return userRepository.findAll();
     }
 
@@ -39,9 +34,30 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
+    @CrossOrigin
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
         return userRepository.save(user);
+    }
+
+    @CrossOrigin
+    @PostMapping("/auth")
+    public ResponseEntity<User> checkAuth(@Valid @RequestBody User user) {
+        User foundUser = null;
+        List<User> possibleUsers = userRepository.findAll();
+        System.out.println("test");
+
+        for (User possibleUser : possibleUsers) {
+            if (possibleUser.getName().equals(user.getName())
+                    && possibleUser.getHashedPassword().equals(user.getHashedPassword())) {
+                foundUser = possibleUser;
+                break;
+            }
+
+        }
+
+        return ResponseEntity.ok().body(foundUser);
+
     }
 
     @PutMapping("/users/{id}")
