@@ -33,9 +33,17 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "account_id"))
     private Set<Account> linkedAccounts;
 
+    @Column(name = "token")
+    private String token;
+
 
     public User() {
 
+    }
+
+    public User(String name, String hashedPassword) {
+        this.name = name;
+        this.hashedPassword = hashedPassword;
     }
 
     public User(String name, String hashedPassword, String email) {
@@ -43,6 +51,10 @@ public class User {
         this.hashedPassword = hashedPassword;
         this.email = email;
     }
+
+
+
+
 
 
     public long getUserId() {
@@ -83,6 +95,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

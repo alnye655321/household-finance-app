@@ -9,8 +9,14 @@ import javax.validation.Valid;
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.User;
 import com.finance.finance.repositories.UserRepository;
+import com.finance.finance.services.MyUserDetailsService;
+import com.finance.finance.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,10 +25,19 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private MyUserDetailsService myUserDetailsService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @CrossOrigin
     @GetMapping("/users")
-    public List<User> getAllUsers(@RequestHeader("Authorization") String token) {
-        System.out.println(token);
+    public List<User> getAllUsers() { //@RequestHeader("Authorization") String token
+//        System.out.println(token);
         return userRepository.findAll();
     }
 
@@ -57,6 +72,36 @@ public class UserController {
         }
 
         return ResponseEntity.ok().body(foundUser);
+
+    }
+
+    /**
+     * Client is sending a partial User object with a username / password in it <br>
+     * Authenticate the credentials request and return a new valid user entity from database if successful
+     * @param user  User database entity - partial object, userName, hashedPassword and email included
+     * @return  a new full User entity object
+     */
+    @CrossOrigin
+    @PostMapping("/authenticate")
+    public ResponseEntity<?> checkAuthenticate(@Valid @RequestBody User user) {
+
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getName(), user.getHashedPassword()));
+        }
+        catch (BadCredentialsException e) {
+            System.out.print(e);
+            return ResponseEntity.notFound().build(); //bad username / password combo, return not found
+        }
+
+        //Success - we are now authenticated!
+        //Create the user from the found database details
+        final UserDetails userDetails = myUserDetailsService.loadUserByUsername(user.getName());
+        final String jwt = jwtUtil.generateToken(userDetails);
+
+        User myValidUser = userRepository.findByName(user.getName());
+        myValidUser.setToken(jwt);
+
+        return ResponseEntity.ok().body(myValidUser);
 
     }
 
