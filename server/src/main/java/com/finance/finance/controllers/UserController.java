@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.User;
+import com.finance.finance.models.AuthUser;
 import com.finance.finance.repositories.UserRepository;
 import com.finance.finance.services.MyUserDetailsService;
 import com.finance.finance.util.JwtUtil;
@@ -16,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,10 +37,10 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @CrossOrigin
     @GetMapping("/users")
     public List<User> getAllUsers() { //@RequestHeader("Authorization") String token
-//        System.out.println(token);
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = authUser.getUserId();
         return userRepository.findAll();
     }
 

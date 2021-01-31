@@ -1,5 +1,6 @@
 package com.finance.finance.services;
 
+import com.finance.finance.models.AuthUser;
 import com.finance.finance.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -31,7 +32,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
         com.finance.finance.entities.User myUser = userRepository.findByName(s);
         //TODO should be checking database here and providing my own custom extended security.core.userdetails.User with additional props
-        return new User(myUser.getName(), myUser.getHashedPassword(), new ArrayList<>());
+        return new AuthUser(myUser.getName(), myUser.getHashedPassword(), new ArrayList<>(), myUser.getUserId());
     }
 
 
