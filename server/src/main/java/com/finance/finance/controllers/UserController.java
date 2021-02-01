@@ -22,7 +22,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+//@CrossOrigin
+//@CrossOrigin(origins = "http://localhost:3000")
+
 @RestController
+@CrossOrigin
 @RequestMapping("/api/v1")
 public class UserController {
     @Autowired
@@ -52,13 +56,11 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    @CrossOrigin
     @PostMapping("/users")
     public User createUser(@Valid @RequestBody User user) {
         return userRepository.save(user);
     }
 
-    @CrossOrigin
     @PostMapping("/auth")
     public ResponseEntity<User> checkAuth(@Valid @RequestBody User user) {
         User foundUser = null;
@@ -84,7 +86,6 @@ public class UserController {
      * @param user  User database entity - partial object, userName, hashedPassword and email included
      * @return  a new full User entity object
      */
-    @CrossOrigin
     @PostMapping("/authenticate")
     public ResponseEntity<?> checkAuthenticate(@Valid @RequestBody User user) {
 
