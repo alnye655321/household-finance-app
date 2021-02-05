@@ -2,6 +2,7 @@ package com.finance.finance.controllers;
 
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.BudgetItem;
+import com.finance.finance.entities.User;
 import com.finance.finance.repositories.BudgetItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,11 @@ public class BudgetItemController {
 
     @GetMapping("/budget_items")
     public List<BudgetItem> getAllBudgetItems() {
+        return budgetItemRepository.findAll();
+    }
+
+    @GetMapping("/budget_items/user")
+    public List<BudgetItem> getBudgetItemsByUser(@Valid @RequestBody User user) {
         return budgetItemRepository.findAll();
     }
 

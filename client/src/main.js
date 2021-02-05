@@ -8,6 +8,7 @@ import Messages from "./components/Messages";
 import Users from "./components/Users";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import BudgetItems from "./components/BudgetItems";
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false
@@ -17,6 +18,7 @@ const routes = [
   {path: "/users", component:Users},
   {path: "/register", component:Register},
   {path: "/login", component:Login},
+  {path: "/budgetitems", component:BudgetItems},
 ]
 
 const router = new VueRouter({routes, mode: 'history'}); //history mode gets rid of '#' in page url
