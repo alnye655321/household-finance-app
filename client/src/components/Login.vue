@@ -1,6 +1,9 @@
 <template>
   <v-flex sm8 offset-sm2>
     <v-card>
+      <v-alert type="success" v-if="getIsLoggedIn">
+        I'm a success alert.
+      </v-alert>
       <v-toolbar dark>
         <v-toolbar-title>Login</v-toolbar-title>
       </v-toolbar>
@@ -30,6 +33,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 // import axios from "axios";
 
 export default {
@@ -37,6 +41,7 @@ export default {
     return {
       userName: "",
       password: "",
+      loginSucces: false
     };
   },
   methods: {
@@ -47,6 +52,11 @@ export default {
         email: '',
       });
     },
+  },
+  computed: {
+    ...mapGetters([
+        'getIsLoggedIn'
+    ])
   },
 };
 </script>

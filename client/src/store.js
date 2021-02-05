@@ -8,6 +8,7 @@ export default new Vuex.Store({
     state: {
         users: [],
         token: localStorage.getItem('token') || '',
+        isLoggedIn : false,
     },
     mutations: {
         assignUsers(state, users) {
@@ -19,6 +20,10 @@ export default new Vuex.Store({
         auth(state, token) {
             state.token = token;
         },
+        setIsLoggedIn(state, isLoggedIn) {
+            state.isLoggedIn = isLoggedIn;
+        },
+
     },
     actions: { //can be used to perform async requests
         setUsers({ commit }) {
@@ -85,6 +90,7 @@ export default new Vuex.Store({
                     localStorage.setItem('token', token);
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
                     commit("auth", token);
+                    commit("setIsLoggedIn", true); //for displaying success alert
                 })
                 .catch(function (err) {
                     console.log(err);
@@ -99,7 +105,8 @@ export default new Vuex.Store({
     getters: {
         allusers: state => {
             return state.users;
-        }
+        },
+        getIsLoggedIn: state => state.isLoggedIn,
     },
 
 }
