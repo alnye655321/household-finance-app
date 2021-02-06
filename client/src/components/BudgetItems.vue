@@ -85,16 +85,16 @@ export default {
     dialogDelete: false,
     headers: [
       {
-        text: 'Dessert (100g serving)',
+        text: 'Name',
         align: 'start',
         sortable: false,
         value: 'name',
       },
-      {text: 'Calories', value: 'calories'},
-      {text: 'Fat (g)', value: 'fat'},
-      {text: 'Carbs (g)', value: 'carbs'},
-      {text: 'Protein (g)', value: 'protein'},
-      {text: 'Actions', value: 'actions', sortable: false},
+      {text: 'Type', value: 'budgetType.type'},
+      {text: 'Account', value: 'account.name'},
+      {text: 'Amount', value: 'amount'},
+      {text: 'Created', value: 'createdDate'},
+      {text: 'Committed', value: 'committed'},
     ],
     desserts: [],
     editedIndex: -1,
@@ -130,7 +130,8 @@ export default {
   },
 
   created() {
-    this.initialize()
+    this.initialize() //TODO will no longer be needed
+    this.$store.dispatch("fetchBudgetItems", 1); //TODO needs to be replaced with actual userId, add it to store
   },
 
   methods: {

@@ -15,6 +15,9 @@ public class BudgetItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long budgetItemId;
 
+    @Column(name = "name")
+    private String name;
+
     @ManyToOne
     @JoinColumn(name="user_id", nullable=false)
     private User user;
@@ -44,7 +47,8 @@ public class BudgetItem {
     public BudgetItem() {
     }
 
-    public BudgetItem(User user, BudgetType budgetType, Account account, AccountingPeriod accountingPeriod, Date createdDate) {
+    public BudgetItem(String name, User user, BudgetType budgetType, Account account, AccountingPeriod accountingPeriod, Date createdDate) {
+        this.name = name;
         this.user = user;
         this.budgetType = budgetType;
         this.account = account;
@@ -58,6 +62,14 @@ public class BudgetItem {
 
     public void setBudgetItemId(long budgetItemId) {
         this.budgetItemId = budgetItemId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public User getUser() {
@@ -115,6 +127,7 @@ public class BudgetItem {
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
+
 
 
 }

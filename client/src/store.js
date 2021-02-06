@@ -9,6 +9,7 @@ export default new Vuex.Store({
         users: [],
         token: localStorage.getItem('token') || '',
         isLoggedIn : false,
+        budgetItems: [],
     },
     mutations: {
         assignUsers(state, users) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
         },
         setIsLoggedIn(state, isLoggedIn) {
             state.isLoggedIn = isLoggedIn;
+        },
+        setBudgetItems(state, budgetItems) {
+            state.budgetItems = budgetItems;
         },
 
     },
@@ -56,6 +60,18 @@ export default new Vuex.Store({
         getUser({ commit }, id) { //this.$store.dispatch('getUser', 1);
             axios
                 .get(`http://localhost:8080/api/v1/users/${id}`)
+                .then((res) => {
+                    console.log(commit);
+                    console.log(res.data);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        fetchBudgetItems({ commit }, id) {
+            axios
+                .get(`http://localhost:8080/api/v1/budget_items/user/${id}`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
