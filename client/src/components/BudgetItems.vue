@@ -71,6 +71,14 @@
 </template>
 
 <script>
+
+// arr[i].budgetType.type
+// arr[i].account.name
+// arr[i].amount
+// arr[i].committed
+// arr[i].createdDate
+
+
 export default {
   data: () => ({
     dialog: false,
