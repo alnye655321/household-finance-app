@@ -49,6 +49,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception { //TODO configure auth endpoints
         httpSecurity.csrf().disable()
+//                .authorizeRequests().antMatchers("/api/v1/*").permitAll().
                 .authorizeRequests().antMatchers("/api/v1/authenticate").permitAll().
                 anyRequest().authenticated().and().
                 exceptionHandling().and().sessionManagement()

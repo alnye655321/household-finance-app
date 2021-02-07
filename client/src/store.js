@@ -75,6 +75,7 @@ export default new Vuex.Store({
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
+                    commit("setBudgetItems", res.data);
 
                 })
                 .catch((err) => {
@@ -123,6 +124,7 @@ export default new Vuex.Store({
             return state.users;
         },
         getIsLoggedIn: state => state.isLoggedIn,
+        getBudgetItems: state => state.budgetItems,
     },
 
 }
