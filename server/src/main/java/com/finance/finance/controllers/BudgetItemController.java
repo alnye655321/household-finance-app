@@ -2,6 +2,7 @@ package com.finance.finance.controllers;
 
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.BudgetItem;
+import com.finance.finance.entities.User;
 import com.finance.finance.repositories.BudgetItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,21 @@ public class BudgetItemController {
     @PostMapping("/budget_items")
     public BudgetItem createBudgetItem(@Valid @RequestBody BudgetItem budgetItem) {
         return budgetItemRepository.save(budgetItem);
+    }
+
+    @PutMapping("/budget_items/{id}")
+    public ResponseEntity<BudgetItem> updateUser(@PathVariable(value = "id") Long budgetItemId,
+                                           @Valid @RequestBody BudgetItem newBudgetItem) throws ResourceNotFoundException {
+        BudgetItem budgetItem = budgetItemRepository.findById(budgetItemId)
+                .orElseThrow(() -> new ResourceNotFoundException("Budget Item not found for this id :: " + budgetItemId));
+
+        budgetItem.setName(newBudgetItem.getName());
+        budgetItem.setBudgetType(newBudgetItem.getBudgetType());
+        budgetItem.setAccount(newBudgetItem.getAccount());
+        budgetItem.setCommitted(newBudgetItem.isCommitted());
+
+        final BudgetItem updatedBudgetItem = budgetItemRepository.save(budgetItem);
+        return ResponseEntity.ok(updatedBudgetItem);
     }
 
 

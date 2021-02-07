@@ -19,8 +19,12 @@
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
       <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
-      <v-text-field v-model="selectedItem.budgetType.type" label="Name" required></v-text-field>
-      <v-text-field v-model="selectedItem.account.name" label="Name" required></v-text-field>
+      <v-text-field v-model="selectedItem.budgetType.type" label="BudgetType" required></v-text-field>
+      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>
+      <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
+      <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
+<!--      <v-date-picker v-model="selectedItem.createdDate"></v-date-picker>-->
+      <v-text-field v-model="selectedItem.committed" label="Committed" required></v-text-field>
 
 <!--      <v-text-field v-model="email" label="E-mail" required></v-text-field>-->
 
