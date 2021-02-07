@@ -1,5 +1,6 @@
 <template>
 <div>
+  {{selectedItem.budgetType}}
   <v-data-table :headers="headers" :items="getBudgetItems" :items-per-page="5" class="elevation-1">
 
     <template v-slot:item.actions="{ item }">
@@ -14,6 +15,18 @@
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
       <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
+
+      <v-select v-model="selectedItem.budgetType"
+          :hint="`${selectedItem.type}, ${selectedItem.budgetTypeId}`"
+          :items="getBudgetTypes"
+          item-text="type"
+          item-value="budgetTypeId"
+          label="Select"
+          persistent-hint
+          return-object
+          single-line
+      ></v-select>
+
       <v-text-field v-model="selectedItem.budgetType.type" label="BudgetType" required></v-text-field>
       <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>
       <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
@@ -72,6 +85,7 @@ export default {
   computed: {
     ...mapGetters([
       'getBudgetItems',
+      'getBudgetTypes',
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -83,6 +97,7 @@ export default {
 
   created() {
     this.$store.dispatch("fetchBudgetItems", 1); //TODO needs to be replaced with actual userId, add it to store
+    this.$store.dispatch("fetchBudgetTypes");
   },
 
   methods: {

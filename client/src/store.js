@@ -10,6 +10,7 @@ export default new Vuex.Store({
         token: localStorage.getItem('token') || '',
         isLoggedIn : false,
         budgetItems: [],
+        budgetTypes: [],
     },
     mutations: {
         assignUsers(state, users) {
@@ -26,6 +27,9 @@ export default new Vuex.Store({
         },
         setBudgetItems(state, budgetItems) {
             state.budgetItems = budgetItems;
+        },
+        setBudgetTypes(state, budgetTypes) {
+            state.budgetTypes = budgetTypes;
         },
 
     },
@@ -97,6 +101,19 @@ export default new Vuex.Store({
             // axios.defaults.headers.common['Authorization'] = token;
             // commit("auth", token);
         },
+        fetchBudgetTypes({ commit }) {
+            axios
+                .get(`http://localhost:8080/api/v1/budget_types`)
+                .then((res) => {
+                    console.log(commit);
+                    console.log(res.data);
+                    commit("setBudgetTypes", res.data);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         register({ commit }, userData) {
             axios.post('http://localhost:8080/api/v1/users', userData)
                 .then(function (res) {
@@ -140,6 +157,7 @@ export default new Vuex.Store({
         },
         getIsLoggedIn: state => state.isLoggedIn,
         getBudgetItems: state => state.budgetItems,
+        getBudgetTypes: state => state.budgetTypes,
     },
 
 }
