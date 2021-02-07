@@ -1,13 +1,22 @@
 <template>
 <div>
-  {{getBudgetItems}}
-  <v-data-table
-      :headers="headers"
-      :items="getBudgetItems"
-      :items-per-page="5"
-      class="elevation-1"
-  ></v-data-table>
+  <v-data-table :headers="headers" :items="getBudgetItems" :items-per-page="5" class="elevation-1">
+
+    <template v-slot:item.actions="{ item }">
+      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+    </template>
+
+  </v-data-table>
+
 </div>
+
+
+
+
+<!--  <v-icon>fas fa-lock</v-icon>-->
+<!--  <v-spacer></v-spacer>-->
+<!--  <v-icon>mdi-folder</v-icon>-->
 </template>
 
 <script>
@@ -29,6 +38,7 @@ export default {
       {text: 'Amount', value: 'amount'},
       {text: 'Created', value: 'createdDate'},
       {text: 'Committed', value: 'committed'},
+      {text: 'Actions', value: 'actions'}, //adding extra actions column, not in server returned object, for space to display action buttons
     ],
   }),
 
@@ -49,6 +59,12 @@ export default {
   },
 
   methods: {
+    editItem(item) {
+      console.log(item);
+    },
+    deleteItem(item) {
+      console.log(item);
+    },
   },
 }
 </script>
