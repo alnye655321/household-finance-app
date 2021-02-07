@@ -44,14 +44,14 @@ public class BudgetItemController {
     }
 
     @PutMapping("/budget_items/{id}")
-    public ResponseEntity<BudgetItem> updateUser(@PathVariable(value = "id") Long budgetItemId,
+    public ResponseEntity<BudgetItem> updateBudgetItem(@PathVariable(value = "id") Long budgetItemId,
                                            @Valid @RequestBody BudgetItem newBudgetItem) throws ResourceNotFoundException {
         BudgetItem budgetItem = budgetItemRepository.findById(budgetItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Budget Item not found for this id :: " + budgetItemId));
 
         budgetItem.setName(newBudgetItem.getName());
         budgetItem.setBudgetType(newBudgetItem.getBudgetType());
-        budgetItem.setAccount(newBudgetItem.getAccount());
+        budgetItem.setAmount(newBudgetItem.getAmount());
         budgetItem.setCommitted(newBudgetItem.isCommitted());
 
         final BudgetItem updatedBudgetItem = budgetItemRepository.save(budgetItem);

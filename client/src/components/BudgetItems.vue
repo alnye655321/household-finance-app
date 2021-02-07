@@ -9,13 +9,8 @@
 
   </v-data-table>
 
-  <v-btn
-      class="mt-12"
-      color="primary"
-      @click="showOverlay = !showOverlay"
-  >
-    Show Overlay
-  </v-btn>
+  <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Budget Item</v-btn>
+
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
       <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
@@ -31,6 +26,8 @@
 <!--      <v-select v-model="select" :items="items" label="Item" required></v-select>-->
 
 <!--      <v-btn :disabled="!valid" color="success" class="mr-4" @click="test">Validate</v-btn>-->
+
+      <v-btn color="primary" class="mr-4" @click="updateItem">Submit</v-btn>
 
       <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
 
@@ -93,6 +90,10 @@ export default {
       this.selectedItem = item;
       this.showOverlay = true;
       console.log(item);
+    },
+    updateItem() {
+      this.$store.dispatch("updateBudgetItem", this.selectedItem);
+      // console.log(item);
     },
     deleteItem(item) {
       console.log(item);

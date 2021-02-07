@@ -82,6 +82,21 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
+        updateBudgetItem({ commit }, updatedBudgetItem) {
+            axios.put(`http://localhost:8080/api/v1/budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
+                .then(function (res) {
+                    console.log(commit);
+                    console.log(res.data);
+                    // commit("auth", token);
+                })
+                .catch(function (err) {
+                    console.log(err);
+                });
+            // let token = (await axios.post("http://localhost:3000/register", registerData)).data;
+            // localStorage.setItem("token", token)
+            // axios.defaults.headers.common['Authorization'] = token;
+            // commit("auth", token);
+        },
         register({ commit }, userData) {
             axios.post('http://localhost:8080/api/v1/users', userData)
                 .then(function (res) {
