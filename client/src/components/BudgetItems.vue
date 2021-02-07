@@ -9,6 +9,33 @@
 
   </v-data-table>
 
+  <v-btn
+      class="mt-12"
+      color="primary"
+      @click="showOverlay = !showOverlay"
+  >
+    Show Overlay
+  </v-btn>
+  <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
+    <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
+      <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
+      <v-text-field v-model="selectedItem.budgetType.type" label="Name" required></v-text-field>
+      <v-text-field v-model="selectedItem.account.name" label="Name" required></v-text-field>
+
+<!--      <v-text-field v-model="email" label="E-mail" required></v-text-field>-->
+
+<!--      <v-select v-model="select" :items="items" label="Item" required></v-select>-->
+
+<!--      <v-btn :disabled="!valid" color="success" class="mr-4" @click="test">Validate</v-btn>-->
+
+      <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
+
+      <v-btn color="warning" @click="test">Reset Validation</v-btn>
+
+    </v-form>
+    <v-btn color="primary" @click="showOverlay = false">Hide Overlay</v-btn>
+  </v-overlay>
+
 </div>
 
 
@@ -25,14 +52,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
+    selectedItem: { }, //updated for new/edit item form
+    overlayAbsolute: false,
+    overlayOpacity: 0.46,
+    showOverlay: false,
+    overlayzIndex: 5,
     headers: [
-      {
-        text: 'Name',
-        align: 'start',
-        sortable: false,
-        value: 'name',
-      },
-      {text: 'Name', value: 'name'},
+      {text: 'Name',  align: 'start',  sortable: true, value: 'name', },
       {text: 'Type', value: 'budgetType.type'},
       {text: 'Account', value: 'account.name'},
       {text: 'Amount', value: 'amount'},
@@ -60,10 +86,15 @@ export default {
 
   methods: {
     editItem(item) {
+      this.selectedItem = item;
+      this.showOverlay = true;
       console.log(item);
     },
     deleteItem(item) {
       console.log(item);
+    },
+    test() {
+      console.log('');
     },
   },
 }
