@@ -14,6 +14,7 @@ export default new Vuex.Store({
         budgetTypes: [],
         accountingPeriods: [],
         accounts: [],
+        accountTypes: [],
     },
     mutations: {
         setUser(state, user) {
@@ -42,6 +43,9 @@ export default new Vuex.Store({
         },
         setAccounts(state, accounts) {
             state.accounts = accounts;
+        },
+        setAccountTypes(state, accountTypes) {
+            state.accountTypes = accountTypes;
         },
 
     },
@@ -139,6 +143,19 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
+        fetchAccountTypes({ commit }) {
+            axios
+                .get(`http://localhost:8080/api/v1/accountTypes`)
+                .then((res) => {
+                    console.log(commit);
+                    console.log(res.data);
+                    commit("setAccountTypes", res.data);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         fetchBudgetTypes({ commit }) {
             axios
                 .get(`http://localhost:8080/api/v1/budget_types`)
@@ -201,6 +218,7 @@ export default new Vuex.Store({
         getBudgetTypes: state => state.budgetTypes,
         getAccountingPeriods: state => state.accountingPeriods,
         getAccounts: state => state.accounts,
+        getAccountTypes: state => state.accountTypes,
     },
 
 }
