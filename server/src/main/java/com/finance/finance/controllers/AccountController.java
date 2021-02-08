@@ -1,11 +1,13 @@
 package com.finance.finance.controllers;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.Account;
+import com.finance.finance.entities.BudgetItem;
 import com.finance.finance.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,16 @@ public class AccountController {
         Account account = accountRepository.findById(accountId)
                 .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + accountId));
         return ResponseEntity.ok().body(account);
+    }
+
+    @GetMapping("/accounts/user/{userId}")
+    public List<Account> getAccountsByUser(@PathVariable(value = "userId") Long userId) {
+        List<Account> allAccounts = accountRepository.findAll();
+        List <Account> linkedAccounts = allAccounts.stream()
+                .filter(e -> e.getLinkedUsers().stream()
+                        .anyMatch(y -> userId.equals(y.getUserId())))
+                .collect(Collectors.toList());
+        return linkedAccounts;
     }
 
     @PostMapping("/accounts")

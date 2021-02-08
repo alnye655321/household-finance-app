@@ -33,19 +33,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 //        super.configure(auth);
     }
 
-//    @Configuration
-//    @EnableWebMvc
-//    public class WebConfig implements WebMvcConfigurer {
-//
-//        @Override
-//        public void addCorsMappings(CorsRegistry registry) {
-//            registry.addMapping("/**");
-//        }
-//    }
 
-
-    //httpSecurity.cors().and()
-    //httpSecurity.csrf().disable()
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception { //TODO configure auth endpoints
         httpSecurity.csrf().disable()

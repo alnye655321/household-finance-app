@@ -6,13 +6,18 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        user: {},
         users: [],
         token: localStorage.getItem('token') || '',
         isLoggedIn : false,
         budgetItems: [],
         budgetTypes: [],
+        accountingPeriods: [],
     },
     mutations: {
+        setUser(state, user) {
+            state.user = user;
+        },
         assignUsers(state, users) {
             state.users = users;
         },
@@ -30,6 +35,9 @@ export default new Vuex.Store({
         },
         setBudgetTypes(state, budgetTypes) {
             state.budgetTypes = budgetTypes;
+        },
+        setAccountingPeriods(state, accountingPeriods) {
+            state.accountingPeriods = accountingPeriods;
         },
 
     },
@@ -101,6 +109,32 @@ export default new Vuex.Store({
             // axios.defaults.headers.common['Authorization'] = token;
             // commit("auth", token);
         },
+        fetchAccounts({ commit }, id) {
+            axios
+                .get(`http://localhost:8080/api/v1/accounts/user/${id}`)
+                .then((res) => {
+                    console.log(commit);
+                    console.log(res.data);
+                    // commit("setBudgetItems", res.data);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        fetchAccountingPeriods({ commit }) {
+            axios
+                .get(`http://localhost:8080/api/v1/accounting_periods`)
+                .then((res) => {
+                    console.log(commit);
+                    console.log(res.data);
+                    commit("setAccountingPeriods", res.data);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         fetchBudgetTypes({ commit }) {
             axios
                 .get(`http://localhost:8080/api/v1/budget_types`)
@@ -135,9 +169,11 @@ export default new Vuex.Store({
             axios.post('http://localhost:8080/api/v1/authenticate', userData)
                 .then(function (res) {
                     let token = res.data.token;
-                    console.log('userId: ' + token);
+                    // console.log('userId: ' + token);
                     localStorage.setItem('token', token);
                     axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+                    console.log(res.data);
+                    commit("setUser", res.data);
                     commit("auth", token);
                     commit("setIsLoggedIn", true); //for displaying success alert
                 })
@@ -155,9 +191,11 @@ export default new Vuex.Store({
         allusers: state => {
             return state.users;
         },
+        getUser: state => state.user,
         getIsLoggedIn: state => state.isLoggedIn,
         getBudgetItems: state => state.budgetItems,
         getBudgetTypes: state => state.budgetTypes,
+        getAccountingPeriods: state => state.accountingPeriods,
     },
 
 }
