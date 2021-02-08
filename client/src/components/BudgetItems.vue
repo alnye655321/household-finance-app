@@ -108,7 +108,7 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("fetchBudgetItems", 1); //TODO needs to be replaced with actual userId, add it to store
+    this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId);
     this.$store.dispatch("fetchBudgetTypes");
     this.$store.dispatch("fetchAccountingPeriods");
     this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);

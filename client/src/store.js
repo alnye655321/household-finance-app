@@ -13,6 +13,7 @@ export default new Vuex.Store({
         budgetItems: [],
         budgetTypes: [],
         accountingPeriods: [],
+        accounts: [],
     },
     mutations: {
         setUser(state, user) {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
         },
         setAccountingPeriods(state, accountingPeriods) {
             state.accountingPeriods = accountingPeriods;
+        },
+        setAccounts(state, accounts) {
+            state.accounts = accounts;
         },
 
     },
@@ -115,7 +119,7 @@ export default new Vuex.Store({
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
-                    // commit("setBudgetItems", res.data);
+                    commit("setAccounts", res.data);
 
                 })
                 .catch((err) => {
@@ -196,6 +200,7 @@ export default new Vuex.Store({
         getBudgetItems: state => state.budgetItems,
         getBudgetTypes: state => state.budgetTypes,
         getAccountingPeriods: state => state.accountingPeriods,
+        getAccounts: state => state.accounts,
     },
 
 }

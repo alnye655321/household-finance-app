@@ -29,6 +29,12 @@
         </v-list-item-icon>
         <v-list-item-title>Budget Items</v-list-item-title>
       </v-list-item>
+      <v-list-item link to="/accounts">
+        <v-list-item-icon>
+          <v-icon>mdi-folder</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Accounts</v-list-item-title>
+      </v-list-item>
       <v-list-item link>
         <v-list-item-icon>
           <v-icon>mdi-folder</v-icon>
