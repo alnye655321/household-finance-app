@@ -134,20 +134,24 @@ export default new Vuex.Store({
                 });
         },
         createAccount({ commit }, account) {
-            axios.post('http://localhost:8080/api/v1/accounts', account)
-                .then(function (res) {
-                    // console.log(commit);
-                    // console.log(res.data);
-                    console.log(commit);
-                    console.log('updating accounts');
-                    console.log(this);
-                    console.log(res.data);
-                    // commit("updateAccounts", res.data);
-                    // commit("auth", token);
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
+            return new Promise((resolve, reject) => {
+                axios.post('http://localhost:8080/api/v1/accounts', account)
+                    .then(function (res) {
+                        // console.log(commit);
+                        // console.log(res.data);
+                        console.log(commit);
+                        console.log(this);
+                        console.log(res.data);
+                        resolve();
+                        // commit("updateAccounts", res.data);
+                        // commit("auth", token);
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
         },
         fetchAccountingPeriods({ commit }) {
             axios

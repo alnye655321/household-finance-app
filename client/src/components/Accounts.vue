@@ -175,16 +175,15 @@ export default {
     updateItem() {
       this.showOverlay = false;
 
-      this.$store.dispatch("createAccount", this.selectedItem)
+      this.$store.dispatch("createAccount", this.selectedItem) //send the account to the server
       .then(() => {
-        this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
-      }); //send the post to server
+        this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId); //get new accounts list after server updates
+      });
 
       //reset add item object
       this.selectedItem = {
         "linkedUsers": [],
-        "accountType": {             "accountTypeId": 1,
-          "accountType": "Checking" },
+        "accountType": { },
         "balance": 0.0,
         "interestRate": 0.0,
         "dateOpened": "2021-02-08",
