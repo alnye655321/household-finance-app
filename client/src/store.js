@@ -44,6 +44,9 @@ export default new Vuex.Store({
         setAccounts(state, accounts) {
             state.accounts = accounts;
         },
+        updateAccounts(state, account) {
+            state.accounts = state.accounts.push(account);
+        },
         setAccountTypes(state, accountTypes) {
             state.accountTypes = accountTypes;
         },
@@ -127,6 +130,22 @@ export default new Vuex.Store({
 
                 })
                 .catch((err) => {
+                    console.log(err);
+                });
+        },
+        createAccount({ commit }, account) {
+            axios.post('http://localhost:8080/api/v1/accounts', account)
+                .then(function (res) {
+                    // console.log(commit);
+                    // console.log(res.data);
+                    console.log(commit);
+                    console.log('updating accounts');
+                    console.log(this);
+                    console.log(res.data);
+                    // commit("updateAccounts", res.data);
+                    // commit("auth", token);
+                })
+                .catch(function (err) {
                     console.log(err);
                 });
         },

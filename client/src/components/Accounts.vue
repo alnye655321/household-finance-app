@@ -108,41 +108,26 @@
 
     <!--  Begin Overlay-->
     <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
-      <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
+      <v-form ref="form" v-if="selectedItem.hasOwnProperty('balance')" lazy-validation>
+
         <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
 
-        <v-select v-model="selectedItem.budgetType"
-                  :hint="`${selectedItem.type}, ${selectedItem.budgetTypeId}`"
-                  :items="getBudgetTypes"
-                  item-text="type"
-                  item-value="budgetTypeId"
-                  label="Select"
-                  persistent-hint
-                  return-object
-                  single-line
-        ></v-select>
-
-        <v-select v-model="selectedItem.accountingPeriod"
-                  :items="getAccountingPeriods"
-                  item-text="startDate"
-                  item-value="accountingPeriodId"
+        <v-select v-model="selectedItem.accountType"
+                  :items="getAccountTypes"
+                  item-text="accountType"
+                  item-value="accountTypeId"
                   label="Select"
                   return-object
                   single-line
         ></v-select>
 
-        <v-text-field v-model="selectedItem.budgetType.type" label="BudgetType" required></v-text-field>
-        <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>
-        <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
-        <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
-        <v-text-field v-model="selectedItem.committed" label="Committed" required></v-text-field>
-
+        <v-text-field label="Interest Rate" v-model="selectedItem.interestRate" prefix="%"></v-text-field>
 
         <v-btn color="primary" class="mr-4" @click="updateItem">Submit</v-btn>
 
         <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
 
-        <v-btn color="warning" @click="test">Reset Validation</v-btn>
+<!--        <v-btn color="warning" @click="test">Reset Validation</v-btn>-->
 
       </v-form>
       <v-btn color="primary" @click="showOverlay = false">Hide Overlay</v-btn>
@@ -166,7 +151,7 @@ export default {
       "dateOpened": "2021-02-08",
       "dateClosed": null,
       "name": ""
-    }, //updated for new/edit item form
+    },
     overlayAbsolute: false,
     overlayOpacity: 0.46,
     showOverlay: false,
@@ -185,6 +170,32 @@ export default {
   created() {
     this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
     this.$store.dispatch("fetchAccountTypes");
+  },
+  methods: {
+    updateItem() {
+      this.showOverlay = false;
+
+      this.$store.dispatch("createAccount", this.selectedItem)
+      .then(() => {
+        this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
+      }); //send the post to server
+
+      //reset add item object
+      this.selectedItem = {
+        "linkedUsers": [],
+        "accountType": {             "accountTypeId": 1,
+          "accountType": "Checking" },
+        "balance": 0.0,
+        "interestRate": 0.0,
+        "dateOpened": "2021-02-08",
+        "dateClosed": null,
+        "name": ""
+      };
+
+    },
+    test() {
+      console.log('');
+    },
   },
 
 

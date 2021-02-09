@@ -1,14 +1,19 @@
 package com.finance.finance.controllers;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.Account;
 import com.finance.finance.entities.BudgetItem;
+import com.finance.finance.entities.User;
 import com.finance.finance.repositories.AccountRepository;
+import com.finance.finance.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +24,9 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
+
+    @Resource
+    UserRepository userRepository;
 
     @GetMapping("/accounts")
     public List<Account> getAllAccounts() {
@@ -47,6 +55,16 @@ public class AccountController {
 
     @PostMapping("/accounts")
     public Account createAccount(@Valid @RequestBody Account account) {
+
+        long userRecord1 = 1; //TODO hard coded
+        long userRecord2 = 2;
+
+        Set<User> linkedUsers = new HashSet<>();
+        linkedUsers.add(userRepository.findById(userRecord1).get());
+        linkedUsers.add(userRepository.findById(userRecord2).get());
+
+        account.setLinkedUsers(linkedUsers);
+
         return accountRepository.save(account);
     }
 
