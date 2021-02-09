@@ -92,6 +92,19 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
+        getUserByToken({ commit }) { //this.$store.dispatch('getUser', 1);
+            axios
+                .get(`http://localhost:8080/api/v1/user`)
+                .then((res) => {
+                    console.log(commit);
+                    console.log(res.data);
+                    commit("setUser", res.data);
+
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
         fetchBudgetItems({ commit }, id) {
             axios
                 .get(`http://localhost:8080/api/v1/budget_items/user/${id}`)

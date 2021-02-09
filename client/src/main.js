@@ -10,12 +10,14 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import BudgetItems from "./components/BudgetItems";
 import Accounts from "./components/Accounts";
+import Dashboard from "./components/Dashboard";
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 const routes = [
-  {path: "/", component:Messages},
+  {path: "/", component:Dashboard},
+  {path: "/messages", component:Messages},
   {path: "/users", component:Users},
   {path: "/register", component:Register},
   {path: "/login", component:Login},

@@ -8,6 +8,8 @@
       <v-spacer />
       <v-btn flat to="/register">Register</v-btn>
       <v-spacer />
+      <v-btn flat to="/">Home</v-btn>
+      <v-spacer />
       <v-btn flat to="/login">Login</v-btn>
     </v-app-bar>
 
