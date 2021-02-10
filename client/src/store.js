@@ -15,6 +15,7 @@ export default new Vuex.Store({
         accountingPeriods: [],
         accounts: [],
         accountTypes: [],
+        accountingPeriodMonths: [],
     },
     mutations: {
         setUser(state, user) {
@@ -49,6 +50,9 @@ export default new Vuex.Store({
         },
         setAccountTypes(state, accountTypes) {
             state.accountTypes = accountTypes;
+        },
+        setAccountingPeriodMonths(state, accountingPeriodMonths) {
+            state.accountingPeriodMonths = accountingPeriodMonths;
         },
 
     },
@@ -173,6 +177,70 @@ export default new Vuex.Store({
                     console.log(commit);
                     console.log(res.data);
                     commit("setAccountingPeriods", res.data);
+                    let accountingPeriodsData = res.data;
+
+                    let months = [
+                        {
+                            name: "January",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "February",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "March",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "April",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "May",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "June",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "July",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "August",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "September",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "October",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "November",
+                            accountingPeriods: []
+                        },
+                        {
+                            name: "December",
+                            accountingPeriods: []
+                        },
+                    ];
+
+                    console.log(months);
+
+
+                    for (let i = 0; i < accountingPeriodsData.length; i++) {
+                        const splitDate = accountingPeriodsData[i].startDate.split('-');
+                        const month = splitDate[1];
+
+                        months[month - 1].accountingPeriods.push(accountingPeriodsData[i]); //add to correct months array index
+                    }
+
+                    commit("setAccountingPeriodMonths", months);
 
                 })
                 .catch((err) => {
@@ -255,6 +323,7 @@ export default new Vuex.Store({
         getAccountingPeriods: state => state.accountingPeriods,
         getAccounts: state => state.accounts,
         getAccountTypes: state => state.accountTypes,
+        getAccountingPeriodMonths: state => state.accountingPeriodMonths,
     },
 
 }

@@ -1,5 +1,26 @@
 <template>
 <div>
+  <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
+    <v-tab v-for="item in getAccountingPeriods" :key="item.accountingPeriodId"  @click="test(tab)">
+      {{ item.startDate }} - {{item.endDate}}
+    </v-tab>
+  </v-tabs>
+
+  <v-tabs-items v-model="tab">
+    <v-tab-item
+        v-for="item in getAccountingPeriods"
+        :key="item.accountingPeriodId"
+
+    >
+      <v-card
+          color="basil"
+          flat
+      >
+        <v-card-text>{{ item.startDate }}</v-card-text>
+      </v-card>
+    </v-tab-item>
+  </v-tabs-items>
+  <v-card>
   <v-data-table :headers="headers" :items="getBudgetItems" :items-per-page="5" class="elevation-1">
 
     <template v-slot:item.actions="{ item }">
@@ -8,6 +29,7 @@
     </template>
 
   </v-data-table>
+  </v-card>
 
   <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Budget Item</v-btn>
 
@@ -76,6 +98,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
+    tab: null,
     selectedItem: { }, //updated for new/edit item form
     overlayAbsolute: false,
     overlayOpacity: 0.46,
@@ -98,6 +121,7 @@ export default {
       'getBudgetTypes',
       'getAccountingPeriods',
       'getUser',
+      'getAccountingPeriodMonths'
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -130,8 +154,8 @@ export default {
     deleteItem(item) {
       console.log(item);
     },
-    test() {
-      console.log('');
+    test(tab) {
+      console.log(tab);
     },
   },
 }
