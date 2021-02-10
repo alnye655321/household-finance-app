@@ -1,22 +1,15 @@
 <template>
 <div>
   <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-    <v-tab v-for="item in getAccountingPeriods" :key="item.accountingPeriodId"  @click="test(tab)">
-      {{ item.startDate }} - {{item.endDate}}
+    <v-tab v-for="item in getAccountingPeriodMonths" :key="item.name"  @click="test(tab)">
+      {{ item.name }}
     </v-tab>
   </v-tabs>
 
   <v-tabs-items v-model="tab">
-    <v-tab-item
-        v-for="item in getAccountingPeriods"
-        :key="item.accountingPeriodId"
-
-    >
-      <v-card
-          color="basil"
-          flat
-      >
-        <v-card-text>{{ item.startDate }}</v-card-text>
+    <v-tab-item v-for="item in getAccountingPeriodMonths" :key="item.name">
+      <v-card color="basil" flat>
+        <v-card-text>{{ item.accountingPeriods[1].endDate  }}</v-card-text>
       </v-card>
     </v-tab-item>
   </v-tabs-items>
@@ -134,7 +127,10 @@ export default {
   created() {
     this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId);
     this.$store.dispatch("fetchBudgetTypes");
+
     this.$store.dispatch("fetchAccountingPeriods");
+    //TODO a .then here, put budget items, into accounts periods within getAccountingPeriodMonths above
+
     this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
   },
 
