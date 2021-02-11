@@ -16,6 +16,7 @@ export default new Vuex.Store({
         accounts: [],
         accountTypes: [],
         accountingPeriodMonths: [],
+        budgetItemsByMonth: []
     },
     mutations: {
         setUser(state, user) {
@@ -54,6 +55,44 @@ export default new Vuex.Store({
         setAccountingPeriodMonths(state, accountingPeriodMonths) {
             state.accountingPeriodMonths = accountingPeriodMonths;
         },
+        buildBudgetItemsByAccountingMonth(state, months) {
+            console.log('test');
+
+            if (months.length > 0 && state.budgetItems.length > 0) {
+
+                for (let i = 0; i < state.budgetItems.length; i++) {
+                    const budgetItemAccountingPeriodId = state.budgetItems[i].accountingPeriod.accountingPeriodId;
+                    console.log(state.budgetItems[i].accountingPeriod.accountingPeriodId);
+                    console.log('test');
+
+                    for (let y = 0; y < months.length; y++) {
+                        let foundAccountingPeriod = false;
+                        for (let z = 0; z < months[y].accountingPeriods.length; z++) {
+                            if (budgetItemAccountingPeriodId === months[y].accountingPeriods[z].accountingPeriodId) {
+                                if (typeof months[y].accountingPeriods[z].budgetItems !== 'undefined') {
+                                    months[y].accountingPeriods[z].budgetItems.push(state.budgetItems[i]);
+                                } else {
+                                    months[y].accountingPeriods[z].budgetItems = [state.budgetItems[i]];
+                                }
+                                foundAccountingPeriod = true;
+                                break;
+                            }
+                        }
+                        if (foundAccountingPeriod) {
+                            break;
+                        }
+
+                    }
+
+                }
+
+            }
+            state.budgetItemsByMonth = months;
+            console.log(state);
+        },
+
+        // buildBudgetItemsByAccountingMonth
+
 
     },
     actions: { //can be used to perform async requests
@@ -110,17 +149,23 @@ export default new Vuex.Store({
                 });
         },
         fetchBudgetItems({ commit }, id) {
-            axios
-                .get(`http://localhost:8080/api/v1/budget_items/user/${id}`)
-                .then((res) => {
-                    console.log(commit);
-                    console.log(res.data);
-                    commit("setBudgetItems", res.data);
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(`http://localhost:8080/api/v1/budget_items/user/${id}`)
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setBudgetItems", res.data);
+                        resolve();
 
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
+
         },
         updateBudgetItem({ commit }, updatedBudgetItem) {
             axios.put(`http://localhost:8080/api/v1/budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
@@ -238,9 +283,11 @@ export default new Vuex.Store({
                         const month = splitDate[1];
 
                         months[month - 1].accountingPeriods.push(accountingPeriodsData[i]); //add to correct months array index
+                        months[month - 1].accountingPeriods.budgetItems = []; //place holder for eventual budgetItems addition
                     }
 
                     commit("setAccountingPeriodMonths", months);
+                    commit("buildBudgetItemsByAccountingMonth", months);
 
                 })
                 .catch((err) => {

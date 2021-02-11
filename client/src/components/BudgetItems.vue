@@ -125,13 +125,19 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId);
+    // this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId);
     this.$store.dispatch("fetchBudgetTypes");
 
-    this.$store.dispatch("fetchAccountingPeriods");
+    // this.$store.dispatch("fetchAccountingPeriods");
     //TODO a .then here, put budget items, into accounts periods within getAccountingPeriodMonths above
 
     this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
+
+    this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //send the account to the server
+        .then(() => {
+          this.$store.dispatch("fetchAccountingPeriods"); //get new accounts list after server updates
+        });
+
   },
 
   methods: {
