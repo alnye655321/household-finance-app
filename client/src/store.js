@@ -159,6 +159,8 @@ export default new Vuex.Store({
             })
         },
         updateBudgetItem({ commit }, updatedBudgetItem) {
+            console.log('updatedBudgetItem');
+            console.log(updatedBudgetItem);
             axios.put(`http://localhost:8080/api/v1/budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
                 .then(function (res) {
                     console.log(commit);
@@ -356,6 +358,7 @@ export default new Vuex.Store({
         getAccounts: state => state.accounts,
         getAccountTypes: state => state.accountTypes,
         getAccountingPeriodMonths: state => state.accountingPeriodMonths,
+        getBudgetItemsByMonth: state => state.budgetItemsByMonth,
     },
 
 }

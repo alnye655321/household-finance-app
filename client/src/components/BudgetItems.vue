@@ -1,28 +1,48 @@
 <template>
 <div>
   <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-    <v-tab v-for="item in getAccountingPeriodMonths" :key="item.name"  @click="test(tab)">
+    <v-tab v-for="item in getBudgetItemsByMonth" :key="item.name"  @click="test(tab)">
       {{ item.name }}
     </v-tab>
   </v-tabs>
 
   <v-tabs-items v-model="tab">
-    <v-tab-item v-for="item in getAccountingPeriodMonths" :key="item.name">
+    <v-tab-item v-for="item in getBudgetItemsByMonth" :key="item.name">
+
+<!--      <v-card max-width="375" class="mx-auto" v-for="account in getAccounts" :key="account.accountId">-->
       <v-card color="basil" flat>
         <v-card-text>{{ item.accountingPeriods[1].endDate  }}</v-card-text>
       </v-card>
+
+
+      <v-card>
+        <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
+
+          <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          </template>
+
+        </v-data-table>
+      </v-card>
+
+        <v-spacer></v-spacer>
+
+      <v-card>
+        <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
+
+          <template v-slot:item.actions="{ item }">
+            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+          </template>
+
+        </v-data-table>
+      </v-card>
+
+
     </v-tab-item>
   </v-tabs-items>
-  <v-card>
-  <v-data-table :headers="headers" :items="getBudgetItems" :items-per-page="5" class="elevation-1">
 
-    <template v-slot:item.actions="{ item }">
-      <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-      <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
-    </template>
-
-  </v-data-table>
-  </v-card>
 
   <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Budget Item</v-btn>
 
@@ -114,7 +134,8 @@ export default {
       'getBudgetTypes',
       'getAccountingPeriods',
       'getUser',
-      'getAccountingPeriodMonths'
+      'getAccountingPeriodMonths',
+      'getBudgetItemsByMonth',
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'

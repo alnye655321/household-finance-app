@@ -53,6 +53,7 @@ public class BudgetItemController {
         budgetItem.setBudgetType(newBudgetItem.getBudgetType());
         budgetItem.setAmount(newBudgetItem.getAmount());
         budgetItem.setCommitted(newBudgetItem.isCommitted());
+        budgetItem.setAccountingPeriod(newBudgetItem.getAccountingPeriod());
 
         final BudgetItem updatedBudgetItem = budgetItemRepository.save(budgetItem);
         return ResponseEntity.ok(updatedBudgetItem);
