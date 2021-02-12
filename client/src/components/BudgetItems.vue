@@ -26,6 +26,7 @@
         </v-data-table>
       </v-card>
 
+<!--      TODO need a more significant divider here, perhaps two tables side by side-->
         <v-spacer></v-spacer>
 
       <v-card>
@@ -111,7 +112,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
-    tab: null,
+    tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
     overlayAbsolute: false,
     overlayOpacity: 0.46,
@@ -146,18 +147,17 @@ export default {
   },
 
   created() {
-    // this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId);
     this.$store.dispatch("fetchBudgetTypes");
-
-    // this.$store.dispatch("fetchAccountingPeriods");
-    //TODO a .then here, put budget items, into accounts periods within getAccountingPeriodMonths above
 
     this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
 
-    this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //send the account to the server
+    this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
         .then(() => {
-          this.$store.dispatch("fetchAccountingPeriods"); //get new accounts list after server updates
+          this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
         });
+
+    const today = new Date();
+    this.tab = today.getMonth(); //set the active tab to the current month
 
   },
 
@@ -171,6 +171,7 @@ export default {
       console.log(item);
     },
     updateItem() {
+      //TODO should load data again here from server after complete, make into an async
       this.$store.dispatch("updateBudgetItem", this.selectedItem);
       // console.log(item);
     },
