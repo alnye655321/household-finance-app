@@ -153,7 +153,7 @@ export default {
       "name": ""
     },
     overlayAbsolute: false,
-    overlayOpacity: 0.46,
+    overlayOpacity: 0.86,
     showOverlay: false,
     overlayzIndex: 5,
   }),
@@ -168,7 +168,7 @@ export default {
     // },
   },
   created() {
-    this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
+    this.$store.dispatch("fetchAccounts");
     this.$store.dispatch("fetchAccountTypes");
   },
   methods: {
@@ -177,7 +177,7 @@ export default {
 
       this.$store.dispatch("createAccount", this.selectedItem) //send the account to the server
       .then(() => {
-        this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId); //get new accounts list after server updates
+        this.$store.dispatch("fetchAccounts"); //get new accounts list after server updates
       });
 
       //reset add item object

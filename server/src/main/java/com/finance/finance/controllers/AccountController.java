@@ -12,10 +12,12 @@ import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.Account;
 import com.finance.finance.entities.BudgetItem;
 import com.finance.finance.entities.User;
+import com.finance.finance.models.AuthUser;
 import com.finance.finance.repositories.AccountRepository;
 import com.finance.finance.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -43,8 +45,11 @@ public class AccountController {
         return ResponseEntity.ok().body(account);
     }
 
-    @GetMapping("/accounts/user/{userId}")
-    public List<Account> getAccountsByUser(@PathVariable(value = "userId") Long userId) {
+    @GetMapping("/accounts/user")
+    public List<Account> getAccountsByUser() {
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = authUser.getUserId();
+
         List<Account> allAccounts = accountRepository.findAll();
         List <Account> linkedAccounts = allAccounts.stream()
                 .filter(e -> e.getLinkedUsers().stream()

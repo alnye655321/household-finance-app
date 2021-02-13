@@ -171,9 +171,25 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
-        fetchAccounts({ commit }, id) {
+        createBudgetItem({ commit }, newBudgetItem) {
+            return new Promise((resolve, reject) => {
+                axios.post('http://localhost:8080/api/v1/budget_items', newBudgetItem)
+                    .then(function (res) {
+                        // console.log(commit);
+                        // console.log(res.data);
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
+        fetchAccounts({ commit }) {
             axios
-                .get(`http://localhost:8080/api/v1/accounts/user/${id}`)
+                .get(`http://localhost:8080/api/v1/accounts/user`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
@@ -191,7 +207,6 @@ export default new Vuex.Store({
                         // console.log(commit);
                         // console.log(res.data);
                         console.log(commit);
-                        console.log(this);
                         console.log(res.data);
                         resolve();
                     })

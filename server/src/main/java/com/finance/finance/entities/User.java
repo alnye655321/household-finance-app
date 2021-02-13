@@ -1,6 +1,7 @@
 package com.finance.finance.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.finance.finance.entities.Account;
 
 import javax.persistence.*;
@@ -81,6 +82,8 @@ public class User {
         this.linkedAccounts = linkedAccounts;
     }
 
+    @JsonIgnore
+    @JsonProperty(value = "hashedPassword")
     public String getHashedPassword() {
         return hashedPassword;
     }

@@ -38,7 +38,7 @@
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);">mdi-pencil</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
 
@@ -55,7 +55,7 @@
   <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Overlay-->
-  <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
+  <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
       <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
 
@@ -79,8 +79,18 @@
                 single-line
       ></v-select>
 
+      <v-select v-model="selectedItem.account"
+                :items="getAccounts"
+                item-text="name"
+                item-value="accountId"
+                label="Select"
+                return-object
+                single-line
+      ></v-select>
+
+<!--      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>-->
+
       <v-text-field v-model="selectedItem.budgetType.type" label="BudgetType" required></v-text-field>
-      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>
       <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
       <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
 <!--      <v-date-picker v-model="selectedItem.createdDate"></v-date-picker>-->
@@ -92,7 +102,8 @@
 
 <!--      <v-btn :disabled="!valid" color="success" class="mr-4" @click="test">Validate</v-btn>-->
 
-      <v-btn color="primary" class="mr-4" @click="updateItem">Submit</v-btn>
+      <v-btn color="primary" class="mr-4" v-if="createFormActive" @click="createItem">Submit</v-btn>
+      <v-btn color="primary" class="mr-4" v-if="!createFormActive" @click="updateItem">Submit</v-btn>
 
       <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
 
@@ -119,12 +130,13 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
+    createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
     overlayAbsolute: false,
-    overlayOpacity: 0.46,
+    overlayOpacity: 0.86,
     showOverlay: false,
-    overlayzIndex: 5,
+    overlayZIndex: 5,
     headers: [
       {text: 'Name',  align: 'start',  sortable: true, value: 'name', },
       {text: 'Type', value: 'budgetType.type'},
@@ -144,6 +156,7 @@ export default {
       'getUser',
       'getAccountingPeriodMonths',
       'getBudgetItemsByMonth',
+       'getAccounts',
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -156,7 +169,7 @@ export default {
   created() {
     this.$store.dispatch("fetchBudgetTypes");
 
-    this.$store.dispatch("fetchAccounts", this.$store.getters.getUser.userId);
+    this.$store.dispatch("fetchAccounts");
 
     this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
         .then(() => {
@@ -177,6 +190,9 @@ export default {
       this.showOverlay = true;
       console.log(item);
     },
+    createItem() {
+      console.log('creating item');
+    },
     updateItem() {
       //TODO should load data again here from server after complete, make into an async
       this.$store.dispatch("updateBudgetItem", this.selectedItem);
@@ -186,7 +202,9 @@ export default {
       console.log(item);
     },
     updateFormForItemCreation() {
+      this.createFormActive = true;
       const today = new Date();
+
       this.selectedItem = {
         "name": "",
         "user": this.$store.getters.getUser,
