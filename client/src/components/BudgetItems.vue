@@ -34,7 +34,7 @@
 
         <v-col>
       <v-card>
-        <v-card-title class="justify-center">{{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[0].endDate}} </v-card-title>
+        <v-card-title class="justify-center">{{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[1].endDate}} </v-card-title>
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.actions="{ item }">
