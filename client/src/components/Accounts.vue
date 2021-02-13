@@ -4,7 +4,7 @@
 
     <v-card max-width="375" class="mx-auto" v-for="account in getAccounts" :key="account.accountId">
       <v-img
-          src="https://cdn.vuetifyjs.com/images/lists/ali.png"
+          src="../assets/tiger_bow.jpg"
           height="300px"
           dark
       >
