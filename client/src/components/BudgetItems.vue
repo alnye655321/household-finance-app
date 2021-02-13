@@ -15,7 +15,10 @@
       </v-card>
 
 
+      <v-row>
+        <v-col>
       <v-card>
+        <v-card-title class="justify-center">{{item.accountingPeriods[0].startDate}} - {{item.accountingPeriods[0].endDate}} </v-card-title>
         <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.actions="{ item }">
@@ -25,11 +28,13 @@
 
         </v-data-table>
       </v-card>
+        </v-col>
 
-<!--      TODO need a more significant divider here, perhaps two tables side by side-->
         <v-spacer></v-spacer>
 
+        <v-col>
       <v-card>
+        <v-card-title class="justify-center">{{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[0].endDate}} </v-card-title>
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.actions="{ item }">
@@ -39,13 +44,15 @@
 
         </v-data-table>
       </v-card>
+        </v-col>
+      </v-row>
 
 
     </v-tab-item>
   </v-tabs-items>
 
 
-  <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Budget Item</v-btn>
+  <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Overlay-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
@@ -177,6 +184,20 @@ export default {
     },
     deleteItem(item) {
       console.log(item);
+    },
+    updateFormForItemCreation() {
+      const today = new Date();
+      this.selectedItem = {
+        "name": "",
+        "user": this.$store.getters.getUser,
+        "budgetType": {
+          "budgetTypeId": 1,
+          "type": "Car Payment"
+        },
+        "account": {},
+        "accountingPeriod": {},
+        "createdDate": today
+      };
     },
     test(tab) {
       console.log(tab);
