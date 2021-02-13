@@ -55,6 +55,7 @@
   <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Overlay-->
+<!--  TODO Needs validation-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
       <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
@@ -192,6 +193,14 @@ export default {
     },
     createItem() {
       console.log('creating item');
+
+      this.$store.dispatch("createBudgetItem", this.selectedItem)
+      .then(() => {
+        this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+            .then(() => {
+              this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+            });
+      });
     },
     updateItem() {
       //TODO should load data again here from server after complete, make into an async
