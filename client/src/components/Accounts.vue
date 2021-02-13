@@ -150,7 +150,14 @@ export default {
       "interestRate": 0.0,
       "dateOpened": "2021-02-08",
       "dateClosed": null,
-      "name": ""
+      "name": "",
+      "imageSources" : [
+          "../assets/hopper_ball.jpg",
+        "../assets/tiger_bow.jpg",
+        "../assets/hopper_ball.jpg",
+        "../assets/tiger_bow.jpg",
+        "../assets/hopper_ball.jpg",
+      ]
     },
     overlayAbsolute: false,
     overlayOpacity: 0.86,
