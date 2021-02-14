@@ -21,6 +21,10 @@
         <v-card-title class="justify-center">{{item.accountingPeriods[0].startDate}} - {{item.accountingPeriods[0].endDate}} </v-card-title>
         <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
 
+          <template v-slot:item.committed="{ item }">
+            <v-switch v-model="item.committed" @click="test(item)"></v-switch>
+          </template>
+
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
@@ -36,6 +40,10 @@
       <v-card>
         <v-card-title class="justify-center">{{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[1].endDate}} </v-card-title>
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
+
+          <template v-slot:item.committed="{ item }">
+            <v-switch v-model="item.committed" @click="test(item)"></v-switch>
+          </template>
 
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);">mdi-pencil</v-icon>
@@ -95,7 +103,9 @@
       <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
       <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
 <!--      <v-date-picker v-model="selectedItem.createdDate"></v-date-picker>-->
-      <v-text-field v-model="selectedItem.committed" label="Committed" required></v-text-field>
+
+
+<!--      <v-text-field v-model="selectedItem.committed" label="Committed" required></v-text-field>-->
 
 <!--      <v-text-field v-model="email" label="E-mail" required></v-text-field>-->
 
@@ -134,6 +144,7 @@ export default {
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
+    // commitedLabel: this.selectedItem.commited ? 'Commited To Account' : 'Not Commited To Account',
     overlayAbsolute: false,
     overlayOpacity: 0.86,
     showOverlay: false,
@@ -162,7 +173,16 @@ export default {
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     // },
+    commitedLabel() {
+      if (this.selectedItem.commited) {
+        return 'Commited To Account';
+      }
+      else {
+        return 'Not Commited To Account';
+      }
+    },
   },
+
 
   watch: {
   },
