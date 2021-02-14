@@ -22,7 +22,7 @@
         <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
-            <v-switch v-model="item.committed" @click="test(item)"></v-switch>
+            <v-switch v-model="item.committed" @click="selectedItem = item; updateItem();"></v-switch>
           </template>
 
           <template v-slot:item.actions="{ item }">
@@ -42,7 +42,7 @@
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
-            <v-switch v-model="item.committed" @click="test(item)"></v-switch>
+            <v-switch v-model="item.committed" @click="selectedItem = item; updateItem();"></v-switch>
           </template>
 
           <template v-slot:item.actions="{ item }">

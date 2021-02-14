@@ -49,12 +49,19 @@ public class BudgetItemController {
         BudgetItem budgetItem = budgetItemRepository.findById(budgetItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Budget Item not found for this id :: " + budgetItemId));
 
+        if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && newBudgetItem.isCommitted()) {
+            //should run some commit to account logic here
+            System.out.println("New Budget Item Committed Status!!");
+        }
+
         budgetItem.setName(newBudgetItem.getName());
         budgetItem.setBudgetType(newBudgetItem.getBudgetType());
         budgetItem.setAmount(newBudgetItem.getAmount());
         budgetItem.setCommitted(newBudgetItem.isCommitted());
         budgetItem.setAccountingPeriod(newBudgetItem.getAccountingPeriod());
         budgetItem.setAccount(newBudgetItem.getAccount());
+
+
 
         final BudgetItem updatedBudgetItem = budgetItemRepository.save(budgetItem);
         return ResponseEntity.ok(updatedBudgetItem);
