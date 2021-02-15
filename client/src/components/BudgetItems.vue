@@ -70,40 +70,44 @@
 <!--  TODO Needs validation-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
+
       <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
 
       <v-select v-model="selectedItem.budgetType"
-          :hint="`${selectedItem.type}, ${selectedItem.budgetTypeId}`"
-          :items="getBudgetTypes"
-          item-text="type"
-          item-value="budgetTypeId"
-          label="Select"
-          persistent-hint
-          return-object
-          single-line
+                hint="Type"
+                :items="getBudgetTypes"
+                item-text="type"
+                item-value="budgetTypeId"
+                label="Select Type"
+                persistent-hint
+                return-object
+                single-line
       ></v-select>
 
       <v-select v-model="selectedItem.accountingPeriod"
+                hint="Accounting Period"
                 :items="getAccountingPeriods"
                 item-text="startDate"
                 item-value="accountingPeriodId"
-                label="Select"
+                label="Select Accounting Period"
+                persistent-hint
                 return-object
                 single-line
       ></v-select>
 
       <v-select v-model="selectedItem.account"
+                hint="Account"
                 :items="getAccounts"
                 item-text="name"
                 item-value="accountId"
-                label="Select"
+                label="Select Account"
+                persistent-hint
                 return-object
                 single-line
       ></v-select>
 
 <!--      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>-->
 
-      <v-text-field v-model="selectedItem.budgetType.type" label="BudgetType" required></v-text-field>
       <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
       <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
 <!--      <v-date-picker v-model="selectedItem.createdDate"></v-date-picker>-->
@@ -125,7 +129,7 @@
       <v-btn color="warning" @click="test">Reset Validation</v-btn>
 
     </v-form>
-    <v-btn color="primary" @click="showOverlay = false">Hide Overlay</v-btn>
+    <v-btn color="primary" @click="showOverlay = false">Cancel</v-btn>
   </v-overlay>
   <!--  End Overlay-->
 
@@ -146,6 +150,7 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
+    prevSelectedAccountingPeriod: {},
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
@@ -221,6 +226,7 @@ export default {
     },
     createItem() {
       console.log('creating item');
+      this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
 
       this.$store.dispatch("createBudgetItem", this.selectedItem)
       .then(() => {
@@ -253,7 +259,7 @@ export default {
           "type": "Car Payment"
         },
         "account": {},
-        "accountingPeriod": {},
+        "accountingPeriod": this.prevSelectedAccountingPeriod,
         "createdDate": today
       };
     },
