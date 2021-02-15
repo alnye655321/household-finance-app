@@ -159,17 +159,20 @@ export default new Vuex.Store({
             })
         },
         updateBudgetItem({ commit }, updatedBudgetItem) {
-            console.log('updatedBudgetItem');
-            console.log(updatedBudgetItem);
-            axios.put(`http://localhost:8080/api/v1/budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
-                .then(function (res) {
-                    console.log(commit);
-                    console.log(res.data);
-                    // commit("auth", token);
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
+            return new Promise((resolve, reject) => {
+                console.log('updatedBudgetItem');
+                console.log(updatedBudgetItem);
+                axios.put(`http://localhost:8080/api/v1/budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
         },
         createBudgetItem({ commit }, newBudgetItem) {
             return new Promise((resolve, reject) => {

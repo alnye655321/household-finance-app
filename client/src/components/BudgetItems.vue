@@ -232,7 +232,10 @@ export default {
     },
     updateItem() {
       //TODO should load data again here from server after complete, make into an async
-      this.$store.dispatch("updateBudgetItem", this.selectedItem);
+      this.$store.dispatch("updateBudgetItem", this.selectedItem)
+      .then(() => {
+        this.$store.dispatch("fetchAccounts");
+      });
       // console.log(item);
     },
     deleteItem(item) {
