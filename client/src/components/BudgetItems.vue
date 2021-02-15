@@ -150,7 +150,7 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
-    prevSelectedAccountingPeriod: {},
+    prevSelectedAccountingPeriod: {}, //store a temp history of the last used account period for convenience when creating new budget items - defaults to it
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
