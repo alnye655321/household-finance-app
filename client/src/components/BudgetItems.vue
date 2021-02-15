@@ -31,7 +31,7 @@
 
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+            <v-icon small @click="deleteItemConfirm(item)">mdi-delete</v-icon>
           </template>
 
         </v-data-table>
@@ -51,7 +51,7 @@
 
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+            <v-icon small @click="deleteItemConfirm(item)">mdi-delete</v-icon>
           </template>
 
         </v-data-table>
@@ -66,7 +66,7 @@
 
   <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
-<!--  Begin Overlay-->
+<!--  Begin Create/Edit Budget Item Overlay-->
 <!--  TODO Needs validation-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
@@ -131,7 +131,15 @@
     </v-form>
     <v-btn color="primary" @click="showOverlay = false">Cancel</v-btn>
   </v-overlay>
-  <!--  End Overlay-->
+  <!--  End Create/Edit Budget Item Overlay-->
+
+<!--begin delete budget item overlay-->
+  <v-overlay :z-index="overlayZIndex" :value="deleteConfirmOverlay">
+    <v-btn class="white--text mr-4" color="teal" @click="deleteConfirmOverlay = false">Confirm Delete</v-btn>
+    <v-btn class="white--text mr-4" color="red" @click="deleteConfirmOverlay = false">Cancel</v-btn>
+  </v-overlay>
+<!--  end delete budget item overlay-->
+
 
 </div>
 
@@ -150,6 +158,7 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
+    deleteConfirmOverlay: false,
     prevSelectedAccountingPeriod: {}, //store a temp history of the last used account period for convenience when creating new budget items - defaults to it
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
@@ -244,8 +253,9 @@ export default {
       });
       // console.log(item);
     },
-    deleteItem(item) {
+    deleteItemConfirm(item) {
       console.log(item);
+      this.deleteConfirmOverlay = true;
     },
     updateFormForItemCreation() {
       this.createFormActive = true;
