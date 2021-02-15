@@ -1,17 +1,21 @@
 package com.finance.finance.controllers;
 
 import com.finance.finance.ResourceNotFoundException;
+import com.finance.finance.entities.Account;
 import com.finance.finance.entities.BudgetItem;
 import com.finance.finance.entities.User;
+import com.finance.finance.repositories.AccountRepository;
 import com.finance.finance.repositories.BudgetItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -19,6 +23,9 @@ import java.util.Map;
 public class BudgetItemController {
     @Autowired
     private BudgetItemRepository budgetItemRepository;
+
+    @Resource
+    AccountRepository accountRepository;
 
     @GetMapping("/budget_items")
     public List<BudgetItem> getAllBudgetItems() {
@@ -49,9 +56,26 @@ public class BudgetItemController {
         BudgetItem budgetItem = budgetItemRepository.findById(budgetItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Budget Item not found for this id :: " + budgetItemId));
 
+        //budget item new commitment to account
         if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && newBudgetItem.isCommitted()) {
-            //should run some commit to account logic here
             System.out.println("New Budget Item Committed Status!!");
+
+            Optional<Account> accountResponse = accountRepository.findById(newBudgetItem.getAccount().getAccountId());
+            Account account = accountResponse.get();
+
+            if (account != null) {
+                account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+                accountRepository.save(account);
+            }
+        }
+        else if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && !newBudgetItem.isCommitted()) { //reverse a commitment
+            Optional<Account> accountResponse = accountRepository.findById(newBudgetItem.getAccount().getAccountId());
+            Account account = accountResponse.get();
+
+            if (account != null) {
+                account.setBalance(account.getBalance() + newBudgetItem.getAmount());
+                accountRepository.save(account);
+            }
         }
 
         budgetItem.setName(newBudgetItem.getName());
