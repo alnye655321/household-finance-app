@@ -1,10 +1,10 @@
 <template>
   <div>
-    <v-container class="grey lighten-5">
+    <v-container>
       <v-row no-gutters>
 <!--        cols="12" for full width; offset-sm="1" for empty column space-->
-        <v-col sm="4" offset-sm="1" v-for="account in getAccounts" :key="account.accountId">
-          <v-card color="#385F73" dark>
+        <v-col sm="4" offset-sm="1" v-for="(account, index) in getAccounts" :key="account.accountId">
+          <v-card :color="cardColors[index] || '#387575'" dark max-width="200">
             <v-card-title class="headline">
               {{account.balance}}
             </v-card-title>
@@ -29,6 +29,13 @@ import {mapGetters} from "vuex";
 
 export default {
   data: () => ({
+    cardColors: [
+        "#385F73",
+        "#753838",
+        "#387566",
+        "#573875",
+        "#753866",
+    ],
   }),
   created() {
   },
