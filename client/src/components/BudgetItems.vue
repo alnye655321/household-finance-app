@@ -10,10 +10,14 @@
     <v-tab-item v-for="item in getBudgetItemsByMonth" :key="item.name">
 
 <!--      <v-card max-width="375" class="mx-auto" v-for="account in getAccounts" :key="account.accountId">-->
-      <v-card color="basil" flat>
-        <v-card-text>{{ item.accountingPeriods[1].endDate  }}</v-card-text>
-      </v-card>
+<!--      <v-card color="basil" flat>-->
+<!--        <v-card-text>{{ item.accountingPeriods[1].endDate  }}</v-card-text>-->
+<!--      </v-card>-->
+      <v-spacer></v-spacer>
 
+      <AccountBar></AccountBar>
+
+      <v-spacer></v-spacer>
 
       <v-row>
         <v-col>
@@ -138,6 +142,7 @@
 <script>
 
 import { mapGetters } from 'vuex'
+import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
@@ -159,7 +164,10 @@ export default {
       {text: 'Actions', value: 'actions'}, //adding extra actions column, not in server returned object, for space to display action buttons
     ],
   }),
-
+  components: {
+    AccountBar,
+    // Users,
+  },
   computed: {
     ...mapGetters([
       'getBudgetItems',
