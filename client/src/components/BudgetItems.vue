@@ -67,11 +67,22 @@
   <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Create/Edit Budget Item Overlay-->
-<!--  TODO Needs validation-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
     <v-form ref="form" v-if="selectedItem.hasOwnProperty('name')" lazy-validation>
 
-      <v-text-field v-model="selectedItem.name" label="Name" required> </v-text-field>
+      <!--  start alert-->
+      <v-alert
+          v-model="alert"
+          close-text="Close Alert"
+          color="deep-purple accent-4"
+          dark
+          dismissible
+      >
+        Please complete all form items
+      </v-alert>
+      <!--  end alert-->
+
+      <v-text-field v-model="selectedItem.name" :rules="nameRules" label="Name" required> </v-text-field>
 
       <v-select v-model="selectedItem.budgetType"
                 hint="Type"
@@ -79,9 +90,11 @@
                 item-text="type"
                 item-value="budgetTypeId"
                 label="Select Type"
+                :rules="budgetTypeRules"
                 persistent-hint
                 return-object
                 single-line
+                required
       ></v-select>
 
       <v-select v-model="selectedItem.accountingPeriod"
@@ -90,9 +103,11 @@
                 item-text="startDate"
                 item-value="accountingPeriodId"
                 label="Select Accounting Period"
+                :rules="accountingPeriodRules"
                 persistent-hint
                 return-object
                 single-line
+                required
       ></v-select>
 
       <v-select v-model="selectedItem.account"
@@ -101,14 +116,16 @@
                 item-text="name"
                 item-value="accountId"
                 label="Select Account"
+                :rules="accountRules"
                 persistent-hint
                 return-object
                 single-line
+                required
       ></v-select>
 
 <!--      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>-->
 
-      <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$"></v-text-field>
+      <v-text-field label="Amount" v-model="selectedItem.amount" :rules="amountRules" prefix="$" required></v-text-field>
       <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
 <!--      <v-date-picker v-model="selectedItem.createdDate"></v-date-picker>-->
 
@@ -121,8 +138,8 @@
 
 <!--      <v-btn :disabled="!valid" color="success" class="mr-4" @click="test">Validate</v-btn>-->
 
-      <v-btn color="primary" class="mr-4" v-if="createFormActive" @click="createItem">Submit</v-btn>
-      <v-btn color="primary" class="mr-4" v-if="!createFormActive" @click="updateItem">Submit</v-btn>
+      <v-btn color="success" class="mr-4" v-if="createFormActive" :disabled="!valid" @click="createItem">Submit</v-btn>
+      <v-btn color="success" class="mr-4" v-if="!createFormActive" :disabled="!valid" @click="updateItem">Submit</v-btn>
 
       <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
 
@@ -139,6 +156,8 @@
     <v-btn class="white--text mr-4" color="red" @click="deleteConfirmOverlay = false">Cancel</v-btn>
   </v-overlay>
 <!--  end delete budget item overlay-->
+
+
 
 
 </div>
@@ -158,6 +177,27 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
+    alert: false,
+    valid: true,
+    nameRules: [
+      v => !!v || 'Name is required',
+      v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+    ],
+    budgetTypeRules:[
+      v => !!v || 'Budget Type is required', //Select Type
+      v => (v && v !== 'Select Type') || 'Please Select A Budget Type',
+    ],
+    accountingPeriodRules:[
+      v => !!v || 'Accounting Period is required', //Select Type
+      v => (v && v !== 'Select Accounting Period') || 'Please Select A Select Accounting Period',
+    ],
+    accountRules:[
+      v => !!v || 'Account  is required', //v && v != 'Select Account'
+    ],
+    amountRules:[
+      v => !!v || 'Amount  is required', //Select Type
+      v => (v && isFinite(v)) || 'Please Enter A Number For Amount',
+    ],
     deleteConfirmOverlay: false,
     prevSelectedAccountingPeriod: {}, //store a temp history of the last used account period for convenience when creating new budget items - defaults to it
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
@@ -234,23 +274,44 @@ export default {
       console.log(item);
     },
     createItem() {
-      console.log('creating item');
-      this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
+      const valid = this.$refs.form.validate();
 
-      this.$store.dispatch("createBudgetItem", this.selectedItem)
-      .then(() => {
-        this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+      if (valid
+          && typeof this.selectedItem.account.accountId !== 'undefined' && this.selectedItem.account.accountId > -1
+          &&  typeof this.selectedItem.budgetType.budgetTypeId !== 'undefined' && this.selectedItem.budgetType.budgetTypeId > -1
+          &&  typeof this.selectedItem.accountingPeriod.accountingPeriodId !== 'undefined' && this.selectedItem.accountingPeriod.accountingPeriodId > -1
+      ) {
+        console.log('creating item');
+        this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
+
+        this.$store.dispatch("createBudgetItem", this.selectedItem)
             .then(() => {
-              this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+              this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+                  .then(() => {
+                    this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                  });
             });
-      });
+      }
+      else {
+        console.log('invalid');
+        this.alert = true; //show invalid form alert message
+        setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
+
+      }
     },
     updateItem() {
       //TODO should load data again here from server after complete, make into an async
-      this.$store.dispatch("updateBudgetItem", this.selectedItem)
-      .then(() => {
-        this.$store.dispatch("fetchAccounts");
-      });
+      const valid = this.$refs.form.validate();
+
+      if (valid) {
+        this.$store.dispatch("updateBudgetItem", this.selectedItem)
+            .then(() => {
+              this.$store.dispatch("fetchAccounts");
+            });
+      }
+      else {
+        console.log('invalid');
+      }
       // console.log(item);
     },
     deleteItemConfirm(item) {
