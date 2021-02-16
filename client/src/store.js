@@ -191,17 +191,20 @@ export default new Vuex.Store({
             })
         },
         fetchAccounts({ commit }) {
+            return new Promise((resolve, reject) => {
             axios
                 .get(`http://localhost:8080/api/v1/accounts/user`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
                     commit("setAccounts", res.data);
-
+                    resolve();
                 })
                 .catch((err) => {
                     console.log(err);
+                    reject();
                 });
+            })
         },
         createAccount({ commit }, account) {
             return new Promise((resolve, reject) => {

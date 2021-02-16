@@ -140,13 +140,12 @@
 
       <v-btn color="success" class="mr-4" v-if="createFormActive" :disabled="!valid" @click="createItem">Submit</v-btn>
       <v-btn color="success" class="mr-4" v-if="!createFormActive" :disabled="!valid" @click="updateItem">Submit</v-btn>
-
-      <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
-
-      <v-btn color="warning" @click="test">Reset Validation</v-btn>
+<!--      <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>-->
+<!--      <v-btn color="warning" @click="test">Reset Validation</v-btn>-->
+      <v-btn color="primary" @click="showOverlay = false">Cancel</v-btn>
 
     </v-form>
-    <v-btn color="primary" @click="showOverlay = false">Cancel</v-btn>
+
   </v-overlay>
   <!--  End Create/Edit Budget Item Overlay-->
 
@@ -185,11 +184,9 @@ export default {
     ],
     budgetTypeRules:[
       v => !!v || 'Budget Type is required', //Select Type
-      v => (v && v !== 'Select Type') || 'Please Select A Budget Type',
     ],
     accountingPeriodRules:[
       v => !!v || 'Accounting Period is required', //Select Type
-      v => (v && v !== 'Select Accounting Period') || 'Please Select A Select Accounting Period',
     ],
     accountRules:[
       v => !!v || 'Account  is required', //v && v != 'Select Account'
@@ -301,7 +298,14 @@ export default {
     },
     updateItem() {
       //TODO should load data again here from server after complete, make into an async
-      const valid = this.$refs.form.validate();
+      let valid;
+      //if validate is undefined we are making a commitment update from the table, auto validate this, data will already exist
+      if (typeof this.$refs.form === 'undefined') {
+        valid = true;
+      }
+      else {
+        valid = this.$refs.form.validate();
+      }
 
       if (valid) {
         this.$store.dispatch("updateBudgetItem", this.selectedItem)
@@ -311,6 +315,8 @@ export default {
       }
       else {
         console.log('invalid');
+        this.alert = true; //show invalid form alert message
+        setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
       }
       // console.log(item);
     },
