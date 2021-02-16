@@ -298,26 +298,36 @@ export default {
     },
     updateItem() {
       //TODO should load data again here from server after complete, make into an async
-      let valid;
       //if validate is undefined we are making a commitment update from the table, auto validate this, data will already exist
       if (typeof this.$refs.form === 'undefined') {
-        valid = true;
-      }
-      else {
-        valid = this.$refs.form.validate();
-      }
 
-      if (valid) {
         this.$store.dispatch("updateBudgetItem", this.selectedItem)
             .then(() => {
               this.$store.dispatch("fetchAccounts");
             });
       }
       else {
-        console.log('invalid');
-        this.alert = true; //show invalid form alert message
-        setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
+        const valid = this.$refs.form.validate();
+
+        if (valid) {
+          this.$store.dispatch("updateBudgetItem", this.selectedItem)
+              .then(() => {
+                this.$store.dispatch("fetchAccounts")
+                    .then(() => {
+                      this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first\
+                          .then(() => {
+                            this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                          });
+                    });
+              });
+        }
+        else {
+          console.log('invalid');
+          this.alert = true; //show invalid form alert message
+          setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
+        }
       }
+
       // console.log(item);
     },
     deleteItemConfirm(item) {
