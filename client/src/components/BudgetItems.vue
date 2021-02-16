@@ -297,7 +297,6 @@ export default {
       }
     },
     updateItem() {
-      //TODO should load data again here from server after complete, make into an async
       //if validate is undefined we are making a commitment update from the table, auto validate this, data will already exist
       if (typeof this.$refs.form === 'undefined') {
 
