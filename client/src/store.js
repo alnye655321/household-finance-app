@@ -174,6 +174,22 @@ export default new Vuex.Store({
                     });
             })
         },
+        deleteBudgetItem({ commit }, deletedBudgetItem) {
+            return new Promise((resolve, reject) => {
+                console.log('deletedBudgetItem');
+                console.log(deletedBudgetItem);
+                axios.delete(`http://localhost:8080/api/v1/budget_items/${deletedBudgetItem.budgetItemId}`, deletedBudgetItem)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
         createBudgetItem({ commit }, newBudgetItem) {
             return new Promise((resolve, reject) => {
                 axios.post('http://localhost:8080/api/v1/budget_items', newBudgetItem)

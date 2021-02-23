@@ -51,7 +51,7 @@
 
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItemConfirm(item)">mdi-delete</v-icon>
+            <v-icon small @click="selectedItem = item; deleteItemConfirm(item);">mdi-delete</v-icon>
           </template>
 
         </v-data-table>
@@ -151,8 +151,20 @@
 
 <!--begin delete budget item overlay-->
   <v-overlay :z-index="overlayZIndex" :value="deleteConfirmOverlay">
-    <v-btn class="white--text mr-4" color="teal" @click="deleteConfirmOverlay = false">Confirm Delete</v-btn>
-    <v-btn class="white--text mr-4" color="red" @click="deleteConfirmOverlay = false">Cancel</v-btn>
+
+    <!--  start delete alert-->
+    <v-alert
+        v-model="deleteAlert"
+        close-text="Close Alert"
+        color="deep-purple accent-4"
+        dark
+    >
+      Please uncommit budget item before deleting it.
+    </v-alert>
+    <!--  end alert-->
+
+    <v-btn v-if="!deleteAlert" class="white--text mr-4" color="teal" @click="deleteItem(); deleteConfirmOverlay = false;">Confirm Delete</v-btn>
+    <v-btn class="white--text mr-4" color="red" @click="deleteAlert = false; deleteConfirmOverlay = false;">Cancel</v-btn>
   </v-overlay>
 <!--  end delete budget item overlay-->
 
@@ -176,6 +188,7 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
+    deleteAlert: false,
     alert: false,
     valid: true,
     nameRules: [
@@ -288,6 +301,8 @@ export default {
                     this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                   });
             });
+
+        this.showOverlay = false;
       }
       else {
         console.log('invalid');
@@ -329,8 +344,26 @@ export default {
 
       // console.log(item);
     },
+    deleteItem() {
+      this.$store.dispatch("deleteBudgetItem", this.selectedItem)
+          .then(() => {
+            this.$store.dispatch("fetchAccounts")
+                .then(() => {
+                  this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first\
+                      .then(() => {
+                        this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                      });
+                });
+          });
+    },
     deleteItemConfirm(item) {
       console.log(item);
+
+      if (item.committed) {
+        console.log('delete alerty ');
+        this.deleteAlert = true;
+      }
+
       this.deleteConfirmOverlay = true;
     },
     updateFormForItemCreation() {
