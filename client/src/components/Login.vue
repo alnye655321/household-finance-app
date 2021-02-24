@@ -1,8 +1,7 @@
 <template>
-  <v-flex sm8 offset-sm2>
     <v-card>
       <v-alert type="success" v-if="getIsLoggedIn">
-        I'm a success alert.
+        Logged In Successfully.
       </v-alert>
       <v-toolbar dark>
         <v-toolbar-title>Login</v-toolbar-title>
@@ -29,7 +28,6 @@
         <v-btn @click="login">Login</v-btn>
       </v-form>
     </v-card>
-  </v-flex>
 </template>
 
 <script>

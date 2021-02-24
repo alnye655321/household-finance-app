@@ -11,6 +11,7 @@ import Login from "./components/Login";
 import BudgetItems from "./components/BudgetItems";
 import Accounts from "./components/Accounts";
 import Dashboard from "./components/Dashboard";
+import Savings from "./components/Savings";
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false
@@ -22,6 +23,7 @@ const routes = [
   {path: "/register", component:Register},
   {path: "/login", component:Login},
   {path: "/budgetitems", component:BudgetItems},
+  {path: "/savings", component:Savings},
   {path: "/accounts", component:Accounts},
 ]
 

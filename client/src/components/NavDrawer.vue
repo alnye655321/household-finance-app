@@ -19,6 +19,7 @@
           <v-list-item-subtitle>perry@gmail.com</v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
+
     </v-list>
 
     <v-divider></v-divider>
@@ -30,30 +31,42 @@
         </v-list-item-icon>
         <v-list-item-title>Budget Items</v-list-item-title>
       </v-list-item>
+
       <v-list-item link to="/accounts">
         <v-list-item-icon>
           <v-icon>mdi-folder</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Accounts</v-list-item-title>
       </v-list-item>
+
+      <v-list-item link to="/savings">
+        <v-list-item-icon>
+          <v-icon>mdi-folder</v-icon>
+        </v-list-item-icon>
+        <v-list-item-title>Savings</v-list-item-title>
+      </v-list-item>
+
       <v-list-item link>
         <v-list-item-icon>
           <v-icon>mdi-folder</v-icon>
         </v-list-item-icon>
         <v-list-item-title>My Files</v-list-item-title>
       </v-list-item>
+
       <v-list-item link>
         <v-list-item-icon>
           <v-icon>mdi-account-multiple</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Shared with me</v-list-item-title>
       </v-list-item>
+
       <v-list-item link>
         <v-list-item-icon>
           <v-icon>mdi-star</v-icon>
         </v-list-item-icon>
         <v-list-item-title>Starred</v-list-item-title>
       </v-list-item>
+
     </v-list>
   </v-navigation-drawer>
 </template>

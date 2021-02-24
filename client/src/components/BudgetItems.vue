@@ -20,9 +20,12 @@
       <v-spacer></v-spacer>
 
       <v-row>
+<!--        accounting bi-weekly period 1-->
         <v-col>
       <v-card>
-        <v-card-title class="justify-center">{{item.accountingPeriods[0].startDate}} - {{item.accountingPeriods[0].endDate}} </v-card-title>
+        <v-card-title class="pink lighten-3 headline justify-center">
+          {{item.accountingPeriods[0].startDate}} - {{item.accountingPeriods[0].endDate}}
+        </v-card-title>
         <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
@@ -40,9 +43,12 @@
 
         <v-spacer></v-spacer>
 
+<!--        accounting bi-weekly period 2-->
         <v-col>
       <v-card>
-        <v-card-title class="justify-center">{{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[1].endDate}} </v-card-title>
+        <v-card-title class="purple lighten-3 headline justify-center">
+          {{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[1].endDate}}
+        </v-card-title>
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
