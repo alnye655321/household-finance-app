@@ -27,6 +27,9 @@ public class SavingsGoal {
     @Column(name = "amount", nullable=false)
     private double amount;
 
+    @Column(name = "amount_remaining")
+    private double amountRemaining;
+
     @Column(name = "committed")
     private boolean committed;
 
@@ -40,11 +43,12 @@ public class SavingsGoal {
     public SavingsGoal() {
     }
 
-    public SavingsGoal(String name, Account account, User user, double amount, boolean committed, String notes, Date createdDate) {
+    public SavingsGoal(String name, Account account, User user, double amount, double amountRemaining, boolean committed, String notes, Date createdDate) {
         this.name = name;
         this.user = user;
         this.account = account;
         this.amount = amount;
+        this.amountRemaining = amountRemaining;
         this.committed = committed;
         this.notes = notes;
         this.createdDate = createdDate;
@@ -114,5 +118,11 @@ public class SavingsGoal {
         this.notes = notes;
     }
 
+    public double getAmountRemaining() {
+        return amountRemaining;
+    }
 
+    public void setAmountRemaining(double amountRemaining) {
+        this.amountRemaining = amountRemaining;
+    }
 }

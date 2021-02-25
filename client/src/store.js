@@ -16,7 +16,8 @@ export default new Vuex.Store({
         accounts: [],
         accountTypes: [],
         accountingPeriodMonths: [],
-        budgetItemsByMonth: []
+        budgetItemsByMonth: [],
+        savingsGoals: []
     },
     mutations: {
         setUser(state, user) {
@@ -54,6 +55,9 @@ export default new Vuex.Store({
         },
         setAccountingPeriodMonths(state, accountingPeriodMonths) {
             state.accountingPeriodMonths = accountingPeriodMonths;
+        },
+        setSavingsGoals(state, savingsGoals) {
+            state.savingsGoals = savingsGoals;
         },
         buildBudgetItemsByAccountingMonth(state, months) { //this call must be made after fetchBudgetItems has resolved
             if (months.length > 0 && state.budgetItems.length > 0) {
@@ -213,7 +217,7 @@ export default new Vuex.Store({
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
-                        commit("setBudgetItems", res.data);
+                        commit("setSavingsGoals", res.data);
                         resolve();
 
                     })
@@ -427,6 +431,7 @@ export default new Vuex.Store({
         getAccountTypes: state => state.accountTypes,
         getAccountingPeriodMonths: state => state.accountingPeriodMonths,
         getBudgetItemsByMonth: state => state.budgetItemsByMonth,
+        getSavingsGoals: state => state.savingsGoals,
     },
 
 }

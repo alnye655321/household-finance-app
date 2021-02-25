@@ -3,13 +3,14 @@
   <v-card
       class="mx-auto"
       max-width="400"
+      v-for="item in getSavingsGoals" :key="item.savingsGoalId"
   >
     <v-img
         class="white--text align-end"
         height="200px"
         src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
     >
-      <v-card-title>Top 10 Australian beaches</v-card-title>
+      <v-card-title>{{item.name}}</v-card-title>
     </v-img>
 
     <v-card-subtitle class="pb-0">
@@ -17,26 +18,63 @@
     </v-card-subtitle>
 
     <v-card-text class="text--primary">
-      <div>Whitehaven Beach</div>
-
-      <div>Whitsunday Island, Whitsunday Islands</div>
+      <div>{{item.notes}}</div>
+<!--      <div>Whitsunday Island, Whitsunday Islands</div>-->
     </v-card-text>
 
-    <v-card-actions>
-      <v-btn
-          color="orange"
-          text
-      >
-        Share
-      </v-btn>
+    <v-list two-line>
 
-      <v-btn
-          color="orange"
-          text
-      >
-        Explore
-      </v-btn>
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="indigo">mdi-currency-usd</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>{{item.amount}}</v-list-item-title>
+          <v-list-item-subtitle>Total Cost</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider inset></v-divider>
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="indigo">mdi-currency-usd</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>{{item.amountRemaining}}</v-list-item-title>
+          <v-list-item-subtitle>Amount Remaining</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider inset></v-divider>
+
+      <v-list-item>
+        <v-list-item-icon>
+          <v-icon color="indigo">mdi-calendar-range</v-icon>
+        </v-list-item-icon>
+
+        <v-list-item-content>
+          <v-list-item-title>{{item.createdDate}}</v-list-item-title>
+          <v-list-item-subtitle>Date Created</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider inset></v-divider>
+
+
+
+
+    </v-list>
+
+    <v-card-actions>
+      <v-btn color="orange" text>Share</v-btn>
+
+      <v-btn color="orange" text>Explore</v-btn>
     </v-card-actions>
+
   </v-card>
 
     <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Savings Goal</v-btn>
@@ -73,7 +111,6 @@
 
 
         <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$" required></v-text-field>
-
 
         <v-text-field v-model="selectedItem.notes" label="Notes"> </v-text-field>
 
@@ -114,6 +151,7 @@ export default {
     ...mapGetters([
       'getAccounts',
       'getUser',
+      'getSavingsGoals',
     ]),
   },
   created() {
@@ -130,11 +168,12 @@ export default {
           && typeof this.selectedItem.account.accountId !== 'undefined' && this.selectedItem.account.accountId > -1
       ) {
         console.log('creating item');
-        this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
+        this.selectedItem.amountRemaining = this.selectedItem.amount; //remaining amount left on savings goal should be the same as the total amount on creation
 
         this.$store.dispatch("createSavingsGoal", this.selectedItem)
             .then(() => {
-              console.log('savings goal created')
+              console.log('savings goal created');
+              this.$store.dispatch("fetchSavingsGoals");
               // this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
               //     .then(() => {
               //       this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
@@ -160,6 +199,7 @@ export default {
         "account": {},
         "notes": "",
         "amount": 0,
+        "amountRemaining": 0,
         "committed": false,
         "createdDate": today
       };
