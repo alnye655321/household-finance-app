@@ -39,7 +39,7 @@
     </v-card-actions>
   </v-card>
 
-    <v-btn class="mt-12" color="primary" @click="test(); showOverlay = !showOverlay;">New Savings Goal</v-btn>
+    <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Savings Goal</v-btn>
 
     <!--  Begin Create/Edit Savings Goal Overlay-->
     <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
@@ -75,12 +75,12 @@
         <v-text-field label="Amount" v-model="selectedItem.amount" prefix="$" required></v-text-field>
 
 
-        <v-text-field v-model="selectedItem.notes" label="Name"> </v-text-field>
+        <v-text-field v-model="selectedItem.notes" label="Notes"> </v-text-field>
 
 
         <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
 
-        <v-btn color="success" class="mr-4" v-if="createFormActive" @click="test">Submit</v-btn>
+        <v-btn color="success" class="mr-4" v-if="createFormActive" @click="createItem">Submit</v-btn>
         <v-btn color="success" class="mr-4" v-if="!createFormActive" @click="test">Submit</v-btn>
         <!--      <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>-->
         <!--      <v-btn color="warning" @click="test">Reset Validation</v-btn>-->
@@ -102,6 +102,8 @@ import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({
+    createFormActive: false,
+    selectedItem: { }, //updated for new/edit item form
     alert: false,
     overlayAbsolute: false,
     overlayOpacity: 0.86,
@@ -115,8 +117,53 @@ export default {
     ]),
   },
   created() {
+
+    this.$store.dispatch("fetchSavingsGoals");
+
+    this.$store.dispatch("fetchAccounts"); //TODO should only be getting savings accounts here
   },
-  methods: {
+  methods: { //createSavingsGoal
+    createItem() {
+      const valid = this.$refs.form.validate();
+
+      if (valid
+          && typeof this.selectedItem.account.accountId !== 'undefined' && this.selectedItem.account.accountId > -1
+      ) {
+        console.log('creating item');
+        this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
+
+        this.$store.dispatch("createSavingsGoal", this.selectedItem)
+            .then(() => {
+              console.log('savings goal created')
+              // this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+              //     .then(() => {
+              //       this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+              //     });
+            });
+
+        this.showOverlay = false;
+      }
+      else {
+        console.log('invalid');
+        this.alert = true; //show invalid form alert message
+        setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
+
+      }
+    },
+    updateFormForItemCreation() {
+      this.createFormActive = true;
+      const today = new Date();
+
+      this.selectedItem = {
+        "name": "",
+        "user": this.$store.getters.getUser,
+        "account": {},
+        "notes": "",
+        "amount": 0,
+        "committed": false,
+        "createdDate": today
+      };
+    },
     test() {
       console.log('test');
     },

@@ -42,7 +42,7 @@ public class SavingsGoalController {
     }
 
     @PostMapping("/savings_goals")
-    public SavingsGoal createBudgetItem(@Valid @RequestBody SavingsGoal savingsGoal) {
+    public SavingsGoal createSavingsGoal(@Valid @RequestBody SavingsGoal savingsGoal) {
         return savingsGoalRepository.save(savingsGoal);
     }
 
