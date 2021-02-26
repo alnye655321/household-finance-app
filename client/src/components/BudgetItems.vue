@@ -129,6 +129,18 @@
                 required
       ></v-select>
 
+      <v-select v-model="selectedItem.savingsGoal"
+                v-if="selectedItem.account.hasOwnProperty('accountType') && selectedItem.account.accountType.accountType === 'Savings'"
+                hint="Savings Goal"
+                :items="getSavingsGoals"
+                item-text="name"
+                item-value="savingsGoalId"
+                label="Select Savings Goal"
+                persistent-hint
+                return-object
+                single-line
+      ></v-select>
+
 <!--      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>-->
 
       <v-text-field label="Amount" v-model="selectedItem.amount" :rules="amountRules" prefix="$" required></v-text-field>
@@ -219,7 +231,6 @@ export default {
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
-    // commitedLabel: this.selectedItem.commited ? 'Commited To Account' : 'Not Commited To Account',
     overlayAbsolute: false,
     overlayOpacity: 0.86,
     showOverlay: false,
@@ -246,7 +257,8 @@ export default {
       'getUser',
       'getAccountingPeriodMonths',
       'getBudgetItemsByMonth',
-       'getAccounts',
+      'getAccounts',
+      'getSavingsGoals',
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -275,6 +287,8 @@ export default {
           this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
         });
 
+    this.$store.dispatch("fetchSavingsGoals");
+
     const today = new Date();
     this.tab = today.getMonth(); //set the active tab to the current month
 
@@ -300,6 +314,10 @@ export default {
         console.log('creating item');
         this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
 
+        if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
+          this.selectedItem.savingsGoal = {};
+        }
+
         this.$store.dispatch("createBudgetItem", this.selectedItem)
             .then(() => {
               this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
@@ -320,6 +338,10 @@ export default {
     updateItem() {
       //if validate is undefined we are making a commitment update from the table, auto validate this, data will already exist
       if (typeof this.$refs.form === 'undefined') {
+
+        if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
+          this.selectedItem.savingsGoal = {};
+        }
 
         this.$store.dispatch("updateBudgetItem", this.selectedItem)
             .then(() => {
@@ -384,6 +406,7 @@ export default {
           "type": "Car Payment"
         },
         "account": {},
+        "savingsGoal": {},
         "accountingPeriod": this.prevSelectedAccountingPeriod,
         "createdDate": today
       };

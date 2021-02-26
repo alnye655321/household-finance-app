@@ -23,7 +23,6 @@ public class SavingsGoal {
     @JoinColumn(name="account_id", nullable=false)
     private Account account;
 
-
     @Column(name = "amount", nullable=false)
     private double amount;
 

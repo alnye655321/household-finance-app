@@ -3,9 +3,11 @@ package com.finance.finance.controllers;
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.Account;
 import com.finance.finance.entities.BudgetItem;
+import com.finance.finance.entities.SavingsGoal;
 import com.finance.finance.entities.User;
 import com.finance.finance.repositories.AccountRepository;
 import com.finance.finance.repositories.BudgetItemRepository;
+import com.finance.finance.repositories.SavingsGoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,9 @@ public class BudgetItemController {
 
     @Resource
     AccountRepository accountRepository;
+
+    @Resource
+    SavingsGoalRepository savingsGoalRepository;
 
     @GetMapping("/budget_items")
     public List<BudgetItem> getAllBudgetItems() {
@@ -60,6 +65,13 @@ public class BudgetItemController {
         if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && newBudgetItem.isCommitted()) {
             System.out.println("New Budget Item Committed Status!!");
 
+            if (newBudgetItem.getSavingsGoal().getAccount() != null) {
+                System.out.println("savings goal attached");
+                SavingsGoal savingsGoal = newBudgetItem.getSavingsGoal();
+                savingsGoal.setAmountRemaining(savingsGoal.getAmountRemaining() - newBudgetItem.getAmount());
+                savingsGoalRepository.save(savingsGoal);
+            }
+
             Optional<Account> accountResponse = accountRepository.findById(newBudgetItem.getAccount().getAccountId());
             Account account = accountResponse.get();
 
@@ -69,6 +81,14 @@ public class BudgetItemController {
             }
         }
         else if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && !newBudgetItem.isCommitted()) { //reverse a commitment
+
+            if (newBudgetItem.getSavingsGoal().getAccount() != null) { //reverse savings goal amount applied to remaining
+                System.out.println("savings goal attached");
+                SavingsGoal savingsGoal = newBudgetItem.getSavingsGoal();
+                savingsGoal.setAmountRemaining(savingsGoal.getAmountRemaining() + newBudgetItem.getAmount());
+                savingsGoalRepository.save(savingsGoal);
+            }
+
             Optional<Account> accountResponse = accountRepository.findById(newBudgetItem.getAccount().getAccountId());
             Account account = accountResponse.get();
 
