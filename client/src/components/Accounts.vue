@@ -3,11 +3,10 @@
     <v-container>
     <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Account</v-btn>
 
-      <v-layout row justify-space-between>
+      <v-layout row justify-space-between class="d-flex flex-row mb-6">
       <div v-for="account in getAccounts" :key="account.accountId">
-        <v-flex xs12 md6 class="pa-6">
-<!--        max-width="375" class="mx-auto"-->
-        <v-card min-width="375" class="mx-auto">
+        <v-flex class="pa-2">
+        <v-card min-width="275" class="mx-auto">
           <v-img
               src="../assets/tiger_bow.jpg"
               height="300px"
