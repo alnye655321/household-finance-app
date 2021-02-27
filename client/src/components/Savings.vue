@@ -1,81 +1,88 @@
 <template>
   <div>
-  <v-card
-      class="mx-auto"
-      max-width="400"
-      v-for="item in getSavingsGoals" :key="item.savingsGoalId"
-  >
-    <v-img
-        class="white--text align-end"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
-    >
-      <v-card-title>{{item.name}}</v-card-title>
-    </v-img>
+    <v-container>
 
-    <v-card-subtitle class="pb-0">
-      Number 10
-    </v-card-subtitle>
+      <v-layout row justify-space-between class="d-flex flex-row mb-6">
+        <div v-for="item in getSavingsGoals" :key="item.savingsGoalId">
+          <v-flex class="pa-2">
+            <v-card min-width="275" class="mx-auto">
+              <v-img
+                  class="white--text align-end"
+                  height="300px"
+                  src="../assets/tiger_bow.jpg"
+              >
+                <v-card-title>{{item.name}}</v-card-title>
+              </v-img>
 
-    <v-card-text class="text--primary">
-      <div>{{item.notes}}</div>
-<!--      <div>Whitsunday Island, Whitsunday Islands</div>-->
-    </v-card-text>
+              <v-card-subtitle class="pb-0">
+                Number 10
+              </v-card-subtitle>
 
-    <v-list two-line>
+              <v-card-text class="text--primary">
+                <div>{{item.notes}}</div>
+                <!--      <div>Whitsunday Island, Whitsunday Islands</div>-->
+              </v-card-text>
 
-
-      <v-list-item>
-        <v-list-item-icon>
-          <v-icon color="indigo">mdi-currency-usd</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-list-item-title>{{item.amount}}</v-list-item-title>
-          <v-list-item-subtitle>Total Cost</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider inset></v-divider>
-
-      <v-list-item>
-        <v-list-item-icon>
-          <v-icon color="indigo">mdi-currency-usd</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-list-item-title>{{item.amountRemaining}}</v-list-item-title>
-          <v-list-item-subtitle>Amount Remaining</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider inset></v-divider>
-
-      <v-list-item>
-        <v-list-item-icon>
-          <v-icon color="indigo">mdi-calendar-range</v-icon>
-        </v-list-item-icon>
-
-        <v-list-item-content>
-          <v-list-item-title>{{item.createdDate}}</v-list-item-title>
-          <v-list-item-subtitle>Date Created</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-divider inset></v-divider>
+              <v-list two-line>
 
 
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon color="indigo">mdi-currency-usd</v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{item.amount}}</v-list-item-title>
+                    <v-list-item-subtitle>Total Cost</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-divider inset></v-divider>
+
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon color="indigo">mdi-currency-usd</v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{item.amountRemaining}}</v-list-item-title>
+                    <v-list-item-subtitle>Amount Remaining</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-divider inset></v-divider>
+
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon color="indigo">mdi-calendar-range</v-icon>
+                  </v-list-item-icon>
+
+                  <v-list-item-content>
+                    <v-list-item-title>{{item.createdDate}}</v-list-item-title>
+                    <v-list-item-subtitle>Date Created</v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+
+                <v-divider inset></v-divider>
 
 
-    </v-list>
 
-    <v-card-actions>
-      <v-btn color="orange" text>Share</v-btn>
 
-      <v-btn color="orange" text>Explore</v-btn>
-    </v-card-actions>
+              </v-list>
 
-  </v-card>
+              <v-card-actions>
+                <v-btn color="orange" text>Share</v-btn>
+
+                <v-btn color="orange" text>Explore</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+
+        </div>
+      </v-layout>
+
+<!--  <v-card class="mx-auto" max-width="400" v-for="item in getSavingsGoals" :key="item.savingsGoalId">-->
+<!--  </v-card>-->
 
     <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Savings Goal</v-btn>
 
@@ -127,7 +134,7 @@
 
     </v-overlay>
     <!--  End Create/Edit Savings Goal Overlay-->
-
+    </v-container>
   </div>
 
 </template>

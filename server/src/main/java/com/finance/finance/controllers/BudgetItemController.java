@@ -65,7 +65,7 @@ public class BudgetItemController {
         if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && newBudgetItem.isCommitted()) {
             System.out.println("New Budget Item Committed Status!!");
 
-            if (newBudgetItem.getSavingsGoal().getAccount() != null) {
+            if (newBudgetItem.getSavingsGoal().getAccount() != null) { //for savings goals update the remaining amount
                 System.out.println("savings goal attached");
                 SavingsGoal savingsGoal = newBudgetItem.getSavingsGoal();
                 savingsGoal.setAmountRemaining(savingsGoal.getAmountRemaining() - newBudgetItem.getAmount());
@@ -76,7 +76,14 @@ public class BudgetItemController {
             Account account = accountResponse.get();
 
             if (account != null) {
-                account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+
+                if ("Savings".equals(account.getAccountType().getAccountType())) {
+                    account.setBalance(account.getBalance() + newBudgetItem.getAmount()); //for savings add to account balance
+                }
+                else {
+                    account.setBalance(account.getBalance() - newBudgetItem.getAmount()); //all else consider it a debit to account
+                }
+
                 accountRepository.save(account);
             }
         }
@@ -93,7 +100,14 @@ public class BudgetItemController {
             Account account = accountResponse.get();
 
             if (account != null) {
-                account.setBalance(account.getBalance() + newBudgetItem.getAmount());
+
+                if ("Savings".equals(account.getAccountType().getAccountType())) {
+                    account.setBalance(account.getBalance() - newBudgetItem.getAmount()); //reverse the savings credit
+                }
+                else {
+                    account.setBalance(account.getBalance() + newBudgetItem.getAmount()); //reverse the debit to all other account types
+                }
+
                 accountRepository.save(account);
             }
         }
