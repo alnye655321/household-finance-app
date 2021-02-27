@@ -6,13 +6,27 @@
         <div v-for="item in getSavingsGoals" :key="item.savingsGoalId">
           <v-flex class="pa-2">
             <v-card min-width="275" class="mx-auto">
-              <v-img
-                  class="white--text align-end"
-                  height="300px"
-                  src="../assets/tiger_bow.jpg"
+
+              <div class="text-center">
+              <v-progress-circular
+                  :rotate="360"
+                  :size="100"
+                  :width="15"
+                  :value="100 - (item.amountRemaining / item.amount) * 100"
+                  color="teal"
               >
-                <v-card-title>{{item.name}}</v-card-title>
-              </v-img>
+                {{Math.round(100 - (item.amountRemaining / item.amount) * 100)}}%
+              </v-progress-circular>
+              </div>
+<!--              <v-img-->
+<!--                  class="white&#45;&#45;text align-end"-->
+<!--                  height="300px"-->
+<!--                  src="../assets/tiger_bow.jpg"-->
+<!--              >-->
+<!--                <v-card-title>{{item.name}}</v-card-title>-->
+<!--              </v-img>-->
+
+              <v-card-title>{{item.name}}</v-card-title>
 
               <v-card-subtitle class="pb-0">
                 Number 10
@@ -220,3 +234,9 @@ export default {
 
 }
 </script>
+
+<style scoped>
+.v-progress-circular {
+  margin: 1rem;
+}
+</style>
