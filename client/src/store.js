@@ -397,20 +397,26 @@ export default new Vuex.Store({
             // commit("auth", token);
         },
         login({ commit }, userData) {
-            axios.post('http://localhost:8080/api/v1/authenticate', userData)
-                .then(function (res) {
-                    let token = res.data.token;
-                    // console.log('userId: ' + token);
-                    localStorage.setItem('token', token);
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                    console.log(res.data);
-                    commit("setUser", res.data);
-                    commit("auth", token);
-                    commit("setIsLoggedIn", true); //for displaying success alert
-                })
-                .catch(function (err) {
-                    console.log(err);
-                });
+            return new Promise((resolve, reject) => {
+                axios.post('http://localhost:8080/api/v1/authenticate', userData)
+                    .then(function (res) {
+                        let token = res.data.token;
+                        // console.log('userId: ' + token);
+                        localStorage.setItem('token', token);
+                        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+                        console.log(res.data);
+                        commit("setUser", res.data);
+                        commit("auth", token);
+                        commit("setIsLoggedIn", true); //for displaying success alert
+                        resolve(res);
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+
+            })
+
             // let token = (await axios.post("http://localhost:3000/register", registerData)).data;
             // localStorage.setItem("token", token)
             // axios.defaults.headers.common['Authorization'] = token;
