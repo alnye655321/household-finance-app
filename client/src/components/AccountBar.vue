@@ -1,22 +1,30 @@
 <template>
   <div>
     <v-container>
-      <v-row no-gutters>
-<!--        cols="12" for full width; offset-sm="1" for empty column space-->
-        <v-col sm="4" offset-sm="1" v-for="(account, index) in getAccounts" :key="account.accountId">
-          <v-card :color="cardColors[index] || '#387575'" dark max-width="200">
-            <v-card-title class="headline">
-              {{account.balance}}
-            </v-card-title>
 
-            <v-card-subtitle>{{account.name}}</v-card-subtitle>
+      <v-layout row justify-space-between class="d-flex flex-row mb-6">
+        <div v-for="(account, index) in getAccounts" :key="account.accountId">
+          <v-flex class="pa-2">
+            <v-card :color="cardColors[index] || '#387575'" dark max-width="200">
+              <v-card-title class="headline">
+                ${{account.balance}}
+              </v-card-title>
 
-<!--            <v-card-actions>-->
-<!--              <v-btn text>Listen Now</v-btn>-->
-<!--            </v-card-actions>-->
-          </v-card>
-        </v-col>
-      </v-row>
+              <v-card-subtitle>{{account.name}}</v-card-subtitle>
+
+              <!--            <v-card-actions>-->
+              <!--              <v-btn text>Listen Now</v-btn>-->
+              <!--            </v-card-actions>-->
+            </v-card>
+          </v-flex>
+
+        </div>
+      </v-layout>
+
+<!--      <v-row no-gutters>-->
+<!--        <v-col sm="4" offset-sm="1" v-for="(account, index) in getAccounts" :key="account.accountId">-->
+<!--        </v-col>-->
+<!--      </v-row>-->
     </v-container>
 
   </div>

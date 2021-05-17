@@ -48,6 +48,19 @@ export default {
         name: this.userName,
         hashedPassword: this.password,
         email: '',
+      }).then(res => {
+        console.log('res' + res);
+        console.log('status ' + res.status);
+
+        //could be expired token, remove token, resubmit try again
+        if(res.status === 403) {
+          localStorage.removeItem('token');
+          this.$store.dispatch("login", {
+            name: this.userName,
+            hashedPassword: this.password,
+            email: '',
+          });
+        }
       });
     },
   },

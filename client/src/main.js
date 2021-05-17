@@ -1,8 +1,9 @@
-import Vue from 'vue'
+import Vue from 'vue';
 import VueRouter from 'vue-router';
-import App from './App.vue'
+import App from './App.vue';
 import vuetify from './plugins/vuetify';
-import store from './store.js'
+import store from './store.js';
+import ECharts from 'vue-echarts';
 
 import Messages from "./components/Messages";
 import Users from "./components/Users";
@@ -32,6 +33,7 @@ const router = new VueRouter({routes, mode: 'history'}); //history mode gets rid
 new Vue({
   vuetify,
   router,
+  "v-chart": ECharts,
   store,
   render: h => h(App)
 }).$mount('#app')
