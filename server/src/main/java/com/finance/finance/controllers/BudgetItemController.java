@@ -65,7 +65,7 @@ public class BudgetItemController {
         if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && newBudgetItem.isCommitted()) {
             System.out.println("New Budget Item Committed Status!!");
 
-            if (newBudgetItem.getSavingsGoal().getAccount() != null) {
+            if (newBudgetItem.getSavingsGoal() != null &&  newBudgetItem.getSavingsGoal().getAccount() != null) {
                 System.out.println("savings goal attached");
                 SavingsGoal savingsGoal = newBudgetItem.getSavingsGoal();
                 savingsGoal.setAmountRemaining(savingsGoal.getAmountRemaining() - newBudgetItem.getAmount());
@@ -76,13 +76,21 @@ public class BudgetItemController {
             Account account = accountResponse.get();
 
             if (account != null) {
-                account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+
+                // increment the savings account if the budget type is a savings contribution
+                if ("Savings Contribution".equals(newBudgetItem.getBudgetType().getType())) {
+                    account.setBalance(account.getBalance() + newBudgetItem.getAmount());
+                }
+                else { //other wise do a normal account debit
+                    account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+                }
+
                 accountRepository.save(account);
             }
         }
         else if (budgetItem.isCommitted() != newBudgetItem.isCommitted() && !newBudgetItem.isCommitted()) { //reverse a commitment
 
-            if (newBudgetItem.getSavingsGoal().getAccount() != null) { //reverse savings goal amount applied to remaining
+            if (newBudgetItem.getSavingsGoal() != null && newBudgetItem.getSavingsGoal().getAccount() != null) { //reverse savings goal amount applied to remaining
                 System.out.println("savings goal attached");
                 SavingsGoal savingsGoal = newBudgetItem.getSavingsGoal();
                 savingsGoal.setAmountRemaining(savingsGoal.getAmountRemaining() + newBudgetItem.getAmount());
@@ -93,7 +101,15 @@ public class BudgetItemController {
             Account account = accountResponse.get();
 
             if (account != null) {
-                account.setBalance(account.getBalance() + newBudgetItem.getAmount());
+
+                // decrement the savings account if the budget type is a savings contribution
+                if ("Savings Contribution".equals(newBudgetItem.getBudgetType().getType())) {
+                    account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+                }
+                else { //otherwise do a normal credit
+                    account.setBalance(account.getBalance() + newBudgetItem.getAmount());
+                }
+
                 accountRepository.save(account);
             }
         }

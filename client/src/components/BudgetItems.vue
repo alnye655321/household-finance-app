@@ -130,7 +130,7 @@
       ></v-select>
 
       <v-select v-model="selectedItem.savingsGoal"
-                v-if="selectedItem.account.hasOwnProperty('accountType') && selectedItem.account.accountType.accountType === 'Savings'"
+                v-if="selectedItem.account.hasOwnProperty('accountType') && selectedItem.account.accountType.accountType === 'Savings' && selectedItem.budgetType.type !== 'Savings Contribution' "
                 hint="Savings Goal"
                 :items="getSavingsGoals"
                 item-text="name"
@@ -314,8 +314,8 @@ export default {
         console.log('creating item');
         this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
 
-        if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
-          this.selectedItem.savingsGoal = {};
+        if (this.selectedItem.account.accountType.accountType !== 'Savings' || this.selectedItem.budgetType.type === 'Savings Contribution' ) { //if account is not indicated as savings wipe out any attached savingsGoal
+          this.selectedItem.savingsGoal = null;
         }
 
         this.$store.dispatch("createBudgetItem", this.selectedItem)
