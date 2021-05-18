@@ -129,8 +129,24 @@
                 required
       ></v-select>
 
+<!--      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>-->
+
+      <v-text-field label="Amount" v-model="selectedItem.amount" :rules="amountRules" prefix="$" required></v-text-field>
+
+
+      <v-btn tile color="primary" @click="showSavingsGoal = !showSavingsGoal"  v-if="selectedItem.budgetType.type === 'Savings Contribution' && !showSavingsGoal">
+        <v-icon left>mdi-plus</v-icon>
+        Add Savings Goal
+      </v-btn>
+
+      <v-btn tile color="error" @click="showSavingsGoal = !showSavingsGoal; selectedItem.savingsGoal = null;" v-if="showSavingsGoal">
+        <v-icon left>mdi-minus</v-icon>
+        Remove Savings Goal
+      </v-btn>
+
+      <!--      v-if="selectedItem.account.hasOwnProperty('accountType') && selectedItem.account.accountType.accountType === 'Savings' && selectedItem.budgetType.type !== 'Savings Contribution' "-->
       <v-select v-model="selectedItem.savingsGoal"
-                v-if="selectedItem.account.hasOwnProperty('accountType') && selectedItem.account.accountType.accountType === 'Savings' && selectedItem.budgetType.type !== 'Savings Contribution' "
+                v-if="showSavingsGoal"
                 hint="Savings Goal"
                 :items="getSavingsGoals"
                 item-text="name"
@@ -141,9 +157,6 @@
                 single-line
       ></v-select>
 
-<!--      <v-text-field v-model="selectedItem.account.name" label="Account" required></v-text-field>-->
-
-      <v-text-field label="Amount" v-model="selectedItem.amount" :rules="amountRules" prefix="$" required></v-text-field>
       <v-text-field disabled label="Created Date" v-model="selectedItem.createdDate"></v-text-field>
 <!--      <v-date-picker v-model="selectedItem.createdDate"></v-date-picker>-->
 
@@ -156,11 +169,14 @@
 
 <!--      <v-btn :disabled="!valid" color="success" class="mr-4" @click="test">Validate</v-btn>-->
 
+
+
+
       <v-btn color="success" class="mr-4" v-if="createFormActive" :disabled="!valid" @click="createItem">Submit</v-btn>
       <v-btn color="success" class="mr-4" v-if="!createFormActive" :disabled="!valid" @click="updateItem">Submit</v-btn>
 <!--      <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>-->
 <!--      <v-btn color="warning" @click="test">Reset Validation</v-btn>-->
-      <v-btn color="primary" @click="showOverlay = false">Cancel</v-btn>
+      <v-btn color="error" @click="showOverlay = false">Cancel</v-btn>
 
     </v-form>
 
@@ -206,6 +222,7 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
+    showSavingsGoal: false,
     deleteAlert: false,
     alert: false,
     valid: true,
@@ -314,7 +331,7 @@ export default {
         console.log('creating item');
         this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
 
-        if (this.selectedItem.account.accountType.accountType !== 'Savings' || this.selectedItem.budgetType.type === 'Savings Contribution' ) { //if account is not indicated as savings wipe out any attached savingsGoal
+        if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
           this.selectedItem.savingsGoal = null;
         }
 
