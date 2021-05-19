@@ -45,4 +45,31 @@ INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-12-01', '202
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-12-16', '2021-12-31');
 
 
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 1, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 2, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 3, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 4, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 5, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 6, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 7, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 8, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 9, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 10, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 11, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 12, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 13, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 14, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 15, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 16, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 17, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 18, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 19, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 20, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 21, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 22, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 23, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 24, 1);
+
+
+
 INSERT INTO budget_types (type) VALUES ('Car Payment'); --1
