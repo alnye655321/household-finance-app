@@ -2,9 +2,11 @@ package com.finance.finance.controllers;
 
 import com.finance.finance.ResourceNotFoundException;
 import com.finance.finance.entities.PeriodBudget;
+import com.finance.finance.models.AuthUser;
 import com.finance.finance.repositories.PeriodBudgetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +24,10 @@ public class PeriodBudgetController {
 
     @GetMapping("/period_budgets")
     public List<PeriodBudget> getAllPeriodBudgets() {
-        return periodBudgetRepository.findAll();
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = authUser.getUserId();
+
+        return periodBudgetRepository.findByUserId(userId);
     }
 
     @GetMapping("/period_budgets/{id}")

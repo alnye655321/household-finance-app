@@ -17,7 +17,8 @@ export default new Vuex.Store({
         accountTypes: [],
         accountingPeriodMonths: [],
         budgetItemsByMonth: [],
-        savingsGoals: []
+        savingsGoals: [],
+        periodBudgets: []
     },
     mutations: {
         setUser(state, user) {
@@ -58,6 +59,9 @@ export default new Vuex.Store({
         },
         setSavingsGoals(state, savingsGoals) {
             state.savingsGoals = savingsGoals;
+        },
+        setPeriodBudgets(state, periodBudgets) {
+            state.periodBudgets = periodBudgets;
         },
         buildBudgetItemsByAccountingMonth(state, months) { //this call must be made after fetchBudgetItems has resolved
             if (months.length > 0 && state.budgetItems.length > 0) {
@@ -227,6 +231,23 @@ export default new Vuex.Store({
                     });
             })
         },
+        fetchPeriodBudgets({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(`http://localhost:8080/api/v1/period_budgets`)
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setPeriodBudgets", res.data);
+                        resolve();
+
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
         createSavingsGoal({ commit }, newSavingsGoal) {
             return new Promise((resolve, reject) => {
                 axios.post('http://localhost:8080/api/v1/savings_goals', newSavingsGoal)
@@ -275,83 +296,88 @@ export default new Vuex.Store({
 
         },
         fetchAccountingPeriods({ commit }) {
-            axios
-                .get(`http://localhost:8080/api/v1/accounting_periods`)
-                .then((res) => {
-                    console.log(commit);
-                    console.log(res.data);
-                    commit("setAccountingPeriods", res.data);
-                    let accountingPeriodsData = res.data;
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(`http://localhost:8080/api/v1/accounting_periods`)
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setAccountingPeriods", res.data);
+                        let accountingPeriodsData = res.data;
 
-                    let months = [
-                        {
-                            name: "January",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "February",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "March",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "April",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "May",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "June",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "July",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "August",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "September",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "October",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "November",
-                            accountingPeriods: []
-                        },
-                        {
-                            name: "December",
-                            accountingPeriods: []
-                        },
-                    ];
+                        let months = [
+                            {
+                                name: "January",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "February",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "March",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "April",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "May",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "June",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "July",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "August",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "September",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "October",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "November",
+                                accountingPeriods: []
+                            },
+                            {
+                                name: "December",
+                                accountingPeriods: []
+                            },
+                        ];
 
-                    console.log(months);
+                        console.log(months);
 
 
-                    for (let i = 0; i < accountingPeriodsData.length; i++) {
-                        const splitDate = accountingPeriodsData[i].startDate.split('-');
-                        const month = splitDate[1];
+                        for (let i = 0; i < accountingPeriodsData.length; i++) {
+                            const splitDate = accountingPeriodsData[i].startDate.split('-');
+                            const month = splitDate[1];
 
-                        months[month - 1].accountingPeriods.push(accountingPeriodsData[i]); //add to correct months array index
-                        months[month - 1].accountingPeriods.budgetItems = []; //place holder for eventual budgetItems addition
-                    }
+                            months[month - 1].accountingPeriods.push(accountingPeriodsData[i]); //add to correct months array index
+                            months[month - 1].accountingPeriods.budgetItems = []; //place holder for eventual budgetItems addition
+                        }
 
-                    commit("setAccountingPeriodMonths", months);
-                    commit("buildBudgetItemsByAccountingMonth", months); //this call must be made after fetchBudgetItems has resolved
+                        commit("setAccountingPeriodMonths", months);
+                        commit("buildBudgetItemsByAccountingMonth", months); //this call must be made after fetchBudgetItems has resolved
+                        resolve();
 
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
         },
         fetchAccountTypes({ commit }) {
             axios
@@ -438,6 +464,7 @@ export default new Vuex.Store({
         getAccountingPeriodMonths: state => state.accountingPeriodMonths,
         getBudgetItemsByMonth: state => state.budgetItemsByMonth,
         getSavingsGoals: state => state.savingsGoals,
+        getPeriodBudgets: state => state.periodBudgets,
     },
 
 }

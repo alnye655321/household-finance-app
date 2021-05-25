@@ -20,6 +20,18 @@
       <v-spacer></v-spacer>
 
       <v-row>
+        <v-col>
+          Budget Remaining 1: {{ biWeeklyPeriodBudget(item.accountingPeriods[0].accountingPeriodId) }}
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col>
+          Budget Remaining 2: {{ biWeeklyPeriodBudget(item.accountingPeriods[1].accountingPeriodId) }}
+        </v-col>
+      </v-row>
+
+      <v-row>
 <!--        accounting bi-weekly period 1-->
         <v-col>
       <v-card>
@@ -276,6 +288,7 @@ export default {
       'getBudgetItemsByMonth',
       'getAccounts',
       'getSavingsGoals',
+      'getPeriodBudgets',
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
@@ -301,7 +314,10 @@ export default {
 
     this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
         .then(() => {
-          this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+          this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+              .then(() => {
+            this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
+          });
         });
 
     this.$store.dispatch("fetchSavingsGoals");
@@ -339,7 +355,10 @@ export default {
             .then(() => {
               this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
                   .then(() => {
-                    this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                    this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                        .then(() => {
+                          this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
+                        });
                   });
             });
 
@@ -375,7 +394,10 @@ export default {
                     .then(() => {
                       this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first\
                           .then(() => {
-                            this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                            this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                                .then(() => {
+                                  this.$store.dispatch("fetchPeriodBudgets");
+                                });
                           });
                     });
               });
@@ -396,7 +418,10 @@ export default {
                 .then(() => {
                   this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first\
                       .then(() => {
-                        this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                        this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                            .then(() => {
+                              this.$store.dispatch("fetchPeriodBudgets");
+                            });
                       });
                 });
           });
@@ -431,6 +456,18 @@ export default {
     test(tab) {
       console.log(tab);
     },
+    biWeeklyPeriodBudget(accountingPeriodId) {
+
+      const periodBudgets = this.$store.getters.getPeriodBudgets;
+      let amount = '';
+
+      for (let i = 0; i < periodBudgets.length; i++) {
+        if (periodBudgets[i].accountingPeriod.accountingPeriodId === accountingPeriodId) {
+          amount = periodBudgets[i].amount;
+        }
+      }
+      return amount;
+    }
   },
 }
 </script>
