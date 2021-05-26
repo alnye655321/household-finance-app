@@ -1,15 +1,15 @@
 package com.finance.finance.controllers;
 
 import com.finance.finance.ResourceNotFoundException;
-import com.finance.finance.entities.Account;
-import com.finance.finance.entities.BudgetItem;
-import com.finance.finance.entities.SavingsGoal;
-import com.finance.finance.entities.User;
+import com.finance.finance.entities.*;
+import com.finance.finance.models.AuthUser;
 import com.finance.finance.repositories.AccountRepository;
 import com.finance.finance.repositories.BudgetItemRepository;
+import com.finance.finance.repositories.PeriodBudgetRepository;
 import com.finance.finance.repositories.SavingsGoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -31,6 +31,9 @@ public class BudgetItemController {
 
     @Resource
     SavingsGoalRepository savingsGoalRepository;
+
+    @Resource
+    PeriodBudgetRepository periodBudgetRepository;
 
     @GetMapping("/budget_items")
     public List<BudgetItem> getAllBudgetItems() {
@@ -58,6 +61,10 @@ public class BudgetItemController {
     @PutMapping("/budget_items/{id}")
     public ResponseEntity<BudgetItem> updateBudgetItem(@PathVariable(value = "id") Long budgetItemId,
                                            @Valid @RequestBody BudgetItem newBudgetItem) throws ResourceNotFoundException {
+
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = authUser.getUserId();
+
         BudgetItem budgetItem = budgetItemRepository.findById(budgetItemId)
                 .orElseThrow(() -> new ResourceNotFoundException("Budget Item not found for this id :: " + budgetItemId));
 
@@ -83,6 +90,10 @@ public class BudgetItemController {
                 }
                 else { //other wise do a normal account debit
                     account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+
+                    PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
+                    periodBudget.setAmount(periodBudget.getAmount() - newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
+
                 }
 
                 accountRepository.save(account);
