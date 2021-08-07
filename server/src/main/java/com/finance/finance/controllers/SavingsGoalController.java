@@ -4,6 +4,7 @@ import com.finance.finance.entities.Account;
 import com.finance.finance.entities.BudgetItem;
 import com.finance.finance.entities.SavingsGoal;
 import com.finance.finance.entities.User;
+import com.finance.finance.repositories.AccountRepository;
 import com.finance.finance.repositories.SavingsGoalRepository;
 import com.finance.finance.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @CrossOrigin
@@ -25,6 +23,9 @@ public class SavingsGoalController {
 
     @Resource
     UserRepository userRepository;
+
+    @Resource
+    AccountRepository accountRepository;
 
 
     @GetMapping("/savings_goals")
@@ -46,9 +47,21 @@ public class SavingsGoalController {
         return savingsGoalRepository.save(savingsGoal);
     }
 
+    @PostMapping("/savings_goals_commit")
+    public SavingsGoal commitSavingsGoal(@Valid @RequestBody SavingsGoal savingsGoal) {
 
+        Optional<Account> accountResponse = accountRepository.findById(savingsGoal.getAccount().getAccountId());
+        Account account = accountResponse.get();
 
+        if (savingsGoal.getAmountRemaining() <= 1 && savingsGoal.isCommitted()) {
+            account.setBalance(account.getBalance() - savingsGoal.getAmount());
+        }
+        else if (!savingsGoal.isCommitted()) {
+            account.setBalance(account.getBalance() + savingsGoal.getAmount());
+        }
 
-
+        accountRepository.save(account);
+        return savingsGoalRepository.save(savingsGoal);
+    }
 
 }
