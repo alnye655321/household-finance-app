@@ -56,7 +56,7 @@ public class SavingsGoalController {
         if (savingsGoal.getAmountRemaining() <= 1 && savingsGoal.isCommitted()) {
             account.setBalance(account.getBalance() - savingsGoal.getAmount());
         }
-        else if (!savingsGoal.isCommitted()) {
+        else if (savingsGoal.getAmountRemaining() <= 1 && !savingsGoal.isCommitted()) {
             account.setBalance(account.getBalance() + savingsGoal.getAmount());
         }
 

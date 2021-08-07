@@ -84,10 +84,15 @@
 
               </v-list>
 
-              <v-card-actions>
-                <v-btn color="green" text @click="commitSavingsGoal">Commit</v-btn>
+<!--              <template v-slot:item.committed="{ item }">-->
+              <p>Commit</p>
+                <v-switch v-model="item.committed" @click="selectedItem = item; commitSavingsGoal();"></v-switch>
+<!--              </template>-->
+              <br><br>
 
-                <v-btn color="orange" text>Explore</v-btn>
+              <v-card-actions>
+<!--                <v-btn color="green" text @click="commitSavingsGoal">Commit</v-btn>-->
+<!--                <v-btn color="orange" text>Explore</v-btn>-->
               </v-card-actions>
             </v-card>
           </v-flex>
@@ -226,6 +231,15 @@ export default {
       };
     },
     commitSavingsGoal() {
+      this.$store.dispatch("commitSavingsGoal", this.selectedItem)
+          .then(() => {
+            console.log('savings goal commit toggled');
+            this.$store.dispatch("fetchSavingsGoals");
+            // this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+            //     .then(() => {
+            //       this.$store.dispatch("fetchAccountingPeriods"); //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+            //     });
+          });
 
     },
     test() {

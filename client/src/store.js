@@ -262,6 +262,20 @@ export default new Vuex.Store({
                     });
             })
         },
+        commitSavingsGoal({ commit }, newSavingsGoal) {
+            return new Promise((resolve, reject) => {
+                axios.post('http://localhost:8080/api/v1/savings_goals_commit', newSavingsGoal)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
         fetchAccounts({ commit }) {
             return new Promise((resolve, reject) => {
             axios
