@@ -79,15 +79,18 @@
 
                 <v-divider inset></v-divider>
 
+                <v-list-item>
+                    <v-list-item-action>
+                      <v-switch v-model="item.committed" :disabled="!canCommit" @click="selectedItem = item; commitSavingsGoal();"></v-switch>
+                    </v-list-item-action>
 
-
+                    <v-list-item-content>
+                      <v-list-item-title>Commit</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
 
               </v-list>
 
-<!--              <template v-slot:item.committed="{ item }">-->
-              <p>Commit</p>
-                <v-switch v-model="item.committed" @click="selectedItem = item; commitSavingsGoal();"></v-switch>
-<!--              </template>-->
               <br><br>
 
               <v-card-actions>
@@ -172,6 +175,7 @@ export default {
     overlayOpacity: 0.86,
     showOverlay: false,
     overlayZIndex: 5,
+    canCommit: false
   }),
   computed: {
     ...mapGetters([
@@ -213,6 +217,14 @@ export default {
         this.alert = true; //show invalid form alert message
         setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
 
+      }
+    },
+    canBeCommitted(percent) {
+      if (percent >= 99) {
+        return true;
+      }
+      else {
+        return false;
       }
     },
     updateFormForItemCreation() {

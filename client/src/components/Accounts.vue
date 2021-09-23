@@ -1,8 +1,9 @@
 <template>
   <div>
     <v-container>
+      <v-row>
     <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Account</v-btn>
-
+      </v-row>
       <v-layout row justify-space-between class="d-flex flex-row mb-6">
       <div v-for="account in getAccounts" :key="account.accountId">
         <v-flex class="pa-2">
@@ -140,14 +141,19 @@
 
         <v-text-field label="Interest Rate" v-model="selectedItem.interestRate" prefix="%"></v-text-field>
 
-        <v-btn color="primary" class="mr-4" @click="updateItem">Submit</v-btn>
+        <v-row>
+          <v-btn color="primary" class="mr-4" @click="updateItem">Submit</v-btn>
 
-        <v-btn color="error" class="mr-4" @click="test">Reset Form</v-btn>
+          <v-btn color="warning" class="mr-4" @click="test">Reset Form</v-btn>
+
+          <v-btn color="error" @click="showOverlay = false">Close</v-btn>
+        </v-row>
+
 
 <!--        <v-btn color="warning" @click="test">Reset Validation</v-btn>-->
 
       </v-form>
-      <v-btn color="primary" @click="showOverlay = false">Hide Overlay</v-btn>
+
     </v-overlay>
     <!--  End Overlay-->
 
