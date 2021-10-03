@@ -135,6 +135,7 @@
                 item-value="accountId"
                 label="Select Account"
                 :rules="accountRules"
+                @change="accountListChange()"
                 persistent-hint
                 return-object
                 single-line
@@ -328,6 +329,15 @@ export default {
   },
 
   methods: {
+    accountListChange() {
+      if (typeof this.selectedItem.account.accountType !== 'undefined' && this.selectedItem.account.accountType !== 'Savings') {
+        this.showSavingsGoal = false;
+        this.selectedItem.savingsGoal = null;
+      }
+      console.log('here');
+      console.log(event);
+
+    },
     addItem() {
       this.showOverlay = true;
     },
