@@ -63,7 +63,7 @@ export default {
   methods: {
     fetchUsers: function () {
       axios
-        .get("http://localhost:8080/api/v1/users")
+        .get("http://localhost:8090/api/v1/users")
         .then((res) => {
           this.$store.commit("assignUsers", res.data);
 
