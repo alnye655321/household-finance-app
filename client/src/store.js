@@ -4,6 +4,8 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
+const API_BASE = 'http://localhost:8080/api/v1/';
+
 export default new Vuex.Store({
     state: {
         user: {},
@@ -99,7 +101,7 @@ export default new Vuex.Store({
     actions: { //can be used to perform async requests
         setUsers({ commit }) {
             axios
-                .get("http://localhost:8090/api/v1/users")
+                .get(API_BASE + "users")
                 .then((res) => {
                     commit('assignUsers', res.data);
                     console.log(this);
@@ -126,7 +128,7 @@ export default new Vuex.Store({
         },
         getUser({ commit }, id) { //this.$store.dispatch('getUser', 1);
             axios
-                .get(`http://localhost:8090/api/v1/users/${id}`)
+                .get(API_BASE + `users/${id}`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
@@ -138,7 +140,7 @@ export default new Vuex.Store({
         },
         getUserByToken({ commit }) { //this.$store.dispatch('getUser', 1);
             axios
-                .get(`http://localhost:8090/api/v1/user`)
+                .get(API_BASE + 'user')
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
@@ -152,7 +154,7 @@ export default new Vuex.Store({
         fetchBudgetItems({ commit }, id) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`http://localhost:8090/api/v1/budget_items/user/${id}`)
+                    .get(API_BASE + `budget_items/user/${id}`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
@@ -170,7 +172,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 console.log('updatedBudgetItem');
                 console.log(updatedBudgetItem);
-                axios.put(`http://localhost:8090/api/v1/budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
+                axios.put(API_BASE + `budget_items/${updatedBudgetItem.budgetItemId}`, updatedBudgetItem)
                     .then(function (res) {
                         console.log(commit);
                         console.log(res.data);
@@ -186,7 +188,7 @@ export default new Vuex.Store({
             return new Promise((resolve, reject) => {
                 console.log('deletedBudgetItem');
                 console.log(deletedBudgetItem);
-                axios.delete(`http://localhost:8090/api/v1/budget_items/${deletedBudgetItem.budgetItemId}`, deletedBudgetItem)
+                axios.delete(API_BASE + `budget_items/${deletedBudgetItem.budgetItemId}`, deletedBudgetItem)
                     .then(function (res) {
                         console.log(commit);
                         console.log(res.data);
@@ -200,7 +202,7 @@ export default new Vuex.Store({
         },
         createBudgetItem({ commit }, newBudgetItem) {
             return new Promise((resolve, reject) => {
-                axios.post('http://localhost:8090/api/v1/budget_items', newBudgetItem)
+                axios.post(API_BASE + 'budget_items', newBudgetItem)
                     .then(function (res) {
                         // console.log(commit);
                         // console.log(res.data);
@@ -217,7 +219,7 @@ export default new Vuex.Store({
         fetchSavingsGoals({ commit }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`http://localhost:8090/api/v1/savings_goals`)
+                    .get(API_BASE + `savings_goals`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
@@ -234,7 +236,7 @@ export default new Vuex.Store({
         fetchPeriodBudgets({ commit }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`http://localhost:8090/api/v1/period_budgets`)
+                    .get(API_BASE + `period_budgets`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
@@ -250,7 +252,7 @@ export default new Vuex.Store({
         },
         createSavingsGoal({ commit }, newSavingsGoal) {
             return new Promise((resolve, reject) => {
-                axios.post('http://localhost:8090/api/v1/savings_goals', newSavingsGoal)
+                axios.post(API_BASE + 'savings_goals', newSavingsGoal)
                     .then(function (res) {
                         console.log(commit);
                         console.log(res.data);
@@ -264,7 +266,7 @@ export default new Vuex.Store({
         },
         commitSavingsGoal({ commit }, newSavingsGoal) {
             return new Promise((resolve, reject) => {
-                axios.post('http://localhost:8090/api/v1/savings_goals_commit', newSavingsGoal)
+                axios.post(API_BASE + 'savings_goals_commit', newSavingsGoal)
                     .then(function (res) {
                         console.log(commit);
                         console.log(res.data);
@@ -279,7 +281,7 @@ export default new Vuex.Store({
         fetchAccounts({ commit }) {
             return new Promise((resolve, reject) => {
             axios
-                .get(`http://localhost:8090/api/v1/accounts/user`)
+                .get(API_BASE + `accounts/user`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
@@ -294,7 +296,7 @@ export default new Vuex.Store({
         },
         createAccount({ commit }, account) {
             return new Promise((resolve, reject) => {
-                axios.post('http://localhost:8090/api/v1/accounts', account)
+                axios.post(API_BASE + 'accounts', account)
                     .then(function (res) {
                         // console.log(commit);
                         // console.log(res.data);
@@ -312,7 +314,7 @@ export default new Vuex.Store({
         fetchAccountingPeriods({ commit }) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(`http://localhost:8090/api/v1/accounting_periods`)
+                    .get(API_BASE + `accounting_periods`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
@@ -395,7 +397,7 @@ export default new Vuex.Store({
         },
         fetchAccountTypes({ commit }) {
             axios
-                .get(`http://localhost:8090/api/v1/accountTypes`)
+                .get(API_BASE + `accountTypes`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
@@ -408,7 +410,7 @@ export default new Vuex.Store({
         },
         fetchBudgetTypes({ commit }) {
             axios
-                .get(`http://localhost:8090/api/v1/budget_types`)
+                .get(API_BASE + `budget_types`)
                 .then((res) => {
                     console.log(commit);
                     console.log(res.data);
@@ -420,7 +422,7 @@ export default new Vuex.Store({
                 });
         },
         register({ commit }, userData) {
-            axios.post('http://localhost:8090/api/v1/users', userData)
+            axios.post(API_BASE + 'users', userData)
                 .then(function (res) {
                     let token = res.data.userId;
                     console.log('userId: ' + token);
@@ -438,7 +440,7 @@ export default new Vuex.Store({
         },
         login({ commit }, userData) {
             return new Promise((resolve, reject) => {
-                axios.post('http://localhost:8090/api/v1/authenticate', userData)
+                axios.post(API_BASE + 'authenticate', userData)
                     .then(function (res) {
                         let token = res.data.token;
                         // console.log('userId: ' + token);
