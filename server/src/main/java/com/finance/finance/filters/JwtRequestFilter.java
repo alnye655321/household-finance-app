@@ -2,6 +2,7 @@ package com.finance.finance.filters;
 
 import com.finance.finance.services.MyUserDetailsService;
 import com.finance.finance.util.JwtUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -34,10 +35,17 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+        try {
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+                jwt = authorizationHeader.substring(7);
+                username = jwtUtil.extractUsername(jwt);
+            }
         }
+        catch (ExpiredJwtException ex) {
+            jwt = jwtUtil.createToken(ex.getClaims(), username);
+            System.out.println("test");
+        }
+
 
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
