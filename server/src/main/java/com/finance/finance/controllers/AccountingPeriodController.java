@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,12 +21,7 @@ public class AccountingPeriodController {
 
     @GetMapping("/accounting_periods")
     public List<AccountingPeriod> getAllAccountingPeriods() {
-
-        List<AccountingPeriod> test1 = new ArrayList<>();
-        test1 = accountingPeriodRepository.findAll();
-        System.out.println("test");
         return accountingPeriodRepository.findAll();
-
     }
 
     @GetMapping("/accounting_periods/{id}")

@@ -49,8 +49,8 @@ public class SeedController {
     public ResponseEntity<String> getUserById(@PathVariable(value = "amount") Long amount) {
 
 //        seedUsers();
-        seedAccountTypes();
-        seedAccounts();
+//        seedAccountTypes();
+//        seedAccounts();
 
 
         return ResponseEntity.ok().body("Success");
