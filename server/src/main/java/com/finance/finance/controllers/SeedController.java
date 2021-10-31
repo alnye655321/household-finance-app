@@ -49,7 +49,7 @@ public class SeedController {
     public ResponseEntity<String> getUserById(@PathVariable(value = "amount") Long amount) {
 
 //        seedUsers();
-//        seedAccountTypes();
+        seedAccountTypes();
         seedAccounts();
 
 

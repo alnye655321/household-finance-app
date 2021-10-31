@@ -44,7 +44,7 @@ INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-11-16', '202
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-12-01', '2021-12-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-12-16', '2021-12-31');
 
-
+--run after /seed in API request
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 1, 1);
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 2, 1);
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 3, 1);
@@ -71,15 +71,20 @@ INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 24, 1);
 
 
+--not needed ------------------------------------------------------------------------
+--INSERT INTO budget_types (type) VALUES ('Car Payment'); --1
 
-INSERT INTO budget_types (type) VALUES ('Car Payment'); --1
 
+-- insert into account_types (account_type) VALUES ('Checking'); --id: 1
+-- insert into account_types (account_type) VALUES ('Savings'); --id: 2
 
-insert into account_types (account_type) VALUES ('Checking'); --id: 1
-insert into account_types (account_type) VALUES ('Savings'); --id: 2
+-- INSERT INTO budget_types (type) VALUES ('Car Payment');
+-- INSERT INTO budget_types (type) VALUES ('Savings Contribution');
 
-INSERT INTO budget_types (type) VALUES ('Car Payment');
-INSERT INTO budget_types (type) VALUES ('Savings Contribution');
+-- INSERT INTO accounts (balance, date_opened, interest_rate, name, account_type_id) VALUES  (3000, NOW(), 0, 'Primary Checking', 1);
+-- INSERT INTO accounts (balance, date_opened, interest_rate, name, account_type_id) VALUES  (7000, NOW(), 0.05, 'Primary Savings', 2);
 
-INSERT INTO accounts (balance, date_opened, interest_rate, name, account_type_id) VALUES  (3000, NOW(), 0, 'Primary Checking', 1);
-INSERT INTO accounts (balance, date_opened, interest_rate, name, account_type_id) VALUES  (7000, NOW(), 0.05, 'Primary Savings', 2);
+-- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (1,1);
+-- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (1,2);
+-- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (2,1);
+-- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (2,2);
