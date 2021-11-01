@@ -21,7 +21,7 @@
 <!--      </v-list-item>-->
 <!--    </v-navigation-drawer>-->
 
-    <v-app-bar dense dark fixed color="primary">
+    <v-app-bar dense dark absolute color="primary">
       <span class="hidden-md-and-up">
         <v-app-bar-nav-icon @click="sidebar = !sidebar"></v-app-bar-nav-icon>
       </span>
@@ -62,7 +62,7 @@
         dense
         class="hidden-sm-and-down secondary-toolbar mt-12"
         :elevate-on-scroll="true"
-        fixed
+
     >
       <v-toolbar-items>
         <v-btn text v-for="item in navItems" :key="item.text" :to="item.route" :ripple="false">
