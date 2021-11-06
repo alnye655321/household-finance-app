@@ -455,12 +455,15 @@ export default {
 
       let displayedAccountingPeriod;
 
+      //setting the accounting period select box selection on the budget item form based on the user selected month in the tab array
       if (typeof this.selectedAccountingPeriods.accountingPeriods !== 'undefined') {
-        console.log('defined prev accoutning period');
         displayedAccountingPeriod = this.selectedAccountingPeriods.accountingPeriods[selectedAccountingPeriodIndex];
       }
       else {
         displayedAccountingPeriod = this.prevSelectedAccountingPeriod
+        const accountingPeriodMonths = this.$store.getters.getAccountingPeriodMonths;
+        const selectedAccountingPeriods = accountingPeriodMonths[today.getMonth()].accountingPeriods;
+        displayedAccountingPeriod = selectedAccountingPeriods[selectedAccountingPeriodIndex];
       }
 
       this.selectedItem = {
