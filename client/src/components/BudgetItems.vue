@@ -260,7 +260,6 @@ export default {
       v => (v && isFinite(v)) || 'Please Enter A Number For Amount',
     ],
     deleteConfirmOverlay: false,
-    prevSelectedAccountingPeriod: {}, //store a temp history of the last used account period for convenience when creating new budget items - defaults to it
     createFormActive: false, //if the overlay form is being used to create a new budget item, default is false for editing. Will affect the method called on submit
     tab: null, //corresponding to index. update to set active tab --> 0 == January... 11 == December
     selectedItem: { }, //updated for new/edit item form
@@ -357,8 +356,6 @@ export default {
           &&  typeof this.selectedItem.budgetType.budgetTypeId !== 'undefined' && this.selectedItem.budgetType.budgetTypeId > -1
           &&  typeof this.selectedItem.accountingPeriod.accountingPeriodId !== 'undefined' && this.selectedItem.accountingPeriod.accountingPeriodId > -1
       ) {
-
-        this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
 
         if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
           this.selectedItem.savingsGoal = null;
@@ -460,7 +457,6 @@ export default {
         displayedAccountingPeriod = this.selectedAccountingPeriods.accountingPeriods[selectedAccountingPeriodIndex];
       }
       else {
-        displayedAccountingPeriod = this.prevSelectedAccountingPeriod
         const accountingPeriodMonths = this.$store.getters.getAccountingPeriodMonths;
         const selectedAccountingPeriods = accountingPeriodMonths[today.getMonth()].accountingPeriods;
         displayedAccountingPeriod = selectedAccountingPeriods[selectedAccountingPeriodIndex];
