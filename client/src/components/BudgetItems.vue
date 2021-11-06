@@ -1,7 +1,7 @@
 <template>
 <div>
   <v-tabs v-model="tab" background-color="transparent" color="basil" grow>
-    <v-tab v-for="item in getBudgetItemsByMonth" :key="item.name"  @click="test(tab)">
+    <v-tab v-for="item in getBudgetItemsByMonth" :key="item.name"  @click="test(item)">
       {{ item.name }}
     </v-tab>
   </v-tabs>
@@ -82,7 +82,9 @@
   </v-tabs-items>
 
 
-  <v-btn class="mt-12" color="primary" @click="updateFormForItemCreation(); showOverlay = !showOverlay;">New Budget Item</v-btn>
+  <v-btn class="mt-12 float-left" color="primary" @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">New Budget Item</v-btn>
+
+  <v-btn class="mt-12 float-right" color="primary" @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Create/Edit Budget Item Overlay-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
@@ -239,6 +241,7 @@ export default {
     deleteAlert: false,
     alert: false,
     valid: true,
+    selectedAccountingPeriods: {},
     nameRules: [
       v => !!v || 'Name is required',
       v => (v && v.length <= 20) || 'Name must be less than 20 characters',
@@ -354,7 +357,7 @@ export default {
           &&  typeof this.selectedItem.budgetType.budgetTypeId !== 'undefined' && this.selectedItem.budgetType.budgetTypeId > -1
           &&  typeof this.selectedItem.accountingPeriod.accountingPeriodId !== 'undefined' && this.selectedItem.accountingPeriod.accountingPeriodId > -1
       ) {
-        console.log('creating item');
+
         this.prevSelectedAccountingPeriod = this.selectedItem.accountingPeriod;
 
         if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
@@ -446,9 +449,19 @@ export default {
 
       this.deleteConfirmOverlay = true;
     },
-    updateFormForItemCreation() {
+    updateFormForItemCreation(selectedAccountingPeriodIndex) {
       this.createFormActive = true;
       const today = new Date();
+
+      let displayedAccountingPeriod;
+
+      if (typeof this.selectedAccountingPeriods.accountingPeriods !== 'undefined') {
+        console.log('defined prev accoutning period');
+        displayedAccountingPeriod = this.selectedAccountingPeriods.accountingPeriods[selectedAccountingPeriodIndex];
+      }
+      else {
+        displayedAccountingPeriod = this.prevSelectedAccountingPeriod
+      }
 
       this.selectedItem = {
         "name": "",
@@ -459,12 +472,18 @@ export default {
         },
         "account": {},
         "savingsGoal": {},
-        "accountingPeriod": this.prevSelectedAccountingPeriod,
+        "accountingPeriod": displayedAccountingPeriod,
         "createdDate": today
       };
     },
     test(tab) {
+      console.log('item')
       console.log(tab);
+      this.selectedAccountingPeriods = tab;
+      // const periodBudgets = this.$store.getters.getBudgetItemsByMonth;
+      // console.log(periodBudgets);
+      // this.selectedAccountingPeriods = periodBudgets[tab - 1];
+
     },
     biWeeklyPeriodBudget(accountingPeriodId) {
 
