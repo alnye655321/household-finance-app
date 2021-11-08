@@ -15,7 +15,23 @@
 <!--      </v-card>-->
       <v-spacer></v-spacer>
 
+      <v-row>
+        <v-col cols="10">
       <AccountBar></AccountBar>
+        </v-col>
+
+        <v-col cols="2">
+          <v-select
+              v-model="year"
+              :items="years"
+              menu-props="auto"
+              label="Select"
+              hide-details
+              prepend-icon="mdi-calendar"
+              single-line
+          ></v-select>
+        </v-col>
+      </v-row>
 
       <v-spacer></v-spacer>
 
@@ -23,11 +39,9 @@
         <v-col>
           Budget Remaining 1: {{ biWeeklyPeriodBudget(item.accountingPeriods[0].accountingPeriodId) }}
         </v-col>
-      </v-row>
 
-      <v-row>
         <v-col>
-          Budget Remaining 2: {{ biWeeklyPeriodBudget(item.accountingPeriods[1].accountingPeriodId) }}
+          <p class="float-right"> Budget Remaining 2: {{ biWeeklyPeriodBudget(item.accountingPeriods[1].accountingPeriodId) }} </p>
         </v-col>
       </v-row>
 
@@ -237,6 +251,11 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
+    year: 2021,
+    years: [
+        2021,
+        2022
+    ],
     showSavingsGoal: false,
     deleteAlert: false,
     alert: false,
