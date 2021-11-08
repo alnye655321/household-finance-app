@@ -334,7 +334,12 @@ export default {
 
     this.$store.dispatch("fetchAccounts");
 
-    this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+    const payload = {
+      id: this.$store.getters.getUser.userId,
+      year: this.year
+    };
+
+    this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
         .then(() => {
           this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
               .then(() => {
@@ -380,9 +385,14 @@ export default {
           this.selectedItem.savingsGoal = null;
         }
 
+        const payload = {
+          id: this.$store.getters.getUser.userId,
+          year: this.year
+        };
+
         this.$store.dispatch("createBudgetItem", this.selectedItem)
             .then(() => {
-              this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first
+              this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
                   .then(() => {
                     this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                         .then(() => {
@@ -416,12 +426,17 @@ export default {
       else {
         const valid = this.$refs.form.validate();
 
+        const payload = {
+          id: this.$store.getters.getUser.userId,
+          year: this.year
+        };
+
         if (valid) {
           this.$store.dispatch("updateBudgetItem", this.selectedItem)
               .then(() => {
                 this.$store.dispatch("fetchAccounts")
                     .then(() => {
-                      this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first\
+                      this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first\
                           .then(() => {
                             this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                                 .then(() => {
@@ -441,11 +456,16 @@ export default {
       // console.log(item);
     },
     deleteItem() {
+      const payload = {
+        id: this.$store.getters.getUser.userId,
+        year: this.year
+      };
+
       this.$store.dispatch("deleteBudgetItem", this.selectedItem)
           .then(() => {
             this.$store.dispatch("fetchAccounts")
                 .then(() => {
-                  this.$store.dispatch("fetchBudgetItems", this.$store.getters.getUser.userId) //important that budget items are sent first\
+                  this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first\
                       .then(() => {
                         this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                             .then(() => {
@@ -495,13 +515,7 @@ export default {
       };
     },
     test(tab) {
-      console.log('item')
-      console.log(tab);
       this.selectedAccountingPeriods = tab;
-      // const periodBudgets = this.$store.getters.getBudgetItemsByMonth;
-      // console.log(periodBudgets);
-      // this.selectedAccountingPeriods = periodBudgets[tab - 1];
-
     },
     biWeeklyPeriodBudget(accountingPeriodId) {
 

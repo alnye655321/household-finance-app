@@ -151,10 +151,13 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
-        fetchBudgetItems({ commit }, id) {
+        fetchBudgetItems({ commit }, payload) {
+            const id = payload.id;
+            const year = payload.year;
+
             return new Promise((resolve, reject) => {
                 axios
-                    .get(API_BASE + `budget_items/user/${id}/2021`)
+                    .get(API_BASE + `budget_items/user/${id}/${year}`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
