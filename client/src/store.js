@@ -154,7 +154,7 @@ export default new Vuex.Store({
         fetchBudgetItems({ commit }, id) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(API_BASE + `budget_items/user/${id}`)
+                    .get(API_BASE + `budget_items/user/${id}/2021`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);
@@ -168,6 +168,23 @@ export default new Vuex.Store({
                     });
             })
         },
+        // fetchBudgetItems({ commit }, id) {
+        //     return new Promise((resolve, reject) => {
+        //         axios
+        //             .get(API_BASE + `budget_items/user/${id}`)
+        //             .then((res) => {
+        //                 console.log(commit);
+        //                 console.log(res.data);
+        //                 commit("setBudgetItems", res.data);
+        //                 resolve();
+        //
+        //             })
+        //             .catch((err) => {
+        //                 console.log(err);
+        //                 reject();
+        //             });
+        //     })
+        // },
         updateBudgetItem({ commit }, updatedBudgetItem) {
             return new Promise((resolve, reject) => {
                 console.log('updatedBudgetItem');

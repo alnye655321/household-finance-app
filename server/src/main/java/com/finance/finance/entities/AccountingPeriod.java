@@ -21,13 +21,16 @@ public class AccountingPeriod {
     @Column(name = "end_date")
     private java.sql.Date endDate;
 
+    @Column(name = "year")
+    private int year;
 
     public AccountingPeriod() {
     }
 
-    public AccountingPeriod(Date startDate, Date endDate) {
+    public AccountingPeriod(Date startDate, Date endDate, int year) {
         this.startDate = startDate;
         this.endDate = endDate;
+        this.year = year;
     }
 
     public long getAccountingPeriodId() {
@@ -54,5 +57,11 @@ public class AccountingPeriod {
         this.endDate = endDate;
     }
 
+    public int getYear() {
+        return year;
+    }
 
+    public void setYear(int year) {
+        this.year = year;
+    }
 }

@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -40,9 +41,14 @@ public class BudgetItemController {
         return budgetItemRepository.findAll();
     }
 
-    @GetMapping("/budget_items/user/{userId}")
-    public List<BudgetItem> getBudgetItemsByUser(@PathVariable(value = "userId") Long userId) {
-        return budgetItemRepository.findByUserId(userId);
+    @GetMapping("/budget_items/user/{userId}/{year}")
+    public List<BudgetItem> getBudgetItemsByUser(@PathVariable(value = "userId") Long userId, @PathVariable(value = "year") int year) {
+        List<BudgetItem> budgetItems = budgetItemRepository.findByUserId(userId);
+
+        List<BudgetItem> budgetItemsFilteredByYear = budgetItems.stream()
+                .filter(e -> e.getAccountingPeriod().getYear() == year)
+                .collect(Collectors.toList());
+        return budgetItemsFilteredByYear;
     }
 
     @GetMapping("/budget_items/{id}")

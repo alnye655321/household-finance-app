@@ -10,39 +10,53 @@ insert into users (name, hashed_password, email) values ('sue', 'pw', 'b@aol.com
 
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-01-01', '2021-01-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-01-16', '2021-01-31');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-02-01', '2021-02-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-02-16', '2021-02-28');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-03-01', '2021-03-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-03-16', '2021-03-31');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-04-01', '2021-04-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-04-16', '2021-04-30');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-05-01', '2021-05-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-05-16', '2021-05-31');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-06-01', '2021-06-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-06-16', '2021-06-30');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-07-01', '2021-07-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-07-16', '2021-07-31');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-08-01', '2021-08-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-08-16', '2021-08-31');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-09-01', '2021-09-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-09-16', '2021-09-30');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-10-01', '2021-10-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-10-16', '2021-10-31');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-11-01', '2021-11-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-11-16', '2021-11-30');
-
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-12-01', '2021-12-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2021-12-16', '2021-12-31');
+
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-01-01', '2022-01-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-01-16', '2022-01-31');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-02-01', '2022-02-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-02-16', '2022-02-28');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-03-01', '2022-03-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-03-16', '2022-03-31');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-04-01', '2022-04-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-04-16', '2022-04-30');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-05-01', '2022-05-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-05-16', '2022-05-31');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-06-01', '2022-06-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-06-16', '2022-06-30');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-07-01', '2022-07-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-07-16', '2022-07-31');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-08-01', '2022-08-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-08-16', '2022-08-31');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-09-01', '2022-09-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-09-16', '2022-09-30');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-10-01', '2022-10-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-10-16', '2022-10-31');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-11-01', '2022-11-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-11-16', '2022-11-30');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-12-01', '2022-12-15');
+INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-12-16', '2022-12-31');
 
 --run after /seed in API request
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 1, 1);
@@ -69,6 +83,31 @@ INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 22, 1);
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 23, 1);
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 24, 1);
+
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 25, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 26, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 27, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 28, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 29, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 30, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 31, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 32, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 33, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 34, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 35, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 36, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 37, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 38, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 39, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 40, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 41, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 42, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 43, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 44, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 45, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 46, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 47, 1);
+INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 48, 1);
 
 
 --not needed ------------------------------------------------------------------------
