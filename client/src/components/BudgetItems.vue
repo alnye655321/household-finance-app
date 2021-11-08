@@ -28,6 +28,7 @@
               label="Select"
               hide-details
               prepend-icon="mdi-calendar"
+              @change="yearChange"
               single-line
           ></v-select>
         </v-col>
@@ -355,6 +356,12 @@ export default {
   },
 
   methods: {
+    yearChange() {
+      console.log('year changing');
+      console.log(this.year);
+
+
+    },
     accountListChange() {
       if (typeof this.selectedItem.account.accountType !== 'undefined' && this.selectedItem.account.accountType !== 'Savings') {
         this.showSavingsGoal = false;
