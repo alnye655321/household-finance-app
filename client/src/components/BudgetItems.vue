@@ -331,34 +331,38 @@ export default {
   },
 
   created() {
-    this.$store.dispatch("fetchBudgetTypes");
-
-    this.$store.dispatch("fetchAccounts");
-
-    const payload = {
-      id: this.$store.getters.getUser.userId,
-      year: this.year
-    };
-
-    this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
-        .then(() => {
-          this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
-              .then(() => {
-            this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
-          });
-        });
-
-    this.$store.dispatch("fetchSavingsGoals");
-
-    const today = new Date();
-    this.tab = today.getMonth(); //set the active tab to the current month
-
+    this.loadInitData();
   },
 
   methods: {
+    loadInitData() {
+      this.$store.dispatch("fetchBudgetTypes");
+
+      this.$store.dispatch("fetchAccounts");
+
+      const payload = {
+        id: this.$store.getters.getUser.userId,
+        year: this.year
+      };
+
+      //TODO need to add year to accounting periods and period budgets
+      this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
+          .then(() => {
+            this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                .then(() => {
+                  this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
+                });
+          });
+
+      this.$store.dispatch("fetchSavingsGoals");
+
+      const today = new Date();
+      this.tab = today.getMonth(); //set the active tab to the current month
+    },
     yearChange() {
       console.log('year changing');
       console.log(this.year);
+      this.loadInitData();
 
 
     },
