@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -22,12 +23,15 @@ public class PeriodBudgetController {
     @Autowired
     private PeriodBudgetRepository periodBudgetRepository;
 
-    @GetMapping("/period_budgets")
-    public List<PeriodBudget> getAllPeriodBudgets() {
+    @GetMapping("/period_budgets/year/{year}")
+    public List<PeriodBudget> getAllPeriodBudgets(@PathVariable(value = "year") int year) {
         AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = authUser.getUserId();
 
-        return periodBudgetRepository.findByUserId(userId);
+        List<PeriodBudget> periodBudgets = periodBudgetRepository.findByUserId(userId);
+        return periodBudgets.stream()
+                .filter(e -> e.getAccountingPeriod().getYear() == year)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/period_budgets/{id}")

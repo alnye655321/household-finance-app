@@ -253,10 +253,10 @@ export default new Vuex.Store({
                     });
             })
         },
-        fetchPeriodBudgets({ commit }) {
+        fetchPeriodBudgets({ commit }, year) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(API_BASE + `period_budgets`)
+                    .get(API_BASE + `period_budgets/year/${year}`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);

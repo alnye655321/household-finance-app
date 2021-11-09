@@ -350,7 +350,7 @@ export default {
           .then(() => {
             this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                 .then(() => {
-                  this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
+                  this.$store.dispatch("fetchPeriodBudgets", this.year); //for keeping track of bi-weekly budgets and remaining amount
                 });
           });
 
@@ -407,7 +407,7 @@ export default {
                   .then(() => {
                     this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                         .then(() => {
-                          this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
+                          this.$store.dispatch("fetchPeriodBudgets", this.year); //for keeping track of bi-weekly budgets and remaining amount
                         });
                   });
             });
@@ -451,7 +451,7 @@ export default {
                           .then(() => {
                             this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                                 .then(() => {
-                                  this.$store.dispatch("fetchPeriodBudgets");
+                                  this.$store.dispatch("fetchPeriodBudgets", this.year);
                                 });
                           });
                     });
@@ -480,7 +480,7 @@ export default {
                       .then(() => {
                         this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                             .then(() => {
-                              this.$store.dispatch("fetchPeriodBudgets");
+                              this.$store.dispatch("fetchPeriodBudgets", this.year);
                             });
                       });
                 });
