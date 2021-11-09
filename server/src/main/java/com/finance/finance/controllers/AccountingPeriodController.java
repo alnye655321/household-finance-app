@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin
@@ -19,9 +20,13 @@ public class AccountingPeriodController {
     @Autowired
     private AccountingPeriodRepository accountingPeriodRepository;
 
-    @GetMapping("/accounting_periods")
-    public List<AccountingPeriod> getAllAccountingPeriods() {
-        return accountingPeriodRepository.findAll();
+    @GetMapping("/accounting_periods/year/{year}")
+    public List<AccountingPeriod> getAllAccountingPeriods(@PathVariable(value = "year") int year) {
+        List<AccountingPeriod> accountingPeriods = accountingPeriodRepository.findAll();
+
+        return accountingPeriods.stream()
+                .filter(e -> e.getYear() == year)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/accounting_periods/{id}")

@@ -331,10 +331,10 @@ export default new Vuex.Store({
             })
 
         },
-        fetchAccountingPeriods({ commit }) {
+        fetchAccountingPeriods({ commit }, year) {
             return new Promise((resolve, reject) => {
                 axios
-                    .get(API_BASE + `accounting_periods`)
+                    .get(API_BASE + `accounting_periods/year/${year}`)
                     .then((res) => {
                         console.log(commit);
                         console.log(res.data);

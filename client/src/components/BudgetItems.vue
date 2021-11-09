@@ -348,7 +348,7 @@ export default {
       //TODO need to add year to accounting periods and period budgets
       this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
           .then(() => {
-            this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+            this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                 .then(() => {
                   this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
                 });
@@ -405,7 +405,7 @@ export default {
             .then(() => {
               this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
                   .then(() => {
-                    this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                    this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                         .then(() => {
                           this.$store.dispatch("fetchPeriodBudgets"); //for keeping track of bi-weekly budgets and remaining amount
                         });
@@ -449,7 +449,7 @@ export default {
                     .then(() => {
                       this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first\
                           .then(() => {
-                            this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                            this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                                 .then(() => {
                                   this.$store.dispatch("fetchPeriodBudgets");
                                 });
@@ -478,7 +478,7 @@ export default {
                 .then(() => {
                   this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first\
                       .then(() => {
-                        this.$store.dispatch("fetchAccountingPeriods") //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                        this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
                             .then(() => {
                               this.$store.dispatch("fetchPeriodBudgets");
                             });
