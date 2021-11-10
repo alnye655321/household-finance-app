@@ -99,6 +99,7 @@ public class BudgetItemController {
 
                     PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
                     periodBudget.setAmount(periodBudget.getAmount() - newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
+                    periodBudgetRepository.save(periodBudget);
 
                 }
 
@@ -128,6 +129,7 @@ public class BudgetItemController {
 
                     PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
                     periodBudget.setAmount(periodBudget.getAmount() + newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
+                    periodBudgetRepository.save(periodBudget);
                 }
 
                 accountRepository.save(account);

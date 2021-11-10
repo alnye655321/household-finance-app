@@ -428,10 +428,14 @@ export default {
         if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
           this.selectedItem.savingsGoal = {};
         }
+        console.log('commitment!!!');
 
         this.$store.dispatch("updateBudgetItem", this.selectedItem)
             .then(() => {
-              this.$store.dispatch("fetchAccounts");
+              this.$store.dispatch("fetchAccounts")
+                  .then(() => {
+                    this.$store.dispatch("fetchPeriodBudgets", this.year)
+                  })
             });
       }
       else {
