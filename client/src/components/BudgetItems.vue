@@ -345,7 +345,6 @@ export default {
         year: this.year
       };
 
-      //TODO need to add year to accounting periods and period budgets
       this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
           .then(() => {
             this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
