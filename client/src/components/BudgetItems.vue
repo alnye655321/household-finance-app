@@ -147,7 +147,7 @@
 
       <v-select v-model="selectedItem.account"
                 hint="Account"
-                :items="getAccounts"
+                :items="filteredAccounts()"
                 item-text="name"
                 item-value="accountId"
                 label="Select Account"
@@ -345,7 +345,6 @@ export default {
         year: this.year
       };
 
-      //TODO need to add year to accounting periods and period budgets
       this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
           .then(() => {
             this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
@@ -358,6 +357,9 @@ export default {
 
       const today = new Date();
       this.tab = today.getMonth(); //set the active tab to the current month
+    },
+    filteredAccounts() {
+      return this.$store.getters.getAccounts;
     },
     yearChange() {
       console.log('year changing');
@@ -428,10 +430,14 @@ export default {
         if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
           this.selectedItem.savingsGoal = {};
         }
+        console.log('commitment!!!');
 
         this.$store.dispatch("updateBudgetItem", this.selectedItem)
             .then(() => {
-              this.$store.dispatch("fetchAccounts");
+              this.$store.dispatch("fetchAccounts")
+                  .then(() => {
+                    this.$store.dispatch("fetchPeriodBudgets", this.year)
+                  })
             });
       }
       else {
