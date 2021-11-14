@@ -1,6 +1,6 @@
 <template>
     <v-card>
-      <v-alert type="success" v-if="getIsLoggedIn">
+      <v-alert type="success" v-if="getIsLoggedIn" v-show="loginSucces">
         Logged In Successfully.
       </v-alert>
       <v-toolbar dark>
@@ -39,7 +39,7 @@ export default {
     return {
       userName: "",
       password: "",
-      loginSucces: false
+      loginSucces: true
     };
   },
   methods: {
@@ -49,8 +49,17 @@ export default {
         hashedPassword: this.password,
         email: '',
       }).then(res => {
-        console.log('res' + res);
+        console.log(res);
+        console.log('res' + res.toString());
         console.log('status ' + res.status);
+
+        if (typeof res.data.token !== 'undefined' && res.data.token !== "") {
+          console.log("have token");
+
+          setTimeout(()=>{
+            this.timeoutSuccessMessage()
+          },4000);
+        }
 
         //could be expired token, remove token, resubmit try again
         if(res.status === 403) {
@@ -62,6 +71,9 @@ export default {
           });
         }
       });
+    },
+    timeoutSuccessMessage() {
+      this.loginSucces = false;
     },
   },
   computed: {
