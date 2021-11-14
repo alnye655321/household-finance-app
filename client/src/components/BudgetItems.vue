@@ -361,12 +361,12 @@ export default {
 
       this.$store.dispatch("fetchAccounts");
 
+      this.userDisplay = this.$store.getters.getUser;
+
       const payload = {
-        id: this.$store.getters.getUser.userId,
+        id: this.userDisplay.userId,
         year: this.year
       };
-
-      this.userDisplay = this.$store.getters.getUser;
 
       this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
           .then(() => {
@@ -429,7 +429,7 @@ export default {
         }
 
         const payload = {
-          id: this.$store.getters.getUser.userId,
+          id: this.userDisplay.userId,
           year: this.year
         };
 
@@ -474,7 +474,7 @@ export default {
         const valid = this.$refs.form.validate();
 
         const payload = {
-          id: this.$store.getters.getUser.userId,
+          id: this.userDisplay.userId,
           year: this.year
         };
 
@@ -504,7 +504,7 @@ export default {
     },
     deleteItem() {
       const payload = {
-        id: this.$store.getters.getUser.userId,
+        id: this.userDisplay.userId,
         year: this.year
       };
 
