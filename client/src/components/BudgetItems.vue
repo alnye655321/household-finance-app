@@ -359,7 +359,18 @@ export default {
       this.tab = today.getMonth(); //set the active tab to the current month
     },
     filteredAccounts() {
-      return this.$store.getters.getAccounts;
+      if (typeof this.selectedItem.budgetType.type !== 'undefined' && this.selectedItem.budgetType.type === 'Savings Contribution') {
+        const accounts = this.$store.getters.getAccounts;
+        const savingsAccounts = accounts.filter(e => e.accountType.accountType === 'Savings');
+        return savingsAccounts;
+        // console.log(accounts);
+        // console.log('savings accounts:');
+        // console.log(savingsAccounts);
+
+      }
+      else {
+        return this.$store.getters.getAccounts;
+      }
     },
     yearChange() {
       console.log('year changing');
