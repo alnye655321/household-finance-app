@@ -41,6 +41,7 @@
                 item-value="userId"
                 menu-props="auto"
                 label="Select"
+                @change="userDisplaySwitch"
                 hide-details
                 prepend-icon="mdi-account"
                 single-line
@@ -275,7 +276,7 @@ export default {
         2021,
         2022
     ],
-    userDisplay: {},
+    userDisplay: -1,
     userDisplays: [],
     showSavingsGoal: false,
     deleteAlert: false,
@@ -361,10 +362,12 @@ export default {
 
       this.$store.dispatch("fetchAccounts");
 
-      this.userDisplay = this.$store.getters.getUser;
+      if (this.userDisplay === -1) {
+        this.userDisplay = this.$store.getters.getUser.userId;
+      }
 
       const payload = {
-        id: this.userDisplay.userId,
+        id: this.userDisplay,
         year: this.year
       };
 
@@ -575,6 +578,9 @@ export default {
         }
       }
       return amount;
+    },
+    userDisplaySwitch() {
+      this.loadInitData();
     }
   },
 }
