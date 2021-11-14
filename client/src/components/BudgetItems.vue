@@ -21,17 +21,35 @@
         </v-col>
 
         <v-col cols="2">
-          <v-select
-              v-model="year"
-              :items="years"
-              menu-props="auto"
-              label="Select"
-              hide-details
-              prepend-icon="mdi-calendar"
-              @change="yearChange"
-              single-line
-          ></v-select>
+          <v-row>
+            <v-select
+                v-model="year"
+                :items="years"
+                menu-props="auto"
+                label="Select"
+                hide-details
+                prepend-icon="mdi-calendar"
+                @change="yearChange"
+                single-line
+            ></v-select>
+          </v-row>
+          <v-row>
+            <v-select
+                v-model="userDisplay"
+                :items="allusers"
+                item-text="name"
+                item-value="userId"
+                menu-props="auto"
+                label="Select"
+                hide-details
+                prepend-icon="mdi-account"
+                single-line
+            ></v-select>
+
+          </v-row>
+
         </v-col>
+
       </v-row>
 
       <v-spacer></v-spacer>
@@ -257,6 +275,8 @@ export default {
         2021,
         2022
     ],
+    userDisplay: {},
+    userDisplays: [],
     showSavingsGoal: false,
     deleteAlert: false,
     alert: false,
@@ -307,6 +327,7 @@ export default {
       'getBudgetTypes',
       'getAccountingPeriods',
       'getUser',
+      'allusers',
       'getAccountingPeriodMonths',
       'getBudgetItemsByMonth',
       'getAccounts',
@@ -344,6 +365,8 @@ export default {
         id: this.$store.getters.getUser.userId,
         year: this.year
       };
+
+      this.userDisplay = this.$store.getters.getUser;
 
       this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
           .then(() => {
