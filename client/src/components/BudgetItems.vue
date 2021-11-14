@@ -147,7 +147,7 @@
 
       <v-select v-model="selectedItem.account"
                 hint="Account"
-                :items="getAccounts"
+                :items="filteredAccounts()"
                 item-text="name"
                 item-value="accountId"
                 label="Select Account"
@@ -357,6 +357,9 @@ export default {
 
       const today = new Date();
       this.tab = today.getMonth(); //set the active tab to the current month
+    },
+    filteredAccounts() {
+      return this.$store.getters.getAccounts;
     },
     yearChange() {
       console.log('year changing');
