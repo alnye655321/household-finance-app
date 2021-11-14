@@ -363,10 +363,6 @@ export default {
         const accounts = this.$store.getters.getAccounts;
         const savingsAccounts = accounts.filter(e => e.accountType.accountType === 'Savings');
         return savingsAccounts;
-        // console.log(accounts);
-        // console.log('savings accounts:');
-        // console.log(savingsAccounts);
-
       }
       else {
         return this.$store.getters.getAccounts;
