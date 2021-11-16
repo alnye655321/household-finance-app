@@ -314,6 +314,21 @@ export default new Vuex.Store({
             })
 
         },
+        updateAccount({ commit }, account) {
+            return new Promise((resolve, reject) => {
+                axios.put(API_BASE + `accounts/${account.accountId}`, account)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
+        },
         fetchAccountingPeriods({ commit }, year) {
             return new Promise((resolve, reject) => {
                 axios

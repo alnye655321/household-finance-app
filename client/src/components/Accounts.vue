@@ -21,7 +21,7 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn dark icon class="mr-4">
+                <v-btn dark icon class="mr-4" @click="selectedAccount = account; editAccountOverlay = true;">
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
 
@@ -117,14 +117,7 @@
       </div>
       </v-layout>
 
-
-
-<!--    <v-card max-width="375" class="mx-auto" v-for="(account, index) in getAccounts" :key="account.accountId">-->
-
-
-<!--    </v-card>-->
-
-    <!--  Begin Overlay-->
+    <!--  Begin Add Account Overlay-->
     <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayzIndex">
       <v-form ref="form" v-if="selectedItem.hasOwnProperty('balance')" lazy-validation>
 
@@ -142,20 +135,34 @@
         <v-text-field label="Interest Rate" v-model="selectedItem.interestRate" prefix="%"></v-text-field>
 
         <v-row>
-          <v-btn color="primary" class="mr-4" @click="updateItem">Submit</v-btn>
+          <v-btn color="primary" class="mr-4" @click="createAccount">Submit</v-btn>
 
           <v-btn color="warning" class="mr-4" @click="test">Reset Form</v-btn>
 
           <v-btn color="error" @click="showOverlay = false">Close</v-btn>
         </v-row>
-
-
-<!--        <v-btn color="warning" @click="test">Reset Validation</v-btn>-->
-
       </v-form>
-
     </v-overlay>
-    <!--  End Overlay-->
+    <!--  End Add Account Overlay-->
+
+      <!--  Begin Edit Account Overlay-->
+      <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="editAccountOverlay" :z-index="overlayzIndex">
+        <v-form ref="form" v-if="selectedAccount.hasOwnProperty('balance')" lazy-validation>
+
+          <v-text-field v-model="selectedAccount.balance" label="Balance" required> </v-text-field>
+
+          <v-text-field label="Interest Rate" v-model="selectedAccount.interestRate" prefix="%"></v-text-field>
+
+          <v-row>
+            <v-btn color="primary" class="mr-4" @click="updateAccount">Submit</v-btn>
+
+            <v-btn color="warning" class="mr-4" @click="test">Reset Form</v-btn>
+
+            <v-btn color="error" @click="editAccountOverlay = false">Close</v-btn>
+          </v-row>
+        </v-form>
+      </v-overlay>
+      <!--  End Add Account Overlay-->
 
     </v-container>
   </div>
@@ -187,6 +194,8 @@ export default {
     overlayOpacity: 0.86,
     showOverlay: false,
     overlayzIndex: 5,
+    editAccountOverlay: false,
+    selectedAccount: {}
   }),
   computed: {
     ...mapGetters([
@@ -203,7 +212,7 @@ export default {
     this.$store.dispatch("fetchAccountTypes");
   },
   methods: {
-    updateItem() {
+    createAccount() {
       this.showOverlay = false;
 
       this.$store.dispatch("createAccount", this.selectedItem) //send the account to the server
@@ -222,6 +231,12 @@ export default {
         "name": ""
       };
 
+    },
+    updateAccount() {
+      this.$store.dispatch("updateAccount", this.selectedAccount) //send the account to the server
+          .then(() => {
+            this.$store.dispatch("fetchAccounts"); //get new accounts list after server updates
+          });
     },
     test() {
       console.log('');

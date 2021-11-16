@@ -73,18 +73,18 @@ public class AccountController {
         return accountRepository.save(account);
     }
 
-//    @PutMapping("/accounts/{id}")
-//    public ResponseEntity<Account> updateAccount(@PathVariable(value = "id") Long accountId,
-//                                           @Valid @RequestBody Account accountDetails) throws ResourceNotFoundException {
-//        Account account = accountRepository.findById(accountId)
-//                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + accountId));
-//
-//        account.setName(accountDetails.getName());
-//        account.setHashedPassword(accountDetails.getHashedPassword());
-//        account.setEmail(accountDetails.getEmail());
-//        final Account updatedAccount = accountRepository.save(account);
-//        return ResponseEntity.ok(updatedAccount);
-//    }
+    @PutMapping("/accounts/{id}")
+    public ResponseEntity<Account> updateAccount(@PathVariable(value = "id") Long accountId,
+                                           @Valid @RequestBody Account accountDetails) throws ResourceNotFoundException {
+        Account account = accountRepository.findById(accountId)
+                .orElseThrow(() -> new ResourceNotFoundException("Account not found for this id :: " + accountId));
+
+        account.setBalance(accountDetails.getBalance());
+        account.setInterestRate(accountDetails.getInterestRate());
+
+        final Account updatedAccount = accountRepository.save(account);
+        return ResponseEntity.ok(updatedAccount);
+    }
 
 //    @DeleteMapping("/accounts/{id}")
 //    public Map<String, Boolean> deleteAccount(@PathVariable(value = "id") Long accountId)
