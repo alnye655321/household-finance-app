@@ -236,6 +236,7 @@ export default {
       this.$store.dispatch("updateAccount", this.selectedAccount) //send the account to the server
           .then(() => {
             this.$store.dispatch("fetchAccounts"); //get new accounts list after server updates
+            this.editAccountOverlay = false; //close the account overlay after submission
           });
     },
     test() {
