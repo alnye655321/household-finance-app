@@ -1,5 +1,6 @@
 package com.finance.finance.controllers;
 
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -53,7 +54,8 @@ public class AccountController {
         List<Account> allAccounts = accountRepository.findAll();
         List <Account> linkedAccounts = allAccounts.stream()
                 .filter(e -> e.getLinkedUsers().stream()
-                        .anyMatch(y -> userId.equals(y.getUserId())))
+                .anyMatch(y -> userId.equals(y.getUserId())))
+                .sorted(Comparator.comparing(Account::getName))
                 .collect(Collectors.toList());
         return linkedAccounts;
     }
