@@ -96,12 +96,11 @@ public class BudgetItemController {
                 }
                 else { //other wise do a normal account debit
                     account.setBalance(account.getBalance() - newBudgetItem.getAmount());
-
-                    PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
-                    periodBudget.setAmount(periodBudget.getAmount() - newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
-                    periodBudgetRepository.save(periodBudget);
-
                 }
+
+                PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
+                periodBudget.setAmount(periodBudget.getAmount() - newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
+                periodBudgetRepository.save(periodBudget);
 
                 accountRepository.save(account);
             }
@@ -126,11 +125,11 @@ public class BudgetItemController {
                 }
                 else { //otherwise do a normal credit
                     account.setBalance(account.getBalance() + newBudgetItem.getAmount());
-
-                    PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
-                    periodBudget.setAmount(periodBudget.getAmount() + newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
-                    periodBudgetRepository.save(periodBudget);
                 }
+
+                PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
+                periodBudget.setAmount(periodBudget.getAmount() + newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
+                periodBudgetRepository.save(periodBudget);
 
                 accountRepository.save(account);
             }
