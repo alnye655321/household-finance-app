@@ -501,6 +501,7 @@ export default {
           this.alert = true; //show invalid form alert message
           setTimeout(() => { this.alert = false; }, 3000); //remove alert message after a time period
         }
+        this.showOverlay = false;
       }
 
       // console.log(item);
