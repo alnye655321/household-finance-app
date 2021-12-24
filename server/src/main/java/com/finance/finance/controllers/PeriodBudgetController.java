@@ -45,8 +45,8 @@ public class PeriodBudgetController {
         return periodBudgetRepository.save(periodBudget);
     }
 
-    @PutMapping("/period_budgets/adjustment/{amount}")
-    public ResponseEntity<PeriodBudget> budgetAdjustment(@PathVariable(value = "amount") Long amount) throws ResourceNotFoundException {
+    @PutMapping("/period_budgets/adjustment/{amount}/{fromMonth}")
+    public ResponseEntity<PeriodBudget> budgetAdjustment(@PathVariable(value = "amount") Long amount, @PathVariable(value = "fromMonth") Long fromMonth) throws ResourceNotFoundException {
 
         AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = authUser.getUserId();
@@ -66,7 +66,7 @@ public class PeriodBudgetController {
 //                .collect(Collectors.toList());
 
         periodBudgets.stream()
-                .filter(e -> (e.getAccountingPeriod().getStartDate().toLocalDate().getMonthValue() - 1) >= month)
+                .filter(e -> (e.getAccountingPeriod().getStartDate().toLocalDate().getMonthValue() - 1) >= fromMonth)
                 .forEach(e -> e.setAmount(amount));
 
 //        PeriodBudget periodBudget = periodBudgetRepository.findById(amount)

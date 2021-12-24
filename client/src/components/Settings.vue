@@ -114,7 +114,11 @@ export default {
     },
     submitBudgetAdjustment() {
       console.log("submitting budget adjustment");
-      this.$store.dispatch("periodBudgetsAdjustment", this.budgetAdjustment);
+      const budgetAdjustmentPayload = {
+        amount: this.budgetAdjustment,
+        fromMonth: 11}
+      ;
+      this.$store.dispatch("periodBudgetsAdjustment", budgetAdjustmentPayload);
     },
   },
 
