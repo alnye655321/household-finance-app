@@ -16,11 +16,12 @@
               label="Amount"
               v-model="budgetAdjustment"
               prefix="$"
+              @click="showBudgetAdjustmentControls = !showBudgetAdjustmentControls"
           ></v-text-field>
         </v-col>
         <v-col cols="2">
-          <v-icon color="green">mdi-check-circle</v-icon>
-          <v-icon color="red" style="padding-left: 10px">mdi-cancel</v-icon>
+          <v-icon color="green" @click="submitBudgetAdjustment" v-if="showBudgetAdjustmentControls">mdi-check-circle</v-icon>
+          <v-icon color="red" @click="showBudgetAdjustmentControls = false" style="padding-left: 10px" v-if="showBudgetAdjustmentControls">mdi-cancel</v-icon>
         </v-col>
       </v-row>
 
@@ -75,6 +76,7 @@ export default {
   data() {
     return {
       budgetAdjustment: 666,
+      showBudgetAdjustmentControls: false,
     };
   },
   created() {
@@ -109,6 +111,10 @@ export default {
       if (currentMonthBudgets.length > 0) {
         this.budgetAdjustment = currentMonthBudgets[0].amount;
       }
+    },
+    submitBudgetAdjustment() {
+      console.log("submitting budget adjustment");
+      this.$store.dispatch("periodBudgetsAdjustment", this.budgetAdjustment);
     },
   },
 

@@ -17,4 +17,7 @@ public interface PeriodBudgetRepository extends JpaRepository<PeriodBudget, Long
     @Query("SELECT b FROM PeriodBudget b WHERE b.user.userId = ?1 AND b.accountingPeriod.accountingPeriodId = ?2")
     PeriodBudget findByAccountingPeriod(Long userId, Long accountingPeriodId);
 
+    @Query("SELECT b FROM PeriodBudget b WHERE b.user.userId = ?1 AND b.accountingPeriod.year = ?2")
+    List<PeriodBudget> findByAccountingYear(Long userId, int accountingYear);
+
 }

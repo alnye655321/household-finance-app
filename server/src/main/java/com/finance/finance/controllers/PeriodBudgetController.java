@@ -10,9 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -46,6 +44,42 @@ public class PeriodBudgetController {
     public PeriodBudget createPeriodBudget(@Valid @RequestBody PeriodBudget periodBudget) {
         return periodBudgetRepository.save(periodBudget);
     }
+
+    @PutMapping("/period_budgets/adjustment/{amount}")
+    public ResponseEntity<PeriodBudget> budgetAdjustment(@PathVariable(value = "amount") Long amount) throws ResourceNotFoundException {
+
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long userId = authUser.getUserId();
+
+        java.util.Date date= new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+
+        List<PeriodBudget> periodBudgets = periodBudgetRepository.findByAccountingYear(userId, year);
+
+
+
+//        List<PeriodBudget> remainingPeriodsInYear = periodBudgets.stream()
+//                .filter(e -> (e.getAccountingPeriod().getStartDate().toLocalDate().getMonthValue() - 1) >= month )
+//                .collect(Collectors.toList());
+
+        periodBudgets.stream()
+                .filter(e -> (e.getAccountingPeriod().getStartDate().toLocalDate().getMonthValue() - 1) >= month)
+                .forEach(e -> e.setAmount(amount));
+
+//        PeriodBudget periodBudget = periodBudgetRepository.findById(amount)
+//                .orElseThrow(() -> new ResourceNotFoundException("PeriodBudget not found for this id :: " + amount));
+//
+//        periodBudget.setName(periodBudgetDetails.getName());
+//        final PeriodBudget updatedPeriodBudget = periodBudgetRepository.save(periodBudget);
+        System.out.println("test");
+        periodBudgetRepository.saveAll(periodBudgets);
+        return ResponseEntity.ok(periodBudgets.get(0));
+    }
+
+
 
 //    @PutMapping("/periodBudgets/{id}")
 //    public ResponseEntity<PeriodBudget> updatePeriodBudget(@PathVariable(value = "id") Long periodBudgetId,

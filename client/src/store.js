@@ -439,6 +439,21 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
+        periodBudgetsAdjustment({ commit }, amount) {
+            return new Promise((resolve, reject) => {
+                axios.put(API_BASE + `period_budgets/adjustment/${amount}`)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
+        },
         register({ commit }, userData) {
             axios.post(API_BASE + 'users', userData)
                 .then(function (res) {
