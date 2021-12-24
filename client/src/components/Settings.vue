@@ -11,12 +11,16 @@
         <v-col cols="4">
           <v-subheader>Change The Budget For Accounting Periods</v-subheader>
         </v-col>
-        <v-col cols="8">
+        <v-col cols="6">
           <v-text-field
               label="Amount"
               v-model="budgetAdjustment"
               prefix="$"
           ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-icon color="green">mdi-check-circle</v-icon>
+          <v-icon color="red" style="padding-left: 10px">mdi-cancel</v-icon>
         </v-col>
       </v-row>
 
