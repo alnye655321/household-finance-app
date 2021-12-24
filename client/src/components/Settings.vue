@@ -91,8 +91,20 @@ export default {
     displayBudgetValueByMonth(month) {
       const periodBudgets = this.$store.getters.getPeriodBudgets;
       console.log('period budgets');
-      console.log(periodBudgets);
+      console.log(periodBudgets); //2021-05-15
+                                  //0123456
       console.log(month);
+      const currentMonthBudgets = periodBudgets.filter(e => {
+        console.log(e);
+        const monthNumber = parseInt(e.accountingPeriod.startDate.substr(5, 2));
+        return month === (monthNumber - 1);
+      });
+
+      console.log("currentMonthBudgets");
+      console.log(currentMonthBudgets);
+      if (currentMonthBudgets.length > 0) {
+        this.budgetAdjustment = currentMonthBudgets[0].amount;
+      }
     },
   },
 
