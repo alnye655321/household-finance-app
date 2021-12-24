@@ -103,7 +103,7 @@
 
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);">mdi-pencil</v-icon>
-            <v-icon small @click="selectedItem = item; deleteItemConfirm(item);">mdi-delete</v-icon>
+            <v-icon small @click="deleteItemConfirm(item);">mdi-delete</v-icon>
           </template>
 
         </v-data-table>
@@ -490,6 +490,7 @@ export default {
     },
     deleteItemConfirm(item) {
       console.log(item);
+      this.selectedItem = item;
 
       if (item.committed) {
         console.log('delete alerty ');
