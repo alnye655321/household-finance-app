@@ -431,20 +431,9 @@ export default {
           this.selectedItem.savingsGoal = null;
         }
 
-        const payload = {
-          id: this.userDisplay.userId,
-          year: this.year
-        };
-
         this.$store.dispatch("createBudgetItem", this.selectedItem)
             .then(() => {
-              this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
-                  .then(() => {
-                    this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
-                        .then(() => {
-                          this.$store.dispatch("fetchPeriodBudgets", this.year); //for keeping track of bi-weekly budgets and remaining amount
-                        });
-                  });
+              this.loadInitData()
             });
 
         this.showOverlay = false;
@@ -476,24 +465,10 @@ export default {
       else {
         const valid = this.$refs.form.validate();
 
-        const payload = {
-          id: this.userDisplay.userId,
-          year: this.year
-        };
-
         if (valid) {
           this.$store.dispatch("updateBudgetItem", this.selectedItem)
               .then(() => {
-                this.$store.dispatch("fetchAccounts")
-                    .then(() => {
-                      this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first\
-                          .then(() => {
-                            this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
-                                .then(() => {
-                                  this.$store.dispatch("fetchPeriodBudgets", this.year);
-                                });
-                          });
-                    });
+                this.loadInitData();
               });
         }
         else {
@@ -507,23 +482,10 @@ export default {
       // console.log(item);
     },
     deleteItem() {
-      const payload = {
-        id: this.userDisplay.userId,
-        year: this.year
-      };
-
       this.$store.dispatch("deleteBudgetItem", this.selectedItem)
           .then(() => {
-            this.$store.dispatch("fetchAccounts")
-                .then(() => {
-                  this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first\
-                      .then(() => {
-                        this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
-                            .then(() => {
-                              this.$store.dispatch("fetchPeriodBudgets", this.year);
-                            });
-                      });
-                });
+            console.log('hereeeeeee');
+            this.loadInitData();
           });
     },
     deleteItemConfirm(item) {
