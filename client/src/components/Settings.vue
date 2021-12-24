@@ -9,7 +9,7 @@
     <v-container fluid>
       <v-row>
         <v-col cols="4">
-          <v-subheader>Change The Budget For Accounting Periods</v-subheader>
+          <v-subheader>Change The Budget For Accounting Periods (Starting At Month #)</v-subheader>
         </v-col>
         <v-col cols="4">
           <v-text-field
