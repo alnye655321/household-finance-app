@@ -59,26 +59,13 @@ public class PeriodBudgetController {
 
         List<PeriodBudget> periodBudgets = periodBudgetRepository.findByAccountingYear(userId, year);
 
-
-
-//        List<PeriodBudget> remainingPeriodsInYear = periodBudgets.stream()
-//                .filter(e -> (e.getAccountingPeriod().getStartDate().toLocalDate().getMonthValue() - 1) >= month )
-//                .collect(Collectors.toList());
-
         periodBudgets.stream()
                 .filter(e -> (e.getAccountingPeriod().getStartDate().toLocalDate().getMonthValue() - 1) >= fromMonth)
                 .forEach(e -> e.setAmount(amount));
 
-//        PeriodBudget periodBudget = periodBudgetRepository.findById(amount)
-//                .orElseThrow(() -> new ResourceNotFoundException("PeriodBudget not found for this id :: " + amount));
-//
-//        periodBudget.setName(periodBudgetDetails.getName());
-//        final PeriodBudget updatedPeriodBudget = periodBudgetRepository.save(periodBudget);
-        System.out.println("test");
         periodBudgetRepository.saveAll(periodBudgets);
         return ResponseEntity.ok(periodBudgets.get(0));
     }
-
 
 
 //    @PutMapping("/periodBudgets/{id}")

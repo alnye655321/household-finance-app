@@ -11,13 +11,24 @@
         <v-col cols="4">
           <v-subheader>Change The Budget For Accounting Periods</v-subheader>
         </v-col>
-        <v-col cols="6">
+        <v-col cols="4">
           <v-text-field
               label="Amount"
               v-model="budgetAdjustment"
               prefix="$"
               @click="showBudgetAdjustmentControls = !showBudgetAdjustmentControls"
           ></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-select
+              v-model="adjustmentMonth"
+              :items="adjustmentMonths"
+              menu-props="auto"
+              label="Select Starting Month"
+              hide-details
+              prepend-icon="mdi-calendar"
+              single-line
+          ></v-select>
         </v-col>
         <v-col cols="2">
           <v-icon color="green" @click="submitBudgetAdjustment" v-if="showBudgetAdjustmentControls">mdi-check-circle</v-icon>
@@ -77,6 +88,8 @@ export default {
     return {
       budgetAdjustment: 666,
       showBudgetAdjustmentControls: false,
+      adjustmentMonths: [1, 2, 3, 4, 5, 6 ,7, 8, 9, 10, 11, 12],
+      adjustmentMonth: 1
     };
   },
   created() {
@@ -92,6 +105,7 @@ export default {
       this.$store.dispatch("fetchPeriodBudgets", currentYear).then(() => {
         const currentMonth = new Date().getMonth();
         this.displayBudgetValueByMonth(currentMonth);
+        this.adjustmentMonth = currentMonth + 1;
       });
     },
     displayBudgetValueByMonth(month) {
@@ -116,8 +130,8 @@ export default {
       console.log("submitting budget adjustment");
       const budgetAdjustmentPayload = {
         amount: this.budgetAdjustment,
-        fromMonth: 11}
-      ;
+        fromMonth: this.adjustmentMonth - 1
+      };
       this.$store.dispatch("periodBudgetsAdjustment", budgetAdjustmentPayload);
     },
   },
