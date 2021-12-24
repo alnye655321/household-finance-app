@@ -48,6 +48,8 @@ public class PeriodBudgetController {
     @PutMapping("/period_budgets/adjustment/{amount}/{fromMonth}")
     public ResponseEntity<PeriodBudget> budgetAdjustment(@PathVariable(value = "amount") Long amount, @PathVariable(value = "fromMonth") Long fromMonth) throws ResourceNotFoundException {
 
+        //TODO check on the month submitted if there are any commited transactions and fail if there are - need to have a clean slate month
+
         AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long userId = authUser.getUserId();
 
