@@ -8,9 +8,9 @@
 <!--      eslint-disable-next-line vue/no-unused-vars-->
       <div v-for="account in getAccounts" :key="account.accountId">
         <v-flex class="pa-2">
-        <v-card min-width="275" class="mx-auto">
+        <v-card min-width="300" class="mx-auto">
           <v-img
-              :src="findImage"
+              :src="findImage('test')"
               height="300px"
               dark
           >
@@ -191,21 +191,20 @@ export default {
     editAccountOverlay: false,
     selectedAccount: {},
     imageSources : [
-      "../assets/icons8-bug-96.png",
-      "../assets/icons8-bull-96.png",
-      "../assets/icons8-butterfly-96.png",
-      "../assets/icons8-dove-96.png",
-      "../assets/icons8-dragon-96.png",
-      "../assets/icons8-hatching-chicken-96.png",
-      "../assets/icons8-hive-96.png",
-      "../assets/icons8-honeycombs-96.png",
-      "../assets/icons8-jackalope-96.png",
-      "../assets/icons8-ladybird-96.png",
-      "../assets/icons8-pelican-96.png",
-      "../assets/icons8-penguin-96.png",
-      "../assets/hopper_ball.jpg",
-      "../assets/icons8-swan-96.png",
-      "../assets/icons8-turkeycock-96.png",
+      "icons8-bug-96.png",
+      "icons8-bull-96.png",
+      "icons8-butterfly-96.png",
+      "icons8-dove-96.png",
+      "icons8-dragon-96.png",
+      "icons8-hatching-chicken-96.png",
+      "icons8-hive-96.png",
+      "icons8-honeycombs-96.png",
+      "icons8-jackalope-96.png",
+      "icons8-ladybird-96.png",
+      "icons8-pelican-96.png",
+      "icons8-penguin-96.png",
+      "icons8-swan-96.png",
+      "icons8-turkeycock-96.png",
     ]
   }),
   computed: {
@@ -214,15 +213,6 @@ export default {
       'getUser',
       'getAccountTypes',
     ]),
-    findImage() {
-      console.log('hereeee');
-      console.log(this.imageSources);
-      // return this.imageSources[0];
-      return require(`../assets/icons8-bug-96.png`) // the module request
-    },
-    // formTitle() {
-    //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
-    // },
   },
   created() {
     this.$store.dispatch("fetchAccounts");
@@ -248,6 +238,15 @@ export default {
         "name": ""
       };
 
+    },
+    findImage(test) {
+      console.log('hereeee');
+      console.log(test);
+      console.log(this.imageSources);
+      // return this.imageSources[0];
+      const randomIndex = Math.floor(Math.random()*((this.imageSources.length -1) + 1)+ 0);
+      return require(`../assets/${this.imageSources[randomIndex]}`) // the module request
+      // return require(`../assets/icons8-bug-96.png`) // the module request
     },
     updateAccount() {
       this.$store.dispatch("updateAccount", this.selectedAccount) //send the account to the server
