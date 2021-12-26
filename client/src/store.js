@@ -287,34 +287,8 @@ export default new Vuex.Store({
             axios
                 .get(API_BASE + `accounts/user`)
                 .then((res) => {
-                    console.log('accounts!!!');
                     console.log(commit);
                     console.log(res.data);
-                    const accounts = res.data;
-
-                    const accountImageSources = [
-                        "../assets/icons8-bug-96.png",
-                        "../assets/icons8-bull-96.png",
-                        "../assets/icons8-butterfly-96.png",
-                        "../assets/icons8-dove-96.png",
-                        "../assets/icons8-dragon-96.png",
-                        "../assets/icons8-hatching-chicken-96.png",
-                        "../assets/icons8-hive-96.png",
-                        "../assets/icons8-honeycombs-96.png",
-                        "../assets/icons8-jackalope-96.png",
-                        "../assets/icons8-ladybird-96.png",
-                        "../assets/icons8-pelican-96.png",
-                        "../assets/icons8-penguin-96.png",
-                        "../assets/hopper_ball.jpg",
-                        "../assets/icons8-swan-96.png",
-                        "../assets/icons8-turkeycock-96.png",
-                    ];
-
-                    for (let i = 0; i < accounts.length; i++) {
-                        accounts[i].imageSrc = accountImageSources[i];
-                        //accountImageSources
-                    }
-
                     commit("setAccounts", res.data);
                     resolve();
                 })
