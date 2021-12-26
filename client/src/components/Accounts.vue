@@ -8,38 +8,30 @@
 <!--      eslint-disable-next-line vue/no-unused-vars-->
       <div v-for="account in getAccounts" :key="account.accountId">
         <v-flex class="pa-2">
+
         <v-card min-width="300" class="mx-auto">
+
+          <v-row>
+            <v-btn dark icon class="mr-4" color="blue" @click="selectedAccount = account; editAccountOverlay = true;">
+              <v-icon>mdi-pencil</v-icon>
+            </v-btn>
+            <v-btn dark icon color="blue">
+              <v-icon>mdi-dots-vertical</v-icon>
+            </v-btn>
+
+          </v-row>
+
+
           <v-img
               :src="findImage('test')"
-              height="300px"
+              height="100px"
+              width="100px"
               dark
           >
-            <v-row class="fill-height">
-              <v-card-title>
-                <v-btn dark icon>
-                  <v-icon>mdi-chevron-left</v-icon>
-                </v-btn>
-
-                <v-spacer></v-spacer>
-
-                <v-btn dark icon class="mr-4" @click="selectedAccount = account; editAccountOverlay = true;">
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-
-                <v-btn dark icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </v-card-title>
-
-              <v-spacer></v-spacer>
-
-              <v-card-title class="white--text pl-12 pt-12">
-                <div class="display-1 pl-12 pt-12">
-                  {{account.name}}
-                </div>
-              </v-card-title>
-            </v-row>
           </v-img>
+
+
+          <v-card-title>{{account.name}}</v-card-title>
 
           <v-list two-line>
             <v-list-item>
