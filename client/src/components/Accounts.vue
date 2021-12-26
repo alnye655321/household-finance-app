@@ -5,11 +5,12 @@
     <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Account</v-btn>
       </v-row>
       <v-layout row justify-space-between class="d-flex flex-row mb-6">
+<!--      eslint-disable-next-line vue/no-unused-vars-->
       <div v-for="account in getAccounts" :key="account.accountId">
         <v-flex class="pa-2">
         <v-card min-width="275" class="mx-auto">
           <v-img
-              src="../assets/tiger_bow.jpg"
+              :src="findImage"
               height="300px"
               dark
           >
@@ -182,20 +183,30 @@ export default {
       "dateOpened": "2021-02-08",
       "dateClosed": null,
       "name": "",
-      "imageSources" : [
-          "../assets/hopper_ball.jpg",
-        "../assets/tiger_bow.jpg",
-        "../assets/hopper_ball.jpg",
-        "../assets/tiger_bow.jpg",
-        "../assets/hopper_ball.jpg",
-      ]
     },
     overlayAbsolute: false,
     overlayOpacity: 0.86,
     showOverlay: false,
     overlayzIndex: 5,
     editAccountOverlay: false,
-    selectedAccount: {}
+    selectedAccount: {},
+    imageSources : [
+      "../assets/icons8-bug-96.png",
+      "../assets/icons8-bull-96.png",
+      "../assets/icons8-butterfly-96.png",
+      "../assets/icons8-dove-96.png",
+      "../assets/icons8-dragon-96.png",
+      "../assets/icons8-hatching-chicken-96.png",
+      "../assets/icons8-hive-96.png",
+      "../assets/icons8-honeycombs-96.png",
+      "../assets/icons8-jackalope-96.png",
+      "../assets/icons8-ladybird-96.png",
+      "../assets/icons8-pelican-96.png",
+      "../assets/icons8-penguin-96.png",
+      "../assets/hopper_ball.jpg",
+      "../assets/icons8-swan-96.png",
+      "../assets/icons8-turkeycock-96.png",
+    ]
   }),
   computed: {
     ...mapGetters([
@@ -203,6 +214,12 @@ export default {
       'getUser',
       'getAccountTypes',
     ]),
+    findImage() {
+      console.log('hereeee');
+      console.log(this.imageSources);
+      // return this.imageSources[0];
+      return require(`../assets/icons8-bug-96.png`) // the module request
+    },
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     // },
