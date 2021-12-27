@@ -91,6 +91,7 @@ export default {
         { icon: "mdi-credit-card-plus", text: "Accounts", route: "/accounts" },
         { icon: "mdi-fire", text: "Savings Goals", route: "/savings" },
         { icon: "mdi-fire", text: "Settings", route: "/settings" },
+        { icon: "mdi-fire", text: "Assets", route: "/assets" },
         { icon: "mdi-fire", text: "Login", route: "/login" }
       ],
       menuItems: [
