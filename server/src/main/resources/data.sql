@@ -116,6 +116,7 @@ INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.
 
 -- insert into account_types (account_type) VALUES ('Checking'); --id: 1
 -- insert into account_types (account_type) VALUES ('Savings'); --id: 2
+-- insert into account_types (account_type) VALUES ('Investment');
 
 -- INSERT INTO budget_types (type) VALUES ('Car Payment');
 -- INSERT INTO budget_types (type) VALUES ('Savings Contribution');

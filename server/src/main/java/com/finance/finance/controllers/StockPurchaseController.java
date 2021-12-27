@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,6 +25,14 @@ public class StockPurchaseController {
 
     @PostMapping("/stock_purchase")
     public StockPurchase createStockPurchase(@Valid @RequestBody StockPurchase stockPurchase) {
-        return stockPurchaseRepository.save(stockPurchase);
+        List<StockPurchase> stockPurchases = new ArrayList<>();
+        if (stockPurchase.getQuantity() > 0) {
+            for (int i = 0; i < stockPurchase.getQuantity(); i++) {
+                StockPurchase stockPurchaseSubmission = new StockPurchase(stockPurchase.getAccount(), stockPurchase.getTicker(), stockPurchase.getBuyPrice(), stockPurchase.getBuyDate(), stockPurchase.getQuantity());
+                stockPurchases.add(stockPurchaseSubmission);
+            }
+        }
+        stockPurchaseRepository.saveAll(stockPurchases);
+        return stockPurchase;
     }
 }

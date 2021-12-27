@@ -15,6 +15,7 @@ import Dashboard from "./components/Dashboard";
 import Savings from "./components/Savings";
 import Settings from "./components/Settings";
 import Assets from "./components/Assets";
+import StockPurchase from "./components/StockPurchase";
 
 Vue.use(VueRouter)
 Vue.config.productionTip = false
@@ -30,6 +31,7 @@ const routes = [
   {path: "/accounts", component:Accounts},
   {path: "/settings", component:Settings},
   {path: "/assets", component:Assets},
+  {path: "/stockpurchase", component:StockPurchase},
 ]
 
 const router = new VueRouter({routes, mode: 'history'}); //history mode gets rid of '#' in page url

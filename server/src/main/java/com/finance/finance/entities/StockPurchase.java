@@ -33,10 +33,21 @@ public class StockPurchase {
     @Column(name = "sold_date")
     private java.sql.Date soldDate;
 
+    @Column(name = "quantity")
+    private int quantity;
+
     public StockPurchase() {
     }
 
-    public StockPurchase(long stockPurchaseId, Account account, String ticker, double buyPrice, Date buyDate, double soldPrice, Date soldDate) {
+    public StockPurchase(Account account, String ticker, double buyPrice, Date buyDate, int quantity) {
+        this.account = account;
+        this.ticker = ticker;
+        this.buyPrice = buyPrice;
+        this.buyDate = buyDate;
+        this.quantity = quantity;
+    }
+
+    public StockPurchase(long stockPurchaseId, Account account, String ticker, double buyPrice, Date buyDate, double soldPrice, Date soldDate, int quantity) {
         this.stockPurchaseId = stockPurchaseId;
         this.account = account;
         this.ticker = ticker;
@@ -44,6 +55,7 @@ public class StockPurchase {
         this.buyDate = buyDate;
         this.soldPrice = soldPrice;
         this.soldDate = soldDate;
+        this.quantity = quantity;
     }
 
     public long getStockPurchaseId() {
@@ -100,5 +112,13 @@ public class StockPurchase {
 
     public void setSoldDate(Date soldDate) {
         this.soldDate = soldDate;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }

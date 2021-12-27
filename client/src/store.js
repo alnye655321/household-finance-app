@@ -330,6 +330,21 @@ export default new Vuex.Store({
             })
 
         },
+        createStockPurchase({ commit }, stockPurchase) {
+            return new Promise((resolve, reject) => {
+                axios.post(API_BASE + 'stock_purchase', stockPurchase)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
+        },
         fetchAccountingPeriods({ commit }, year) {
             return new Promise((resolve, reject) => {
                 axios
