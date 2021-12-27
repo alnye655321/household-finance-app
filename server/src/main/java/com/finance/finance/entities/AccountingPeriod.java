@@ -24,13 +24,19 @@ public class AccountingPeriod {
     @Column(name = "year")
     private int year;
 
+    @Lob
+    @Column(name = "notes")
+    private String notes;
+
     public AccountingPeriod() {
     }
 
-    public AccountingPeriod(Date startDate, Date endDate, int year) {
+    public AccountingPeriod(long accountingPeriodId, Date startDate, Date endDate, int year, String notes) {
+        this.accountingPeriodId = accountingPeriodId;
         this.startDate = startDate;
         this.endDate = endDate;
         this.year = year;
+        this.notes = notes;
     }
 
     public long getAccountingPeriodId() {
@@ -63,5 +69,13 @@ public class AccountingPeriod {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 }

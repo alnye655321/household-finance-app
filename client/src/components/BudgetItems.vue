@@ -111,6 +111,31 @@
         </v-col>
       </v-row>
 
+<!--      Notes Section-->
+      <v-row>
+        <v-col>
+          <v-textarea
+              name="input-7-1"
+              filled
+              label="Notes"
+              v-model="notesDescription1"
+              @blur="updateAccountingPeriodNotes(item.accountingPeriods[0])"
+              auto-grow
+          ></v-textarea>
+        </v-col>
+
+        <v-col>
+          <v-textarea
+              name="input-7-1"
+              filled
+              label="Notes"
+              v-model="notesDescription2"
+              @blur="updateAccountingPeriodNotes(item.accountingPeriods[1])"
+              auto-grow
+          ></v-textarea>
+        </v-col>
+      </v-row>
+
 
     </v-tab-item>
   </v-tabs-items>
@@ -276,6 +301,8 @@ export default {
         2021,
         2022
     ],
+    notesDescription1: 'test',
+    notesDescription2: 'test',
     userDisplay: -1,
     userDisplays: [],
     showSavingsGoal: false,
@@ -527,6 +554,10 @@ export default {
         "accountingPeriod": displayedAccountingPeriod,
         "createdDate": today
       };
+    },
+    updateAccountingPeriodNotes(item) {
+      console.log('blurring!!!');
+      console.log(item);
     },
     test(tab) {
       this.selectedAccountingPeriods = tab;
