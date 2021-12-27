@@ -12,15 +12,18 @@
         <v-card min-width="300" class="mx-auto">
 
           <v-row>
-            <v-btn dark icon class="mr-4" color="blue" @click="selectedAccount = account; editAccountOverlay = true;">
-              <v-icon>mdi-pencil</v-icon>
-            </v-btn>
-            <v-btn dark icon color="blue">
-              <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
+            <v-col md="1" offset-md="1">
+              <v-btn dark icon class="mr-4" color="blue" @click="selectedAccount = account; editAccountOverlay = true;">
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+            </v-col>
 
+            <v-col>
+              <v-btn dark icon color="blue">
+                <v-icon>mdi-dots-vertical</v-icon>
+              </v-btn>
+            </v-col>
           </v-row>
-
 
           <v-img
               :src="findImage('test')"
