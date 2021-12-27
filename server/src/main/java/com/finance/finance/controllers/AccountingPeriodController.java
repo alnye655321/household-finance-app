@@ -42,16 +42,16 @@ public class AccountingPeriodController {
         return accountingPeriodRepository.save(accountingPeriod);
     }
 
-//    @PutMapping("/accountingPeriods/{id}")
-//    public ResponseEntity<AccountingPeriod> updateAccountingPeriod(@PathVariable(value = "id") Long accountingPeriodId,
-//                                           @Valid @RequestBody AccountingPeriod accountingPeriodDetails) throws ResourceNotFoundException {
-//        AccountingPeriod accountingPeriod = accountingPeriodRepository.findById(accountingPeriodId)
-//                .orElseThrow(() -> new ResourceNotFoundException("AccountingPeriod not found for this id :: " + accountingPeriodId));
-//
-//        accountingPeriod.setName(accountingPeriodDetails.getName());
-//        final AccountingPeriod updatedAccountingPeriod = accountingPeriodRepository.save(accountingPeriod);
-//        return ResponseEntity.ok(updatedAccountingPeriod);
-//    }
+    @PutMapping("/accounting_periods/{id}")
+    public ResponseEntity<AccountingPeriod> updateAccountingPeriod(@PathVariable(value = "id") Long accountingPeriodId,
+                                           @Valid @RequestBody AccountingPeriod accountingPeriodDetails) throws ResourceNotFoundException {
+        AccountingPeriod accountingPeriod = accountingPeriodRepository.findById(accountingPeriodId)
+                .orElseThrow(() -> new ResourceNotFoundException("AccountingPeriod not found for this id :: " + accountingPeriodId));
+
+        accountingPeriod.setNotes(accountingPeriodDetails.getNotes());
+        final AccountingPeriod updatedAccountingPeriod = accountingPeriodRepository.save(accountingPeriod);
+        return ResponseEntity.ok(updatedAccountingPeriod);
+    }
 
     @DeleteMapping("/accounting_periods/{id}")
     public Map<String, Boolean> deleteAccountingPeriod(@PathVariable(value = "id") Long accountingPeriodId)

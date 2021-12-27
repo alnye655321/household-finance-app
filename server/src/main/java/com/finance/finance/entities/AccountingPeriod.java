@@ -24,8 +24,7 @@ public class AccountingPeriod {
     @Column(name = "year")
     private int year;
 
-    @Lob
-    @Column(name = "notes")
+    @Column(name = "notes", columnDefinition="TEXT")
     private String notes;
 
     public AccountingPeriod() {

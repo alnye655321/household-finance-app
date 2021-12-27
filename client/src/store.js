@@ -414,6 +414,22 @@ export default new Vuex.Store({
             })
 
         },
+        updateAccountingPeriod({ commit }, accountingPeriod) {
+            return new Promise((resolve, reject) => {
+                console.log('updating accounting period');
+                console.log(accountingPeriod);
+                axios.put(API_BASE + `accounting_periods/${accountingPeriod.accountingPeriodId}`, accountingPeriod)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
         fetchAccountTypes({ commit }) {
             axios
                 .get(API_BASE + `accountTypes`)

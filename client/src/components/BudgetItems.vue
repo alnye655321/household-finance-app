@@ -118,19 +118,19 @@
               name="input-7-1"
               filled
               label="Notes"
-              v-model="notesDescription1"
-              @blur="updateAccountingPeriodNotes(item.accountingPeriods[0])"
+              v-model="item.accountingPeriods[0].notes"
+              @blur="updateAccountingPeriodNotes(item.accountingPeriods[0], 0)"
               auto-grow
           ></v-textarea>
         </v-col>
 
         <v-col>
           <v-textarea
-              name="input-7-1"
+              name="input-7-2"
               filled
               label="Notes"
-              v-model="notesDescription2"
-              @blur="updateAccountingPeriodNotes(item.accountingPeriods[1])"
+              v-model="item.accountingPeriods[1].notes"
+              @blur="updateAccountingPeriodNotes(item.accountingPeriods[1], 1)"
               auto-grow
           ></v-textarea>
         </v-col>
@@ -555,9 +555,23 @@ export default {
         "createdDate": today
       };
     },
-    updateAccountingPeriodNotes(item) {
+    updateAccountingPeriodNotes(item, self) {
       console.log('blurring!!!');
       console.log(item);
+      console.log(self);
+
+      // if (self == 0) {
+      //   item.notes = this.notesDescription1;
+      // }
+      // else if (self == 1) {
+      //   item.notes = this.notesDescription2;
+      // }
+
+      this.$store.dispatch("updateAccountingPeriod", item)
+          .then(() => {
+            console.log('hereeeeeee');
+            // this.loadInitData();
+          });
     },
     test(tab) {
       this.selectedAccountingPeriods = tab;
