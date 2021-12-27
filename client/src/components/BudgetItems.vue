@@ -87,7 +87,6 @@
       </v-card>
         </v-col>
 
-        <v-spacer></v-spacer>
 
 <!--        accounting bi-weekly period 2-->
         <v-col>
