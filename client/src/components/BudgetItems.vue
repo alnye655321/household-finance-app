@@ -119,7 +119,7 @@
               filled
               label="Notes"
               v-model="item.accountingPeriods[0].notes"
-              @blur="updateAccountingPeriodNotes(item.accountingPeriods[0], 0)"
+              @blur="updateAccountingPeriodNotes(item.accountingPeriods[0])"
               auto-grow
           ></v-textarea>
         </v-col>
@@ -130,7 +130,7 @@
               filled
               label="Notes"
               v-model="item.accountingPeriods[1].notes"
-              @blur="updateAccountingPeriodNotes(item.accountingPeriods[1], 1)"
+              @blur="updateAccountingPeriodNotes(item.accountingPeriods[1])"
               auto-grow
           ></v-textarea>
         </v-col>
@@ -301,8 +301,6 @@ export default {
         2021,
         2022
     ],
-    notesDescription1: 'test',
-    notesDescription2: 'test',
     userDisplay: -1,
     userDisplays: [],
     showSavingsGoal: false,
@@ -555,17 +553,9 @@ export default {
         "createdDate": today
       };
     },
-    updateAccountingPeriodNotes(item, self) {
+    updateAccountingPeriodNotes(item) {
       console.log('blurring!!!');
       console.log(item);
-      console.log(self);
-
-      // if (self == 0) {
-      //   item.notes = this.notesDescription1;
-      // }
-      // else if (self == 1) {
-      //   item.notes = this.notesDescription2;
-      // }
 
       this.$store.dispatch("updateAccountingPeriod", item)
           .then(() => {
