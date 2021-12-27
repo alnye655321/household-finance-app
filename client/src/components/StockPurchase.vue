@@ -44,6 +44,50 @@
         <v-btn color="primary" class="mr-4" @click="createStockPurchase">Submit</v-btn>
       </v-row>
 
+      <br><br>
+      <v-divider></v-divider>
+
+
+      <v-simple-table>
+        <template v-slot:default>
+          <thead>
+          <tr>
+            <th class="text-left">
+              Account
+            </th>
+            <th class="text-left">
+              Ticker
+            </th>
+            <th class="text-left">
+              Buy Price
+            </th>
+            <th class="text-left">
+              Buy Date
+            </th>
+            <th class="text-left">
+              Sold Price
+            </th>
+            <th class="text-left">
+              Sold Date
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr
+              v-for="item in getStockPurchases"
+              :key="item.stockPurchaseId"
+          >
+            <td>{{ item.account.name }}</td>
+            <td>{{ item.ticker }}</td>
+            <td>{{ item.buyPrice }}</td>
+            <td>{{ item.buyDate }}</td>
+            <td>{{ item.soldPrice }}</td>
+            <td>{{ item.soldDate }}</td>
+          </tr>
+          </tbody>
+        </template>
+      </v-simple-table>
+
 
     </v-container>
   </v-card>
@@ -73,6 +117,7 @@ export default {
       const currentYear = new Date().getFullYear();
       console.log(currentYear);
       this.$store.dispatch("fetchAccounts");
+      this.$store.dispatch("fetchStockPurchases");
       // this.$store.dispatch("fetchPeriodBudgets", currentYear).then(() => {
       //   const currentMonth = new Date().getMonth();
       //   this.displayBudgetValueByMonth(currentMonth);
@@ -95,6 +140,7 @@ export default {
   computed: {
     ...mapGetters([
       'getPeriodBudgets',
+      'getStockPurchases',
       'getAccounts'
     ]),
   },

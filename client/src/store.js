@@ -22,6 +22,7 @@ export default new Vuex.Store({
         budgetItemsByMonth: [],
         savingsGoals: [],
         periodBudgets: [],
+        stockPurchases: [],
     },
     mutations: {
         setUser(state, user) {
@@ -53,6 +54,9 @@ export default new Vuex.Store({
         },
         updateAccounts(state, account) {
             state.accounts = state.accounts.push(account);
+        },
+        setStockPurchases(state, stockPurchases) {
+            state.stockPurchases = stockPurchases;
         },
         setAccountTypes(state, accountTypes) {
             state.accountTypes = accountTypes;
@@ -345,6 +349,22 @@ export default new Vuex.Store({
             })
 
         },
+        fetchStockPurchases({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(API_BASE + `stock_purchases`)
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setStockPurchases", res.data);
+                        resolve();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
         fetchAccountingPeriods({ commit }, year) {
             return new Promise((resolve, reject) => {
                 axios
@@ -545,6 +565,7 @@ export default new Vuex.Store({
         getAccountingPeriodMonths: state => state.accountingPeriodMonths,
         getBudgetItemsByMonth: state => state.budgetItemsByMonth,
         getSavingsGoals: state => state.savingsGoals,
+        getStockPurchases: state => state.stockPurchases,
         getPeriodBudgets: state => state.periodBudgets,
     },
 
