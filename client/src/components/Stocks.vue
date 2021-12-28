@@ -41,7 +41,7 @@ export default {
         series: [
           {
             type: 'bar',
-            data: [63, 75, 24, 92]
+            data: this.stockPurchasesData()
           }
         ],
         title: {
@@ -55,7 +55,20 @@ export default {
 
       }
     };
-  }
+  },
+  methods: {
+    stockPurchasesData() {
+      const stockPurchases = this.$store.getters.getStockPurchases;
+      console.log('test data!!!');
+      console.log(stockPurchases);
+      return [30, 75, 24, 92];
+    },
+    last12Months() {
+      const stockPurchases = this.$store.getters.getStockPurchases;
+      console.log(stockPurchases);
+
+    },
+  },
 };
 </script>
 
