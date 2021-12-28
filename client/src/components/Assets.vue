@@ -10,7 +10,7 @@
 
     <v-row>
       <v-col>
-        <Stocks></Stocks>
+        <StocksQuantityPurchasesBar></StocksQuantityPurchasesBar>
       </v-col>
     </v-row>
   </div>
@@ -19,13 +19,13 @@
 
 <script>
 import SamplePie from "@/components/SamplePie";
-import Stocks from "@/components/Stocks";
+import StocksQuantityPurchasesBar from "@/components/charts/StocksQuantityPurchasesBar";
 
 export default {
   name: "HelloWorld",
   components: {
     SamplePie,
-    Stocks,
+    StocksQuantityPurchasesBar,
   },
   data() {
     return {
