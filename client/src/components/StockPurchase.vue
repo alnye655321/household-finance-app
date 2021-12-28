@@ -31,7 +31,7 @@
         </v-col>
 
         <v-col>
-          <v-text-field label="Quantity" v-model="selectedItem.quantity" required></v-text-field>
+          <v-text-field label="Quantity" v-model="quantity" required></v-text-field>
         </v-col>
 
         <v-col>
@@ -130,10 +130,15 @@ export default {
       console.log(this.datePicker);
       this.selectedItem.buyDate = this.datePicker;
 
-      this.$store.dispatch("createStockPurchase", this.selectedItem) //send the account to the server
-          .then(() => {
-            console.log('done');
-          });
+      if (this.quantity > 0) {
+        for (let i = 0; i < this.quantity; i++) {
+          this.$store.dispatch("createStockPurchase", this.selectedItem) //send the account to the server
+              .then(() => {
+                console.log('done');
+              });
+        }
+      }
+
 
     },
   },
