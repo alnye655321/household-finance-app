@@ -112,6 +112,7 @@ export default {
 
       this.$store.dispatch("createAccountHistory", this.selectedItem) //send the account to the server
           .then(() => {
+            this.$store.dispatch("fetchAccountHistories");
             console.log('done');
           });
 
