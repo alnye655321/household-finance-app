@@ -64,7 +64,19 @@ export default {
       const stockPurchases = this.$store.getters.getStockPurchases;
       console.log('test data!!!');
       console.log(stockPurchases);
-      return [30, 75, 24, 92];
+
+      const monthsArray = this.last12Months();
+      console.log(monthsArray);
+      let stockDataArray = [];
+
+      for (let i = 0; i < monthsArray.length; i++) {
+        const monthStockData = stockPurchases.filter(e => e.buyDate.includes(monthsArray[i]));
+        stockDataArray.push(monthStockData.length);
+      }
+
+      return stockDataArray;
+
+      // return [30, 75, 24, 92];
     },
     last12Months() {
       const stockPurchases = this.$store.getters.getStockPurchases;
@@ -85,12 +97,14 @@ export default {
         monthArray.push(currentYear + '-' + String(monthValue).padStart(2, '0'));
       }
 
-      const filteredYears = stockPurchases.filter(e => e.buyDate.includes(currentYear));
-      console.log('filter year');
-      console.log(filteredYears);
-      console.log(monthArray);
+      return monthArray;
 
-      return ['Q1', 'Q2', 'Q3', 'Q4'];
+      // const filteredYears = stockPurchases.filter(e => e.buyDate.includes(currentYear));
+      // console.log('filter year');
+      // console.log(filteredYears);
+      // console.log(monthArray);
+      //
+      // return ['Q1', 'Q2', 'Q3', 'Q4'];
 
     },
   },
