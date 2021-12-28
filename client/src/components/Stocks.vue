@@ -13,6 +13,7 @@ import {
     GridComponent
 } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
+import {mapGetters} from "vuex";
 
 use([
   CanvasRenderer,
@@ -69,9 +70,32 @@ export default {
       const stockPurchases = this.$store.getters.getStockPurchases;
       console.log(stockPurchases);
 
+      let currentYear = new Date().getFullYear();
+      let currentMonth = new Date().getMonth() + 1;
+
+      let monthArray = [];
+      for (let i = 12; i > 0; i--) {
+        currentMonth--;
+        if (currentMonth == -1) {
+          currentYear--;
+          currentMonth = 11;
+        }
+        monthArray.push(currentMonth + '-' + currentYear);
+      }
+
+      const filteredYears = stockPurchases.filter(e => e.buyDate.includes(currentYear));
+      console.log('filter year');
+      console.log(filteredYears);
+      console.log(monthArray);
+
       return ['Q1', 'Q2', 'Q3', 'Q4'];
 
     },
+  },
+  computed: {
+    ...mapGetters([
+      'getStockPurchases',
+    ]),
   },
 };
 </script>
