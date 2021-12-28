@@ -36,7 +36,8 @@ export default {
     return {
       option: {
         xAxis: {
-          data: this.last12Months()
+          data: this.last12Months(),
+          inverse: true //flips the axis
         },
         yAxis: {
           type: 'value'
@@ -48,7 +49,7 @@ export default {
           }
         ],
         title: {
-          text: 'Quarterly Sales Results',
+          text: 'Stock Quantity Purchases - SPY',
           x: 'center',
           textStyle: {
             fontSize: 24
@@ -59,7 +60,13 @@ export default {
       }
     };
   },
+  created() {
+    this.loadInitData();
+  },
   methods: {
+    loadInitData() {
+      this.$store.dispatch("fetchStockPurchases");
+    },
     stockPurchasesData() {
       const stockPurchases = this.$store.getters.getStockPurchases;
       console.log('test data!!!');
@@ -79,37 +86,28 @@ export default {
       }
 
       return stockDataArray;
-
-      // return [30, 75, 24, 92];
     },
     last12Months() {
       const stockPurchases = this.$store.getters.getStockPurchases;
       console.log(stockPurchases);
 
       let currentYear = new Date().getFullYear();
-      let currentMonth = new Date().getMonth() + 1;
+      let currentMonth = new Date().getMonth();
 
       let monthArray = [];
       for (let i = 12; i > 0; i--) {
+        const monthValue = currentMonth + 1;
+        monthArray.push(currentYear + '-' + String(monthValue).padStart(2, '0'));
+
         currentMonth--;
         if (currentMonth == -1) {
           currentYear--;
           currentMonth = 11;
         }
-        const monthValue = currentMonth + 1;
 
-        monthArray.push(currentYear + '-' + String(monthValue).padStart(2, '0'));
       }
 
       return monthArray;
-
-      // const filteredYears = stockPurchases.filter(e => e.buyDate.includes(currentYear));
-      // console.log('filter year');
-      // console.log(filteredYears);
-      // console.log(monthArray);
-      //
-      // return ['Q1', 'Q2', 'Q3', 'Q4'];
-
     },
   },
   computed: {
