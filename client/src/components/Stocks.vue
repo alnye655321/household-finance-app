@@ -65,6 +65,10 @@ export default {
       console.log('test data!!!');
       console.log(stockPurchases);
 
+      // const totalQuantity = stockPurchases.reduce((total,currentValue) => {
+      //   return {quantity: total.quantity += currentValue.quantity};
+      // });
+
       const monthsArray = this.last12Months();
       console.log(monthsArray);
       let stockDataArray = [];
