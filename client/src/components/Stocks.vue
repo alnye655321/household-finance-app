@@ -80,7 +80,9 @@ export default {
           currentYear--;
           currentMonth = 11;
         }
-        monthArray.push(currentMonth + '-' + currentYear);
+        const monthValue = currentMonth + 1;
+
+        monthArray.push(currentYear + '-' + String(monthValue).padStart(2, '0'));
       }
 
       const filteredYears = stockPurchases.filter(e => e.buyDate.includes(currentYear));
