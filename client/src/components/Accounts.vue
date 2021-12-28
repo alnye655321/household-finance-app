@@ -6,7 +6,7 @@
       </v-row>
       <v-layout row justify-space-between class="d-flex flex-row mb-6">
 <!--      eslint-disable-next-line vue/no-unused-vars-->
-      <div v-for="account in getAccounts" :key="account.accountId">
+      <div v-for="(account, index) in getAccounts" :key="account.accountId">
         <v-flex class="pa-2">
 
         <v-card min-width="300" class="mx-auto">
@@ -26,7 +26,7 @@
           </v-row>
 
           <v-img
-              :src="findImage('test')"
+              :src="findImage(index)"
               height="100px"
               width="100px"
               dark
@@ -234,13 +234,11 @@ export default {
       };
 
     },
-    findImage(test) {
+    findImage(index) { //needed to return an image source from array of paths - using require below
       console.log('hereeee');
-      console.log(test);
+      console.log(index);
       console.log(this.imageSources);
-      // return this.imageSources[0];
-      const randomIndex = Math.floor(Math.random()*((this.imageSources.length -1) + 1)+ 0);
-      return require(`../assets/${this.imageSources[randomIndex]}`) // the module request
+      return require(`../assets/${this.imageSources[index]}`) // the module request
       // return require(`../assets/icons8-bug-96.png`) // the module request
     },
     updateAccount() {
