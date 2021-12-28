@@ -9,7 +9,8 @@ import { BarChart } from "echarts/charts";
 import {
   TitleComponent,
   TooltipComponent,
-  LegendComponent
+  LegendComponent,
+    GridComponent
 } from "echarts/components";
 import VChart, { THEME_KEY } from "vue-echarts";
 
@@ -18,7 +19,8 @@ use([
   BarChart,
   TitleComponent,
   TooltipComponent,
-  LegendComponent
+  LegendComponent,
+    GridComponent
 ]);
 
 export default {
@@ -33,7 +35,7 @@ export default {
     return {
       option: {
         xAxis: {
-          data: ['Q1', 'Q2', 'Q3', 'Q4']
+          data: this.last12Months()
         },
         yAxis: {
           type: 'value'
@@ -66,6 +68,8 @@ export default {
     last12Months() {
       const stockPurchases = this.$store.getters.getStockPurchases;
       console.log(stockPurchases);
+
+      return ['Q1', 'Q2', 'Q3', 'Q4'];
 
     },
   },
