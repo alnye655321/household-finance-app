@@ -23,6 +23,7 @@ export default new Vuex.Store({
         savingsGoals: [],
         periodBudgets: [],
         stockPurchases: [],
+        accountHistories: [],
     },
     mutations: {
         setUser(state, user) {
@@ -57,6 +58,9 @@ export default new Vuex.Store({
         },
         setStockPurchases(state, stockPurchases) {
             state.stockPurchases = stockPurchases;
+        },
+        setAccountHistories(state, accountHistories) {
+            state.accountHistories = accountHistories;
         },
         setAccountTypes(state, accountTypes) {
             state.accountTypes = accountTypes;
@@ -334,6 +338,37 @@ export default new Vuex.Store({
             })
 
         },
+        createAccountHistory({ commit }, accountHistory) {
+            return new Promise((resolve, reject) => {
+                axios.post(API_BASE + 'account_history', accountHistory)
+                    .then(function (res) {
+                        console.log(commit);
+                        console.log(res.data);
+                        resolve();
+                    })
+                    .catch(function (err) {
+                        console.log(err);
+                        reject();
+                    });
+            })
+
+        },
+        fetchAccountHistories({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(API_BASE + `account_histories`)
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setAccountHistories", res.data);
+                        resolve();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            })
+        },
         createStockPurchase({ commit }, stockPurchase) {
             return new Promise((resolve, reject) => {
                 axios.post(API_BASE + 'stock_purchase', stockPurchase)
@@ -566,6 +601,7 @@ export default new Vuex.Store({
         getBudgetItemsByMonth: state => state.budgetItemsByMonth,
         getSavingsGoals: state => state.savingsGoals,
         getStockPurchases: state => state.stockPurchases,
+        getAccountHistories: state => state.accountHistories,
         getPeriodBudgets: state => state.periodBudgets,
     },
 
