@@ -36,17 +36,17 @@ export default {
     return {
       option: {
         xAxis: {
-          data: ['A', 'B', 'C', 'D', 'E'],
-          // data: this.last12Months(),
+          // data: ['A', 'B', 'C', 'D', 'E'],
+          data: this.last12Months(),
           inverse: true //flips the axis
         },
         yAxis: {},
         series: [
           {
             type: 'line',
-            data: [10, 22, 28, 23, 19],
-            smooth: true
-            // data: this.stockPurchasesData()
+            // data: [10, 22, 28, 23, 19],
+            smooth: true,
+            data: this.accountHistoriesData()
           }
         ],
         title: {
@@ -66,32 +66,31 @@ export default {
   },
   methods: {
     loadInitData() {
-      this.$store.dispatch("fetchStockPurchases");
+      this.$store.dispatch("fetchAccountHistories");
     },
-    stockPurchasesData() {
-      const stockPurchases = this.$store.getters.getStockPurchases;
+    accountHistoriesData() {
+      const accountHistories = this.$store.getters.getAccountHistories;
       console.log('test data!!!');
-      console.log(stockPurchases);
-
-      // const totalQuantity = stockPurchases.reduce((total,currentValue) => {
-      //   return {quantity: total.quantity += currentValue.quantity};
-      // });
+      console.log(accountHistories);
 
       const monthsArray = this.last12Months();
       console.log(monthsArray);
-      let stockDataArray = [];
+      let accountHistoryDataArray = [];
 
       for (let i = 0; i < monthsArray.length; i++) {
-        const monthStockData = stockPurchases.filter(e => e.buyDate.includes(monthsArray[i]));
-        stockDataArray.push(monthStockData.length);
+        const monthAccountHistoryData = accountHistories.filter(e => e.dateObserved.includes(monthsArray[i]));
+        if (monthAccountHistoryData.length == 1) {
+          accountHistoryDataArray.push(monthAccountHistoryData[0].balanceObserved);
+        }
+        else {
+          accountHistoryDataArray.push(accountHistoryDataArray[accountHistoryDataArray.length - 1]); //repeat the prior index
+        }
       }
+      console.log(accountHistoryDataArray);
 
-      return stockDataArray;
+      return accountHistoryDataArray;
     },
     last12Months() {
-      const stockPurchases = this.$store.getters.getStockPurchases;
-      console.log(stockPurchases);
-
       let currentYear = new Date().getFullYear();
       let currentMonth = new Date().getMonth();
 
@@ -113,7 +112,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getStockPurchases',
+      'getAccountHistories',
     ]),
   },
 };

@@ -88,9 +88,6 @@ export default {
       return stockDataArray;
     },
     last12Months() {
-      const stockPurchases = this.$store.getters.getStockPurchases;
-      console.log(stockPurchases);
-
       let currentYear = new Date().getFullYear();
       let currentMonth = new Date().getMonth();
 
