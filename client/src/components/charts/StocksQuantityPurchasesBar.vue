@@ -49,7 +49,7 @@ export default {
           }
         ],
         title: {
-          text: 'Stock Quantity Purchases - SPY',
+          text: 'Stock Purchases By Quantity - SPY',
           x: 'center',
           textStyle: {
             fontSize: 24

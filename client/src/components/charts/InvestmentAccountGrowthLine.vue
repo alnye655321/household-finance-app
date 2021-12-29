@@ -55,7 +55,7 @@ export default {
           }
         ],
         title: {
-          text: 'Account Growth',
+          text: 'Investment Account Growth',
           x: 'center',
           textStyle: {
             fontSize: 24

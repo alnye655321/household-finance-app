@@ -1,8 +1,17 @@
 <template>
   <div>
+
     <v-row>
       <v-col>
-        <SamplePie></SamplePie>
+        <AccountPie></AccountPie>
+      </v-col>
+    </v-row>
+
+    <br><br>
+
+    <v-row>
+      <v-col>
+        <InvestmentAccountGrowthLine></InvestmentAccountGrowthLine>
       </v-col>
     </v-row>
 
@@ -14,26 +23,23 @@
       </v-col>
     </v-row>
 
-    <v-row>
-      <v-col>
-        <InvestmentAccountGrowthLine></InvestmentAccountGrowthLine>
-      </v-col>
-    </v-row>
+    <br><br>
+
   </div>
 
 </template>
 
 <script>
-import SamplePie from "@/components/SamplePie";
 import StocksQuantityPurchasesBar from "@/components/charts/StocksQuantityPurchasesBar";
 import InvestmentAccountGrowthLine from "@/components/charts/InvestmentAccountGrowthLine";
+import AccountPie from "@/components/charts/AccountPie";
 
 export default {
   name: "HelloWorld",
   components: {
-    SamplePie,
     StocksQuantityPurchasesBar,
     InvestmentAccountGrowthLine,
+    AccountPie,
   },
   data() {
     return {
