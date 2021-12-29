@@ -58,6 +58,9 @@ INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-11-16', '202
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-12-01', '2022-12-15');
 INSERT INTO accounting_periods (start_date, end_date) VALUES ('2022-12-16', '2022-12-31');
 
+update accounting_periods set year = 2022 where accounting_period_id > 24;
+update accounting_periods set year = 2021 where accounting_period_id < 25;
+
 --run after /seed in API request
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 1, 1);
 INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.00, 2, 1);
@@ -128,3 +131,10 @@ INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.
 -- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (1,2);
 -- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (2,1);
 -- INSERT INTO accounts_linked_users (account_account_id, linked_users_user_id) VALUES (2,2);
+
+INSERT INTO budget_types (type) VALUES ('Horse');
+INSERT INTO budget_types (type) VALUES ('Savings Contribution');
+INSERT INTO budget_types (type) VALUES ('Mortgage');
+INSERT INTO budget_types (type) VALUES ('Credit Card');
+INSERT INTO budget_types (type) VALUES ('401k Loan');
+INSERT INTO budget_types (type) VALUES ('Utility');
