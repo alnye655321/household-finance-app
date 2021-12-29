@@ -40,13 +40,18 @@ export default {
           data: this.last12Months(),
           inverse: true //flips the axis
         },
-        yAxis: {},
+        yAxis: {
+          type: 'value',
+          axisLabel: {
+            formatter: '$ {value}'
+          }
+        },
         series: [
           {
             type: 'line',
             // data: [10, 22, 28, 23, 19],
             smooth: true,
-            data: this.accountHistoriesData()
+            data: this.accountHistoriesData(),
           }
         ],
         title: {
