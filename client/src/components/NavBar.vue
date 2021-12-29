@@ -42,8 +42,8 @@
             </v-avatar>
             <div class="hidden-sm-and-down">
               <v-btn text class="pa-1">
-                <span class="text-capitalize">{{fullName}}</span>
-                <v-icon>expand_more</v-icon>
+                <span class="text-capitalize">{{typeof getUser.name != 'undefined' ? getUser.name : 'Not Logged In'}}</span>
+                <v-icon>mdi-plus</v-icon>
               </v-btn>
             </div>
           </div>
@@ -77,28 +77,31 @@
 </template>
 
 <script>
+import {mapGetters} from "vuex";
+
 export default {
   components: {
   },
   computed: {
+    ...mapGetters([
+      'getUser',
+    ]),
   },
   data() {
     return {
-      systemName: "xxx",
+      systemName: "Finance Tracker",
       sidebar: false,
       navItems: [
         { icon: "mdi-cash-check", text: "Budget Items", route: "/budgetitems" },
+        { icon: "mdi-fire", text: "Assets", route: "/assets" },
         { icon: "mdi-credit-card-plus", text: "Accounts", route: "/accounts" },
         { icon: "mdi-fire", text: "Savings Goals", route: "/savings" },
         { icon: "mdi-fire", text: "Settings", route: "/settings" },
-        { icon: "mdi-fire", text: "Assets", route: "/assets" },
-        { icon: "mdi-fire", text: "Stock Purchase", route: "/stockpurchase" },
-        { icon: "mdi-fire", text: "Account History", route: "/accounthistory" },
-        { icon: "mdi-fire", text: "Login", route: "/login" }
       ],
       menuItems: [
-        { icon: "perm_identity", text: "Profile", route: "/profile" },
-        { icon: "exit_to_app", text: "Sign Out", route: "/login" }
+        { icon: "mdi-fire", text: "Login", route: "/login" },
+        { icon: "mdi-fire", text: "Stock Purchase", route: "/stockpurchase" },
+        { icon: "mdi-fire", text: "Account History", route: "/accounthistory" },
       ]
     };
   }
