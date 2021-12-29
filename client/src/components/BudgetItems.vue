@@ -79,8 +79,8 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItemConfirm(item)">mdi-delete</v-icon>
+            <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);" :disabled="isItemCommitted(item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItemConfirm(item)" :disabled="isItemCommitted(item)">mdi-delete</v-icon>
           </template>
 
         </v-data-table>
@@ -101,8 +101,8 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);">mdi-pencil</v-icon>
-            <v-icon small @click="deleteItemConfirm(item);">mdi-delete</v-icon>
+            <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);" :disabled="isItemCommitted(item)">mdi-pencil</v-icon>
+            <v-icon small @click="deleteItemConfirm(item);" :disabled="isItemCommitted(item)">mdi-delete</v-icon>
           </template>
 
         </v-data-table>
@@ -522,6 +522,9 @@ export default {
       }
 
       this.deleteConfirmOverlay = true;
+    },
+    isItemCommitted(item) {
+      return item.committed;
     },
     updateFormForItemCreation(selectedAccountingPeriodIndex) {
       this.createFormActive = true;
