@@ -4,6 +4,7 @@
       <v-row>
     <v-btn class="mt-12" color="primary" @click="showOverlay = !showOverlay">New Account</v-btn>
       </v-row>
+      <br><br>
       <v-layout row justify-space-between class="d-flex flex-row mb-6">
 <!--      eslint-disable-next-line vue/no-unused-vars-->
       <div v-for="(account, index) in getAccounts" :key="account.accountId">

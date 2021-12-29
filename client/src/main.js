@@ -22,7 +22,7 @@ Vue.use(VueRouter)
 Vue.config.productionTip = false
 
 const routes = [
-  {path: "/", component:Dashboard},
+  {path: "/", component:Login},
   {path: "/messages", component:Messages},
   {path: "/users", component:Users},
   {path: "/register", component:Register},
@@ -34,6 +34,7 @@ const routes = [
   {path: "/assets", component:Assets},
   {path: "/stockpurchase", component:StockPurchase},
   {path: "/accounthistory", component:AccountHistory},
+  {path: "/dashboard", component:Dashboard},
 ]
 
 const router = new VueRouter({routes, mode: 'history'}); //history mode gets rid of '#' in page url

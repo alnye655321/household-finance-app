@@ -56,6 +56,8 @@ export default {
         if (typeof res.data.token !== 'undefined' && res.data.token !== "") {
           console.log("have token");
           this.$store.dispatch("setUsers"); //TODO replace with backend call to find linked users - this is used in budget items display to switch user context for viewing budget items by user
+          this.$store.dispatch("fetchStockPurchases"); //staging for init load of dashboard
+          this.$store.dispatch("fetchAccountHistories");
 
           setTimeout(()=>{
             this.timeoutSuccessMessage()
