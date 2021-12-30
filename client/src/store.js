@@ -147,18 +147,23 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
-        getUserByToken({ commit }) { //this.$store.dispatch('getUser', 1);
-            axios
-                .get(API_BASE + 'user')
-                .then((res) => {
-                    console.log(commit);
-                    console.log(res.data);
-                    commit("setUser", res.data);
+        getUserByToken({ commit }) {
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(API_BASE + 'user')
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setUser", res.data);
+                        resolve();
 
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            });
+
         },
         setTokenFromExisting({ commit }, token) {
             console.log(commit);
