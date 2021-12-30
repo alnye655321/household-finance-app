@@ -160,6 +160,25 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
+        setTokenFromExisting({ commit }, token) {
+            console.log(commit);
+            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+
+            return new Promise((resolve, reject) => {
+                axios
+                    .get(API_BASE + 'user')
+                    .then((res) => {
+                        console.log(commit);
+                        console.log(res.data);
+                        commit("setUser", res.data);
+                        resolve();
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject();
+                    });
+            });
+        },
         fetchBudgetItems({ commit }, payload) {
             const id = payload.id;
             const year = payload.year;

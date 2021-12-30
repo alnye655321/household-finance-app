@@ -377,7 +377,19 @@ export default {
   },
 
   created() {
-    this.loadInitData();
+    const currentUser = this.$store.getters.getUser;
+
+    if (typeof currentUser.name === 'undefined' && typeof localStorage.token !== 'undefined') {
+      console.log('Using Existing Token For Login');
+      this.$store.dispatch("setTokenFromExisting", localStorage.token).then(() => {
+        this.loadInitData();
+      });
+    }
+    else {
+      this.loadInitData();
+    }
+
+
   },
 
   methods: {
