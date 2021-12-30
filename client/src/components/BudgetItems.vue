@@ -377,6 +377,7 @@ export default {
   },
 
   created() {
+    //if not authenticated try authenticating from existing token
     const currentUser = this.$store.getters.getUser;
 
     if (typeof currentUser.name === 'undefined' && typeof localStorage.token !== 'undefined') {
