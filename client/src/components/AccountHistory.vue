@@ -60,7 +60,7 @@
               :key="item.accountHistoryId"
           >
             <td>{{ item.account.name }}</td>
-            <td>{{ item.balanceObserved }}</td>
+            <td>{{ item.balanceObserved.toFixed(2) }}</td>
             <td>{{ item.dateObserved }}</td>
           </tr>
           </tbody>

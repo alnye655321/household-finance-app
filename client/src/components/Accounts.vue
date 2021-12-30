@@ -44,7 +44,7 @@
               </v-list-item-icon>
 
               <v-list-item-content>
-                <v-list-item-title>{{account.balance}}</v-list-item-title>
+                <v-list-item-title>{{account.balance.toFixed(2)}}</v-list-item-title>
                 <v-list-item-subtitle>Balance</v-list-item-subtitle>
               </v-list-item-content>
               <!--        <v-list-item-icon>-->
