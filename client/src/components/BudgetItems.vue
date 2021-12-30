@@ -382,8 +382,7 @@ export default {
 
     if (typeof currentUser.name === 'undefined' && typeof localStorage.token !== 'undefined') {
       console.log('Using Existing Token For Login');
-      this.$store.dispatch("setTokenFromExisting", localStorage.token).then(() => {
-        this.$store.dispatch("setUsers"); //TODO replace with backend call to find linked users - this is used in budget items display to switch user context for viewing budget items by user
+      this.$store.dispatch("setUserFromExistingToken", localStorage.token).then(() => {
         this.loadInitData();
       });
     }

@@ -108,7 +108,7 @@ export default new Vuex.Store({
         },
     },
     actions: { //can be used to perform async requests
-        setUsers({ commit }) {
+        setUsers({ commit }) { //TODO replace with backend call to find linked users - this is used in budget items display to switch user context for viewing budget items by user
             axios
                 .get(API_BASE + "users")
                 .then((res) => {
@@ -156,29 +156,21 @@ export default new Vuex.Store({
                         console.log(res.data);
                         commit("setUser", res.data);
                         resolve();
-
                     })
                     .catch((err) => {
                         console.log(err);
                         reject();
                     });
             });
-
         },
-        setTokenFromExisting({ commit }, token) {
+        setUserFromExistingToken({ commit, dispatch }, token) {
             console.log(commit);
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-
             return new Promise((resolve, reject) => {
-                axios
-                    .get(API_BASE + 'user')
-                    .then((res) => {
-                        console.log(commit);
-                        console.log(res.data);
-                        commit("setUser", res.data);
-                        commit("auth", token);
-                        resolve();
-                    })
+                dispatch('getUserByToken').then(() => {
+                    dispatch('setUsers');
+                    resolve();
+                })
                     .catch((err) => {
                         console.log(err);
                         reject();
