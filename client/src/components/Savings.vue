@@ -15,7 +15,7 @@
                   :value="100 - (item.amountRemaining / item.amount) * 100"
                   color="teal"
               >
-                {{Math.round(100 - (item.amountRemaining / item.amount) * 100)}}%
+                {{ (Math.round(100 - (item.amountRemaining / item.amount) * 100)).toFixed(0) }}%
               </v-progress-circular>
               </div>
 <!--              <v-img-->
@@ -46,7 +46,7 @@
                   </v-list-item-icon>
 
                   <v-list-item-content>
-                    <v-list-item-title>{{item.amount}}</v-list-item-title>
+                    <v-list-item-title>{{item.amount.toFixed(2)}}</v-list-item-title>
                     <v-list-item-subtitle>Total Cost</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
@@ -59,7 +59,7 @@
                   </v-list-item-icon>
 
                   <v-list-item-content>
-                    <v-list-item-title>{{item.amountRemaining}}</v-list-item-title>
+                    <v-list-item-title>{{item.amountRemaining.toFixed(2)}}</v-list-item-title>
                     <v-list-item-subtitle>Amount Remaining</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
