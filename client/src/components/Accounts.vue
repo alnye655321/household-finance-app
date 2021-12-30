@@ -211,10 +211,24 @@ export default {
     ]),
   },
   created() {
-    this.$store.dispatch("fetchAccounts");
-    this.$store.dispatch("fetchAccountTypes");
+    //if not authenticated try authenticating from existing token
+    const currentUser = this.$store.getters.getUser;
+
+    if (typeof currentUser.name === 'undefined' && typeof localStorage.token !== 'undefined') {
+      console.log('Using Existing Token For Login');
+      this.$store.dispatch("setUserFromExistingToken", localStorage.token).then(() => {
+        this.loadInitData();
+      });
+    }
+    else {
+      this.loadInitData();
+    }
   },
   methods: {
+    loadInitData() {
+      this.$store.dispatch("fetchAccounts");
+      this.$store.dispatch("fetchAccountTypes");
+    },
     createAccount() {
       this.showOverlay = false;
 

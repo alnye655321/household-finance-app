@@ -44,6 +44,16 @@ export default {
   data() {
     return {
     };
+  },
+  created() {
+    //if not authenticated try authenticating from existing token
+    const currentUser = this.$store.getters.getUser;
+
+    if (typeof currentUser.name === 'undefined' && typeof localStorage.token !== 'undefined') {
+      console.log('Using Existing Token For Login');
+      this.$store.dispatch("setUserFromExistingToken", localStorage.token);
+    }
+
   }
 };
 </script>
