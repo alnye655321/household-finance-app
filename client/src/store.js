@@ -171,6 +171,7 @@ export default new Vuex.Store({
                         console.log(commit);
                         console.log(res.data);
                         commit("setUser", res.data);
+                        commit("auth", token);
                         resolve();
                     })
                     .catch((err) => {
