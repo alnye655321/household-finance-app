@@ -37,7 +37,7 @@ build/
 ### Vue / JavaScript ###
 .DS_Store
 node_modules
-/dist
+/client/dist/
 
 
 # local env files
