@@ -285,10 +285,11 @@ import AccountBar from "@/components/AccountBar";
 
 export default {
   data: () => ({
-    year: 2021,
+    year: new Date().getFullYear(),
     years: [
         2021,
-        2022
+        2022,
+        2023
     ],
     userDisplay: -1,
     userDisplays: [],
