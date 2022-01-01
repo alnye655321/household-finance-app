@@ -172,6 +172,7 @@
                 item-value="accountingPeriodId"
                 label="Select Accounting Period"
                 :rules="accountingPeriodRules"
+                disabled
                 persistent-hint
                 return-object
                 single-line
