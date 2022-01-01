@@ -5,7 +5,6 @@ import com.finance.finance.entities.*;
 import com.finance.finance.models.AuthUser;
 import com.finance.finance.repositories.AccountRepository;
 import com.finance.finance.repositories.BudgetItemRepository;
-import com.finance.finance.repositories.PeriodBudgetRepository;
 import com.finance.finance.repositories.SavingsGoalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +31,6 @@ public class BudgetItemController {
 
     @Resource
     SavingsGoalRepository savingsGoalRepository;
-
-    @Resource
-    PeriodBudgetRepository periodBudgetRepository;
 
     @GetMapping("/budget_items")
     public List<BudgetItem> getAllBudgetItems() {
@@ -98,10 +94,6 @@ public class BudgetItemController {
                     account.setBalance(account.getBalance() - newBudgetItem.getAmount());
                 }
 
-                PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
-                periodBudget.setAmount(periodBudget.getAmount() - newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
-                periodBudgetRepository.save(periodBudget);
-
                 accountRepository.save(account);
             }
         }
@@ -126,10 +118,6 @@ public class BudgetItemController {
                 else { //otherwise do a normal credit
                     account.setBalance(account.getBalance() + newBudgetItem.getAmount());
                 }
-
-                PeriodBudget periodBudget = periodBudgetRepository.findByAccountingPeriod(userId, newBudgetItem.getAccountingPeriod().getAccountingPeriodId());
-                periodBudget.setAmount(periodBudget.getAmount() + newBudgetItem.getAmount()); //the bi weekly budget amount for this budget item's accounting period
-                periodBudgetRepository.save(periodBudget);
 
                 accountRepository.save(account);
             }

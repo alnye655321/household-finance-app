@@ -21,7 +21,6 @@ export default new Vuex.Store({
         accountingPeriodMonths: [],
         budgetItemsByMonth: [],
         savingsGoals: [],
-        periodBudgets: [],
         stockPurchases: [],
         accountHistories: [],
     },
@@ -70,9 +69,6 @@ export default new Vuex.Store({
         },
         setSavingsGoals(state, savingsGoals) {
             state.savingsGoals = savingsGoals;
-        },
-        setPeriodBudgets(state, periodBudgets) {
-            state.periodBudgets = periodBudgets;
         },
         buildBudgetItemsByAccountingMonth(state, months) { //this call must be made after fetchBudgetItems has resolved
             if (months.length > 0 && state.budgetItems.length > 0) {
@@ -253,23 +249,6 @@ export default new Vuex.Store({
                         console.log(commit);
                         console.log(res.data);
                         commit("setSavingsGoals", res.data);
-                        resolve();
-
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        reject();
-                    });
-            })
-        },
-        fetchPeriodBudgets({ commit }, year) {
-            return new Promise((resolve, reject) => {
-                axios
-                    .get(API_BASE + `period_budgets/year/${year}`)
-                    .then((res) => {
-                        console.log(commit);
-                        console.log(res.data);
-                        commit("setPeriodBudgets", res.data);
                         resolve();
 
                     })
@@ -543,21 +522,6 @@ export default new Vuex.Store({
                     console.log(err);
                 });
         },
-        periodBudgetsAdjustment({ commit }, adjustment) {
-            return new Promise((resolve, reject) => {
-                axios.put(API_BASE + `period_budgets/adjustment/${adjustment.amount}/${adjustment.fromMonth}`)
-                    .then(function (res) {
-                        console.log(commit);
-                        console.log(res.data);
-                        resolve();
-                    })
-                    .catch(function (err) {
-                        console.log(err);
-                        reject();
-                    });
-            })
-
-        },
         register({ commit }, userData) {
             axios.post(API_BASE + 'users', userData)
                 .then(function (res) {
@@ -619,7 +583,6 @@ export default new Vuex.Store({
         getSavingsGoals: state => state.savingsGoals,
         getStockPurchases: state => state.stockPurchases,
         getAccountHistories: state => state.accountHistories,
-        getPeriodBudgets: state => state.periodBudgets,
     },
 
 }
