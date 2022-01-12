@@ -132,6 +132,8 @@
 
   <v-btn class="mt-12 float-left" color="primary" @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
+  <v-btn class="mt-12 float-left" color="primary" @click="showAccountTransferOverlay = !showAccountTransferOverlay;">Account Transfer</v-btn>
+
   <v-btn class="mt-12 float-right" color="primary" @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Create/Edit Budget Item Overlay-->
@@ -247,6 +249,13 @@
   </v-overlay>
   <!--  End Create/Edit Budget Item Overlay-->
 
+  <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showAccountTransferOverlay" :z-index="overlayZIndex">
+    <AccountTransfer></AccountTransfer>
+
+  </v-overlay>
+
+
+
 <!--begin delete budget item overlay-->
   <v-overlay :z-index="overlayZIndex" :value="deleteConfirmOverlay">
 
@@ -283,6 +292,7 @@
 
 import { mapGetters } from 'vuex'
 import AccountBar from "@/components/AccountBar";
+import AccountTransfer from "@/components/AccountTransfer";
 
 export default {
   data: () => ({
@@ -324,6 +334,7 @@ export default {
     overlayOpacity: 0.86,
     showOverlay: false,
     overlayZIndex: 5,
+    showAccountTransferOverlay: false,
     headers: [
       {text: 'Name',  align: 'start',  sortable: true, value: 'name', },
       {text: 'Type', value: 'budgetType.type'},
@@ -336,7 +347,7 @@ export default {
   }),
   components: {
     AccountBar,
-    // Users,
+    AccountTransfer,
   },
   computed: {
     ...mapGetters([
