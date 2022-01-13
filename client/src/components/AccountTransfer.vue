@@ -32,7 +32,20 @@
           ></v-select>
         </v-col>
         <v-col cols="2">
-          <v-icon x-large color="green">mdi-swap-horizontal-bold</v-icon>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                  x-large
+                  color="green"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+              >
+                mdi-swap-horizontal-bold
+              </v-icon>
+            </template>
+            <span>Submit Account Transfer</span>
+          </v-tooltip>
         </v-col>
       </v-row>
 
