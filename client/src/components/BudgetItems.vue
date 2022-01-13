@@ -53,7 +53,7 @@
 
       </v-row>
 
-      <v-row>
+      <v-row justify="center">
         <AccountTransfer></AccountTransfer>
       </v-row>
 
