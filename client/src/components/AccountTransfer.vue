@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-container>
-      <v-row align="center" justify="center">
-        <v-col md="4">
+      <v-row justify="center">
+        <v-col cols="4">
           <v-select v-model="fromAccount"
                     hint="Account"
                     :items="getAccounts"
@@ -15,10 +15,10 @@
                     required
           ></v-select>
         </v-col>
-        <v-col md="2">
+        <v-col cols="2">
           <v-icon x-large color="blue">mdi-arrow-right-bold-box</v-icon>
         </v-col>
-        <v-col md="4">
+        <v-col cols="4">
           <v-select v-model="toAccount"
                     hint="Account"
                     :items="getAccounts"
@@ -31,7 +31,7 @@
                     required
           ></v-select>
         </v-col>
-        <v-col md="2">
+        <v-col cols="2">
           <v-icon x-large color="green">mdi-swap-horizontal-bold</v-icon>
         </v-col>
       </v-row>
