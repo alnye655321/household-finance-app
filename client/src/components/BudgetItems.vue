@@ -53,6 +53,10 @@
 
       </v-row>
 
+      <v-row>
+        <AccountTransfer></AccountTransfer>
+      </v-row>
+
       <v-spacer></v-spacer>
 
       <v-row>
@@ -131,8 +135,6 @@
 
 
   <v-btn class="mt-12 float-left" color="primary" @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">New Budget Item</v-btn>
-
-  <v-btn class="mt-12 float-left" color="primary" @click="showAccountTransferOverlay = !showAccountTransferOverlay;">Account Transfer</v-btn>
 
   <v-btn class="mt-12 float-right" color="primary" @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
@@ -249,13 +251,6 @@
   </v-overlay>
   <!--  End Create/Edit Budget Item Overlay-->
 
-  <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showAccountTransferOverlay" :z-index="overlayZIndex">
-    <AccountTransfer></AccountTransfer>
-
-  </v-overlay>
-
-
-
 <!--begin delete budget item overlay-->
   <v-overlay :z-index="overlayZIndex" :value="deleteConfirmOverlay">
 
@@ -275,13 +270,7 @@
   </v-overlay>
 <!--  end delete budget item overlay-->
 
-
-
-
 </div>
-
-
-
 
 <!--  <v-icon>fas fa-lock</v-icon>-->
 <!--  <v-spacer></v-spacer>-->
@@ -334,7 +323,6 @@ export default {
     overlayOpacity: 0.86,
     showOverlay: false,
     overlayZIndex: 5,
-    showAccountTransferOverlay: false,
     headers: [
       {text: 'Name',  align: 'start',  sortable: true, value: 'name', },
       {text: 'Type', value: 'budgetType.type'},
