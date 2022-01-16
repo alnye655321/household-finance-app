@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container>
-      {{parentData}}
+      {{parentAccountingPeriod}}
       <v-row justify="center">
         <v-col cols="4">
           <v-select v-model="fromAccount"
@@ -87,13 +87,12 @@ export default {
     },
   }),
   props: {
-    parentData: Object,
+    parentAccountingPeriod: Object,
   },
   created() {
     this.toAccount = {};
     this.fromAccount = {};
-    console.log('submit prop');
-    console.log(this.parentData);
+    console.log(this.parentAccountingPeriod);
   },
   computed: {
     ...mapGetters([

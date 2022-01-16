@@ -102,10 +102,10 @@
 
       <v-row justify="center">
         <v-col>
-          <AccountTransfer v-if="item" :parentData="item.accountingPeriods[0]"></AccountTransfer>
+          <AccountTransfer v-if="item" :parentAccountingPeriod="item.accountingPeriods[0]"></AccountTransfer>
         </v-col>
         <v-col>
-          <AccountTransfer v-if="item" :parentData="item.accountingPeriods[1]"></AccountTransfer>
+          <AccountTransfer v-if="item" :parentAccountingPeriod="item.accountingPeriods[1]"></AccountTransfer>
         </v-col>
       </v-row>
 
