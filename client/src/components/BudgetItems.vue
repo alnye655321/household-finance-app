@@ -53,10 +53,6 @@
 
       </v-row>
 
-      <v-row justify="center">
-        <AccountTransfer></AccountTransfer>
-      </v-row>
-
       <v-spacer></v-spacer>
 
       <v-row>
@@ -101,6 +97,15 @@
 
         </v-data-table>
       </v-card>
+        </v-col>
+      </v-row>
+
+      <v-row justify="center">
+        <v-col>
+          <AccountTransfer v-if="item" :parentData="item.accountingPeriods[0]"></AccountTransfer>
+        </v-col>
+        <v-col>
+          <AccountTransfer v-if="item" :parentData="item.accountingPeriods[1]"></AccountTransfer>
         </v-col>
       </v-row>
 
@@ -152,7 +157,7 @@
       >
         Please complete all form items
       </v-alert>
-      <!--  end alert-->
+      <!--  end alert-->j
 
       <v-text-field v-model="selectedItem.name" :rules="nameRules" label="Name" required> </v-text-field>
 

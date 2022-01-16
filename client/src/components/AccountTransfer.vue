@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-container>
+      {{parentData}}
       <v-row justify="center">
         <v-col cols="4">
           <v-select v-model="fromAccount"
@@ -8,14 +9,14 @@
                     :items="getAccounts"
                     item-text="name"
                     item-value="accountId"
-                    label="Select Account"
+                    label="Transfer From"
                     persistent-hint
                     return-object
                     single-line
                     required
           ></v-select>
         </v-col>
-        <v-col cols="2">
+        <v-col cols="1">
           <v-icon x-large color="blue">mdi-arrow-right-bold-box</v-icon>
         </v-col>
         <v-col cols="4">
@@ -24,7 +25,7 @@
                     :items="getAccounts"
                     item-text="name"
                     item-value="accountId"
-                    label="Select Account"
+                    label="Transfer To"
                     persistent-hint
                     return-object
                     single-line
@@ -32,6 +33,9 @@
           ></v-select>
         </v-col>
         <v-col cols="2">
+          <v-text-field label="Transfer Amount" v-model="transferAmount" prefix="$"></v-text-field>
+        </v-col>
+        <v-col cols="1">
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-icon
@@ -68,12 +72,33 @@ export default {
     ],
     fromAccount: {},
     toAccount: {},
+    transferAmount: 0,
+    transferBudgetItem: {
+      name: "",
+      user: this.$store.getters.getUser,
+      budgetType: {
+        budgetTypeId: 3,
+        type: "Account Transfer"
+      },
+      account: {},
+      savingsGoal: {},
+      accountingPeriod: {},
+      createdDate: "",
+    },
   }),
+  props: {
+    parentData: Object,
+  },
   created() {
+    this.toAccount = {};
+    this.fromAccount = {};
+    console.log('submit prop');
+    console.log(this.parentData);
   },
   computed: {
     ...mapGetters([
       'getAccounts',
+      'getUser',
     ]),
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
