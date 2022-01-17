@@ -69,10 +69,18 @@
           <v-btn icon v-if="false">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <v-btn icon @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">
-            <v-icon>mdi-plus-circle</v-icon>
-          </v-btn>
+          
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">
+                <v-icon v-bind="attrs" v-on="on">mdi-plus-circle</v-icon>
+              </v-btn>
+            </template>
+            <span>Add Item</span>
+          </v-tooltip>
+
         </v-app-bar>
+
         <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
@@ -100,9 +108,16 @@
           <v-btn icon v-if="false">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          <v-btn icon @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">
-            <v-icon>mdi-plus-circle</v-icon>
-          </v-btn>
+
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">
+                <v-icon v-bind="attrs" v-on="on">mdi-plus-circle</v-icon>
+              </v-btn>
+            </template>
+            <span>Add Item</span>
+          </v-tooltip>
+
         </v-app-bar>
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
