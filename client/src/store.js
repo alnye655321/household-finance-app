@@ -100,12 +100,11 @@ export default new Vuex.Store({
                 }
             }
 
-
+            //sort to ensure the correct order of bi-monthly accounting periods. ie. 2021-01-01 -... < 2021-01-15 - ...
             for (let i = 0; i < months.length; i++) {
-                console.log(months[i]);
                 months[i].accountingPeriods.sort(function(a, b) {
-                    var nameA = a.startDate; // ignore upper and lowercase
-                    var nameB = b.startDate; // ignore upper and lowercase
+                    var nameA = a.startDate;
+                    var nameB = b.startDate;
                     console.log(nameB);
                     if (nameA < nameB) {
                         return -1;
@@ -113,14 +112,12 @@ export default new Vuex.Store({
                     if (nameA > nameB) {
                         return 1;
                     }
-
                     // names must be equal
                     return 0;
                 });
             }
-
+            
             state.budgetItemsByMonth = months;
-            console.log(state);
         },
     },
     actions: { //can be used to perform async requests
@@ -129,9 +126,6 @@ export default new Vuex.Store({
                 .get(API_BASE + "users")
                 .then((res) => {
                     commit('assignUsers', res.data);
-                    console.log(this);
-                    console.log(this.getters.allusers);
-
 
                     //test display in card-----------------------------------
                     let itemTemps = [];
