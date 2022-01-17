@@ -1,7 +1,6 @@
 <template>
   <div>
     <v-container>
-      {{parentAccountingPeriod}}
       <v-row justify="center">
         <v-col cols="4">
           <v-select v-model="fromAccount"
