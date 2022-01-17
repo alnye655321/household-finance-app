@@ -88,7 +88,7 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);" :disabled="isItemCommitted(item)">mdi-pencil</v-icon>
+            <v-icon small class="mr-2" v-if="!isItemAccountTransfer(item)" @click="createFormActive = false; editItem(item);" :disabled="isItemCommitted(item)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItemConfirm(item)" :disabled="isItemCommitted(item)">mdi-delete</v-icon>
           </template>
 
@@ -126,7 +126,7 @@
           </template>
 
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="createFormActive = false; editItem(item);" :disabled="isItemCommitted(item)">mdi-pencil</v-icon>
+            <v-icon small class="mr-2" v-if="!isItemAccountTransfer(item)" @click="createFormActive = false; editItem(item);" :disabled="isItemCommitted(item)">mdi-pencil</v-icon>
             <v-icon small @click="deleteItemConfirm(item);" :disabled="isItemCommitted(item)">mdi-delete</v-icon>
           </template>
 
@@ -551,6 +551,9 @@ export default {
     },
     isItemCommitted(item) {
       return item.committed;
+    },
+    isItemAccountTransfer(item) {
+      return item.budgetType.type === 'Account Transfer';
     },
     updateFormForItemCreation(selectedAccountingPeriodIndex) {
       this.createFormActive = true;
