@@ -57,6 +57,7 @@ public class BudgetItemController {
 
     @PostMapping("/budget_items")
     public BudgetItem createBudgetItem(@Valid @RequestBody BudgetItem budgetItem) {
+        System.out.print("test");
         return budgetItemRepository.save(budgetItem);
     }
 

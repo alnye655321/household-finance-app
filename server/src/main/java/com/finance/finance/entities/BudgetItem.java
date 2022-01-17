@@ -31,6 +31,10 @@ public class BudgetItem {
     private Account account;
 
     @ManyToOne
+    @JoinColumn(name="from_account_id")
+    private Account fromAccount;
+
+    @ManyToOne
     @JoinColumn(name="accounting_period_id")
     private AccountingPeriod accountingPeriod;
 
@@ -51,11 +55,13 @@ public class BudgetItem {
     public BudgetItem() {
     }
 
-    public BudgetItem(String name, User user, BudgetType budgetType, Account account, AccountingPeriod accountingPeriod, SavingsGoal savingsGoal, double amount, boolean committed, Date createdDate) {
+    public BudgetItem(long budgetItemId, String name, User user, BudgetType budgetType, Account account, Account fromAccount, AccountingPeriod accountingPeriod, SavingsGoal savingsGoal, double amount, boolean committed, Date createdDate) {
+        this.budgetItemId = budgetItemId;
         this.name = name;
         this.user = user;
         this.budgetType = budgetType;
         this.account = account;
+        this.fromAccount = fromAccount;
         this.accountingPeriod = accountingPeriod;
         this.savingsGoal = savingsGoal;
         this.amount = amount;
@@ -143,5 +149,11 @@ public class BudgetItem {
         this.savingsGoal = savingsGoal;
     }
 
+    public Account getFromAccount() {
+        return fromAccount;
+    }
 
+    public void setFromAccount(Account fromAccount) {
+        this.fromAccount = fromAccount;
+    }
 }

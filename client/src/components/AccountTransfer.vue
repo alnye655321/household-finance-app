@@ -82,9 +82,11 @@ export default {
         type: "Account Transfer"
       },
       account: {},
+      fromAccount: {},
       savingsGoal: {},
       accountingPeriod: {},
       createdDate: "",
+      amount: 0,
     },
   }),
   props: {
@@ -108,6 +110,18 @@ export default {
     createAccountTransfer() {
       console.log("creating account transfer");
       this.transferBudgetItem.user = this.$store.getters.getUser;
+      this.transferBudgetItem.name = "From " + this.fromAccount.name;
+      this.transferBudgetItem.accountingPeriod = this.parentAccountingPeriod;
+      this.transferBudgetItem.account = this.toAccount;
+      this.transferBudgetItem.fromAccount = this.fromAccount;
+      this.transferBudgetItem.createdDate = new Date();
+      this.transferBudgetItem.amount = this.transferAmount;
+
+      this.$store.dispatch("createBudgetItem", this.transferBudgetItem)
+          .then(() => {
+            console.log('loaded');
+          });
+
     },
   },
 };
