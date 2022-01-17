@@ -69,7 +69,7 @@
           <v-btn icon v-if="false">
             <v-icon>mdi-magnify</v-icon>
           </v-btn>
-          
+
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">
@@ -172,11 +172,6 @@
 
     </v-tab-item>
   </v-tabs-items>
-
-
-  <v-btn class="mt-12 float-left" color="primary" @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">New Budget Item</v-btn>
-
-  <v-btn class="mt-12 float-right" color="primary" @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">New Budget Item</v-btn>
 
 <!--  Begin Create/Edit Budget Item Overlay-->
   <v-overlay :absolute="overlayAbsolute" :opacity="overlayOpacity" :value="showOverlay" :z-index="overlayZIndex">
