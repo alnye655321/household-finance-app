@@ -32,7 +32,7 @@ public class BudgetItem {
 
     @ManyToOne
     @JoinColumn(name="from_account_id")
-    private Account fromAccount;
+    private Account fromAccount; //presence signifies an account transfer
 
     @ManyToOne
     @JoinColumn(name="accounting_period_id")
