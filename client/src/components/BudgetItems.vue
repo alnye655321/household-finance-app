@@ -193,7 +193,7 @@
 
       <v-select v-model="selectedItem.budgetType"
                 hint="Type"
-                :items="getBudgetTypes"
+                :items="filteredBudgetTypes()"
                 item-text="type"
                 item-value="budgetTypeId"
                 label="Select Type"
@@ -451,6 +451,10 @@ export default {
       else {
         return this.$store.getters.getAccounts;
       }
+    },
+    filteredBudgetTypes() {
+      const budgetTypes = this.$store.getters.getBudgetTypes;
+      return budgetTypes.filter(e => e.type !== 'Account Transfer'); //hide account transfers from normal budget item create - they have their own UI interface
     },
     yearChange() {
       console.log('year changing');
