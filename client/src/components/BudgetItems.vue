@@ -59,9 +59,20 @@
 <!--        accounting bi-weekly period 1-->
         <v-col>
       <v-card>
-        <v-card-title class="pink lighten-3 headline justify-center">
-          {{item.accountingPeriods[0].startDate}} - {{item.accountingPeriods[0].endDate}}
-        </v-card-title>
+        <v-app-bar dark color="pink">
+          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+          <v-toolbar-title>{{item.accountingPeriods[0].startDate}} - {{item.accountingPeriods[0].endDate}}</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <v-btn icon v-if="false">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+          <v-btn icon @click="updateFormForItemCreation(0); showOverlay = !showOverlay;">
+            <v-icon>mdi-plus-circle</v-icon>
+          </v-btn>
+        </v-app-bar>
         <v-data-table v-if="item.accountingPeriods[0].budgetItems" :headers="headers" :items="item.accountingPeriods[0].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
@@ -76,14 +87,23 @@
         </v-data-table>
       </v-card>
         </v-col>
-
-
 <!--        accounting bi-weekly period 2-->
         <v-col>
       <v-card>
-        <v-card-title class="purple lighten-3 headline justify-center">
-          {{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[1].endDate}}
-        </v-card-title>
+        <v-app-bar dark color="purple">
+          <v-app-bar-nav-icon></v-app-bar-nav-icon>
+
+          <v-toolbar-title>{{item.accountingPeriods[1].startDate}} - {{item.accountingPeriods[1].endDate}}</v-toolbar-title>
+
+          <v-spacer></v-spacer>
+
+          <v-btn icon v-if="false">
+            <v-icon>mdi-magnify</v-icon>
+          </v-btn>
+          <v-btn icon @click="updateFormForItemCreation(1); showOverlay = !showOverlay;">
+            <v-icon>mdi-plus-circle</v-icon>
+          </v-btn>
+        </v-app-bar>
         <v-data-table v-if="item.accountingPeriods[1].budgetItems" :headers="headers" :items="item.accountingPeriods[1].budgetItems" :items-per-page="5" class="elevation-1">
 
           <template v-slot:item.committed="{ item }">
@@ -157,7 +177,7 @@
       >
         Please complete all form items
       </v-alert>
-      <!--  end alert-->j
+      <!--  end alert-->
 
       <v-text-field v-model="selectedItem.name" :rules="nameRules" label="Name" required> </v-text-field>
 
