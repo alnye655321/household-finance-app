@@ -116,7 +116,7 @@ export default new Vuex.Store({
                     return 0;
                 });
             }
-            
+
             state.budgetItemsByMonth = months;
         },
     },

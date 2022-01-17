@@ -426,17 +426,12 @@ export default {
       console.log('year changing');
       console.log(this.year);
       this.loadInitData();
-
-
     },
     accountListChange() {
       if (typeof this.selectedItem.account.accountType !== 'undefined' && this.selectedItem.account.accountType !== 'Savings') {
         this.showSavingsGoal = false;
         this.selectedItem.savingsGoal = null;
       }
-      console.log('here');
-      console.log(event);
-
     },
     addItem() {
       this.showOverlay = true;
@@ -444,7 +439,6 @@ export default {
     editItem(item) {
       this.selectedItem = item;
       this.showOverlay = true;
-      console.log(item);
     },
     createItem() {
       const valid = this.$refs.form.validate();
@@ -480,7 +474,6 @@ export default {
         if (this.selectedItem.account.accountType.accountType !== 'Savings') { //if account is not indicated as savings wipe out any attached savingsGoal
           this.selectedItem.savingsGoal = {};
         }
-        console.log('commitment!!!');
 
         this.$store.dispatch("updateBudgetItem", this.selectedItem)
             .then(() => {
@@ -503,8 +496,6 @@ export default {
         }
         this.showOverlay = false;
       }
-
-      // console.log(item);
     },
     deleteItem() {
       this.$store.dispatch("deleteBudgetItem", this.selectedItem)
