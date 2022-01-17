@@ -91,6 +91,13 @@ public class BudgetItemController {
                 if ("Savings Contribution".equals(newBudgetItem.getBudgetType().getType())) {
                     account.setBalance(account.getBalance() + newBudgetItem.getAmount());
                 }
+                else if (newBudgetItem.getFromAccount() != null) { //an account transfer
+                    Optional<Account> fromAccountResponse = accountRepository.findById(newBudgetItem.getFromAccount().getAccountId());
+                    Account fromAccount = fromAccountResponse.get();
+                    fromAccount.setBalance(fromAccount.getBalance() - newBudgetItem.getAmount());
+                    accountRepository.save(fromAccount);
+                    account.setBalance(account.getBalance() + newBudgetItem.getAmount());
+                }
                 else { //other wise do a normal account debit
                     account.setBalance(account.getBalance() - newBudgetItem.getAmount());
                 }
@@ -116,6 +123,13 @@ public class BudgetItemController {
                 if ("Savings Contribution".equals(newBudgetItem.getBudgetType().getType())) {
                     account.setBalance(account.getBalance() - newBudgetItem.getAmount());
                 }
+                else if (newBudgetItem.getFromAccount() != null) { //an account transfer
+                    Optional<Account> fromAccountResponse = accountRepository.findById(newBudgetItem.getFromAccount().getAccountId());
+                    Account fromAccount = fromAccountResponse.get();
+                    fromAccount.setBalance(fromAccount.getBalance() + newBudgetItem.getAmount());
+                    accountRepository.save(fromAccount);
+                    account.setBalance(account.getBalance() - newBudgetItem.getAmount());
+                }
                 else { //otherwise do a normal credit
                     account.setBalance(account.getBalance() + newBudgetItem.getAmount());
                 }
@@ -130,8 +144,6 @@ public class BudgetItemController {
         budgetItem.setCommitted(newBudgetItem.isCommitted());
         budgetItem.setAccountingPeriod(newBudgetItem.getAccountingPeriod());
         budgetItem.setAccount(newBudgetItem.getAccount());
-
-
 
         final BudgetItem updatedBudgetItem = budgetItemRepository.save(budgetItem);
         return ResponseEntity.ok(updatedBudgetItem);

@@ -83,7 +83,6 @@ export default {
       },
       account: {},
       fromAccount: {},
-      savingsGoal: {},
       accountingPeriod: {},
       createdDate: "",
       amount: 0,
