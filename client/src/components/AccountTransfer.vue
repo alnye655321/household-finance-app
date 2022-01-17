@@ -42,6 +42,7 @@
                   x-large
                   color="green"
                   dark
+                  @click="createAccountTransfer"
                   v-bind="attrs"
                   v-on="on"
               >
@@ -75,7 +76,7 @@ export default {
     transferAmount: 0,
     transferBudgetItem: {
       name: "",
-      user: this.$store.getters.getUser,
+      user: {},
       budgetType: {
         budgetTypeId: 3,
         type: "Account Transfer"
@@ -102,6 +103,12 @@ export default {
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     // },
+  },
+  methods: {
+    createAccountTransfer() {
+      console.log("creating account transfer");
+      this.transferBudgetItem.user = this.$store.getters.getUser;
+    },
   },
 };
 </script>
