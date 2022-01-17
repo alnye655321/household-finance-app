@@ -383,6 +383,9 @@ export default {
     }
     else {
       this.loadInitData();
+
+      const today = new Date();
+      this.tab = today.getMonth(); //set the active tab to the current month
     }
 
   },
@@ -408,9 +411,6 @@ export default {
           });
 
       this.$store.dispatch("fetchSavingsGoals");
-
-      const today = new Date();
-      this.tab = today.getMonth(); //set the active tab to the current month
     },
     filteredAccounts() {
       if (typeof this.selectedItem.budgetType.type !== 'undefined' && this.selectedItem.budgetType.type === 'Savings Contribution') {
