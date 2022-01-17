@@ -123,8 +123,10 @@ export default {
 
       this.$store.dispatch("createBudgetItem", this.transferBudgetItem)
           .then(() => {
-            this.$store.dispatch("fetchBudgetItems", payload)
-            console.log('loaded');
+            this.$store.dispatch("fetchBudgetItems", payload) //important that budget items are sent first
+                .then(() => {
+                  this.$store.dispatch("fetchAccountingPeriods", this.year) //will eventually commit a mutation that arranges budget items into a months array - getBudgetItemsByMonth
+                });
           });
 
     },
