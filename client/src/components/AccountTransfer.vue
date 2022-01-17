@@ -65,11 +65,8 @@ import {mapGetters} from "vuex";
 
 export default {
   data: () => ({
-    year : 2021,
-    years: [
-      2021,
-      2022
-    ],
+    year: new Date().getFullYear(),
+    userDisplay: -1,
     fromAccount: {},
     toAccount: {},
     transferAmount: 0,
@@ -115,8 +112,18 @@ export default {
       this.transferBudgetItem.createdDate = new Date();
       this.transferBudgetItem.amount = this.transferAmount;
 
+      if (this.userDisplay === -1) {
+        this.userDisplay = this.$store.getters.getUser.userId;
+      }
+
+      const payload = {
+        id: this.userDisplay,
+        year: this.year
+      };
+
       this.$store.dispatch("createBudgetItem", this.transferBudgetItem)
           .then(() => {
+            this.$store.dispatch("fetchBudgetItems", payload)
             console.log('loaded');
           });
 

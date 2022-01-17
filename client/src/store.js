@@ -99,6 +99,26 @@ export default new Vuex.Store({
                     }
                 }
             }
+
+
+            for (let i = 0; i < months.length; i++) {
+                console.log(months[i]);
+                months[i].accountingPeriods.sort(function(a, b) {
+                    var nameA = a.startDate; // ignore upper and lowercase
+                    var nameB = b.startDate; // ignore upper and lowercase
+                    console.log(nameB);
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+
+                    // names must be equal
+                    return 0;
+                });
+            }
+
             state.budgetItemsByMonth = months;
             console.log(state);
         },
