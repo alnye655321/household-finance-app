@@ -3,30 +3,38 @@
       <v-alert type="success" v-if="getIsLoggedIn" v-show="loginSucces">
         Logged In Successfully.
       </v-alert>
+      <v-alert type="error"  v-show="loginFailure">
+        Log In Failure. Please Check Credentials.
+      </v-alert>
       <v-toolbar dark>
         <v-toolbar-title>Login</v-toolbar-title>
       </v-toolbar>
-      <v-form>
-        <v-container>
-          <v-layout>
-            <v-flex xs12 md4>
-              <v-text-field
+      <v-container>
+        <v-row  justify="center">
+          <v-col cols="3">
+            <v-text-field
                 v-model="userName"
                 label="User Name"
                 required
-              ></v-text-field>
-            </v-flex>
-            <v-flex xs12 md4>
-              <v-text-field
+            ></v-text-field>
+          </v-col>
+          <v-col cols="3">
+            <v-text-field
                 v-model="password"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show1 ? 'text' : 'password'"
+                name="input-10-1"
                 label="Password"
+                counter
                 required
-              ></v-text-field>
-            </v-flex>
-          </v-layout>
-        </v-container>
-        <v-btn @click="login">Login</v-btn>
-      </v-form>
+                @click:append="show1 = !show1"
+            ></v-text-field>
+          </v-col>
+        </v-row>
+        <v-row justify="center" style="padding-bottom: 50px">
+          <v-btn color="primary" @click="login">Login</v-btn>
+        </v-row>
+      </v-container>
     </v-card>
 </template>
 
@@ -39,7 +47,9 @@ export default {
     return {
       userName: "",
       password: "",
-      loginSucces: true
+      loginSucces: true,
+      loginFailure: false,
+      show1: false,
     };
   },
   methods: {
@@ -67,6 +77,7 @@ export default {
 
         //could be expired token, remove token, resubmit try again
         if(res.status === 403) {
+          console.log('trying to reset expired token');
           localStorage.removeItem('token');
           this.$store.dispatch("login", {
             name: this.userName,
@@ -74,6 +85,13 @@ export default {
             email: '',
           });
         }
+      }).catch((e) => {
+        console.log(e);
+        this.loginFailure = true;
+
+        setTimeout(()=>{
+          this.loginFailure = false;
+        },4000);
       });
     },
     timeoutSuccessMessage() {
