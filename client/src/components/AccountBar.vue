@@ -7,7 +7,7 @@
           <v-flex class="pa-2">
             <v-card :color="cardColors[index] || '#387575'" dark max-width="200">
               <v-card-title class="headline">
-                ${{account.balance.toFixed(0)}}
+                ${{commaSeparateNumber(account.balance.toFixed(0))}}
               </v-card-title>
 
               <v-card-subtitle>{{account.name}}</v-card-subtitle>
@@ -59,6 +59,14 @@ export default {
     // formTitle() {
     //   return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     // },
+  },
+  methods: {
+    commaSeparateNumber(val) {
+      while (/(\d+)(\d{3})/.test(val.toString())){
+        val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+      }
+      return val;
+    },
   },
 };
 </script>
