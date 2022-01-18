@@ -121,9 +121,6 @@ INSERT INTO period_budgets (amount, accounting_period_id, user_id) VALUES (4300.
 -- insert into account_types (account_type) VALUES ('Savings'); --id: 2
 -- insert into account_types (account_type) VALUES ('Investment');
 
--- INSERT INTO budget_types (type) VALUES ('Car Payment');
--- INSERT INTO budget_types (type) VALUES ('Savings Contribution');
-
 -- INSERT INTO accounts (balance, date_opened, interest_rate, name, account_type_id) VALUES  (3000, NOW(), 0, 'Primary Checking', 1);
 -- INSERT INTO accounts (balance, date_opened, interest_rate, name, account_type_id) VALUES  (7000, NOW(), 0.05, 'Primary Savings', 2);
 
@@ -138,3 +135,4 @@ INSERT INTO budget_types (type) VALUES ('Mortgage');
 INSERT INTO budget_types (type) VALUES ('Credit Card');
 INSERT INTO budget_types (type) VALUES ('401k Loan');
 INSERT INTO budget_types (type) VALUES ('Utility');
+INSERT INTO budget_types (type) VALUES ('Account Transfer');
