@@ -7,7 +7,7 @@
           <v-flex class="pa-2">
             <v-card :color="cardColors[index] || '#387575'" dark max-width="200">
               <v-card-title class="headline">
-                ${{account.balance.toFixed(2)}}
+                ${{account.balance.toFixed(0)}}
               </v-card-title>
 
               <v-card-subtitle>{{account.name}}</v-card-subtitle>
