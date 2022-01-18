@@ -69,7 +69,7 @@ export default {
     userDisplay: -1,
     fromAccount: {},
     toAccount: {},
-    transferAmount: 0,
+    transferAmount: null,
     transferBudgetItem: {
       name: "",
       user: {},
