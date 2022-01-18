@@ -73,10 +73,7 @@ export default {
     transferBudgetItem: {
       name: "",
       user: {},
-      budgetType: {
-        budgetTypeId: 3,
-        type: "Account Transfer"
-      },
+      budgetType: {},
       account: {},
       fromAccount: {},
       accountingPeriod: {},
@@ -111,6 +108,12 @@ export default {
       this.transferBudgetItem.fromAccount = this.fromAccount;
       this.transferBudgetItem.createdDate = new Date();
       this.transferBudgetItem.amount = this.transferAmount;
+
+      const budgetTypes = this.$store.getters.getBudgetTypes;
+      const accountTransferBudgetTypeArray = budgetTypes.filter(e => e.type === "Account Transfer");
+      this.transferBudgetItem.budgetType = accountTransferBudgetTypeArray[0];
+      console.log('accountTransferBudgetTypeArray');
+      console.log(accountTransferBudgetTypeArray);
 
       if (this.userDisplay === -1) {
         this.userDisplay = this.$store.getters.getUser.userId;
