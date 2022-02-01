@@ -145,6 +145,7 @@ export default {
         for (let i = 0; i < this.quantity; i++) {
           this.$store.dispatch("createStockPurchase", this.selectedItem) //send the account to the server
               .then(() => {
+                this.$store.dispatch("fetchStockPurchases");
                 console.log('done');
               });
         }
